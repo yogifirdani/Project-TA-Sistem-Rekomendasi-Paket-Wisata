@@ -3,13 +3,13 @@
 @section('content')
 <div class="space-y-6">
     <!-- Page Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white/90">Kelola Paket Wisata</h1>
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Daftar semua paket wisata yang tersedia</p>
         </div>
         <a href="{{ route('admin.kelola-paket-wisata.create') }}"
-            class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600 transition-colors">
+            class="inline-flex items-center gap-2 self-start sm:self-auto rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -30,7 +30,7 @@
     <!-- Table Card -->
     <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="w-full min-w-[700px] text-sm">
                 <thead>
                     <tr class="border-b border-gray-200 dark:border-gray-800">
                         <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">#</th>

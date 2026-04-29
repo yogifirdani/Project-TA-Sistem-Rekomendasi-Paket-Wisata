@@ -52,7 +52,7 @@
     <!-- Table Card -->
     <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
+            <table class="w-full min-w-[650px] text-left text-sm">
                 <thead>
                     <tr class="border-b border-gray-200 dark:border-gray-800">
                         <th class="whitespace-nowrap px-5 py-4 font-medium text-gray-500 dark:text-gray-400">#</th>

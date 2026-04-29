@@ -58,8 +58,8 @@
     }"
     @mouseenter="if (!$store.sidebar.isExpanded) $store.sidebar.setHovered(true)"
     @mouseleave="$store.sidebar.setHovered(false)">
-    <!-- Logo Section -->
-    <div class="pt-4 pb-5 flex"
+    <!-- Logo Section (hidden on mobile) -->
+    <div class="pt-4 pb-5 hidden xl:flex"
     :class="(!$store.sidebar.isExpanded && !$store.sidebar.isHovered && !$store.sidebar.isMobileOpen) ? 
     'xl:justify-center' : 
     'justify-start px-4'"> <a href="/" class="flex items-center gap-3"> <div class="flex items-center">
@@ -88,6 +88,9 @@
         </div>
     </a>
 </div>
+
+    <!-- Spacer mobile: mendorong menu agar tidak tertutup header -->
+    <div class="block xl:hidden" style="height: 64px;"></div>
 
     <!-- Navigation Menu -->
     <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">

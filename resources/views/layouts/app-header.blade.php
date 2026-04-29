@@ -49,9 +49,12 @@
             </button>
 
             <!-- Logo (mobile only) -->
-            <a href="/" class="xl:hidden">
-                <img class="dark:hidden" src="/images/logo/logo.svg" alt="Logo" />
-                <img class="hidden dark:block" src="/images/logo/logo-dark.svg" alt="Logo" />
+            <a href="/" class="xl:hidden flex items-center gap-2">
+                <img src="/images/logo/Logo-kutamasya.jpg"
+                     alt="Kutamasya"
+                     class="rounded-lg object-cover"
+                     style="height: 36px; width: 36px;" />
+                <span class="text-base font-bold tracking-tight text-gray-800 dark:text-white">Kutamasya.id</span>
             </a>
 
             <!-- Application Menu Toggle (mobile only) -->
