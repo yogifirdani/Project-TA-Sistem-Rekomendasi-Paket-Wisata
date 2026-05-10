@@ -30,7 +30,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password, // Laravel will automatically hash this because of the 'hashed' cast in the User model
             // role and is_active take default values from migration
         ]);
 
@@ -52,11 +52,9 @@ class AuthController extends Controller
             // Auto redirect based on role
             if (Auth::user()->role === 'admin') {
                 return redirect()->intended('/admin/dashboard');
-            } else if (Auth::user()->role === 'admin') {
+            } else {
                 return redirect()->intended('/');
-                
             }
-
         }
 
         return back()->withErrors([

@@ -105,14 +105,26 @@
             $store.sidebar.isExpanded = true;
         }
     };
-    window.addEventListener('resize', checkMobile);">
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 50)})">
 
     {{-- preloader --}}
-    <x-common.preloader/>
+    <x-common.preloader x-show="loaded"/>
     {{-- preloader end --}}
 
     <div class="min-h-screen xl:flex">
-        @include('layouts.backdrop')
+        <!-- Mobile Backdrop Overlay -->
+        <div x-show="$store.sidebar.isMobileOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="$store.sidebar.setMobileOpen(false)"
+             class="fixed inset-0 z-40 bg-gray-900/50 xl:hidden">
+        </div>
+
         @include('layouts.sidebar')
 
         <div class="flex-1 transition-all duration-300 ease-in-out"
@@ -134,5 +146,8 @@
 </body>
 
 @stack('scripts')
+
+<!-- instant.page to make everything feel faster -->
+<script src="//instant.page/5.2.0" type="module" integrity="sha384-JnE3Wv9Q9G8PPdaJpInS96p58S8B53O4a2zI5bWfRz+4hHnC65vE4S1XvVlD6QZ3" crossorigin="anonymous"></script>
 
 </html>

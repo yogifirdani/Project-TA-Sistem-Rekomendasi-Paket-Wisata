@@ -1,7 +1,7 @@
 @extends('template')
 @section('content')
 
-    <div class="hero-wrap" style="background: linear-gradient(rgba(129, 218, 209, 0.4), rgba(129, 218, 209, 0.4)), url('https://themewagon.github.io/direngine/images/bg_2.jpg'); background-size: cover; background-position: center; height: 50vh; min-height: 400px;">
+    <div class="hero-wrap" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('https://themewagon.github.io/direngine/images/bg_2.jpg'); background-size: cover; background-position: center; height: 50vh; min-height: 400px;">
       <div class="overlay"></div>
       <div class="container" style="height: 100%;">
         <div class="row no-gutters slider-text align-items-center justify-content-center" style="height: 100%;" data-scrollax-parent="true">
@@ -61,149 +61,27 @@
         <div class="row d-flex">
           <!-- Card 1 -->
           <div class="col-sm-6 col-md-4 ftco-animate mb-4">
-            <div class="destination d-flex flex-column h-100 bg-white shadow-sm" style="border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://themewagon.github.io/direngine/images/destination-1.jpg'); height: 200px; display: block; position: relative;">
-                </a>
-                <div class="text p-4 d-flex flex-column flex-grow-1">
-                    <h3 style="font-size: 16px; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;"><a href="#" style="color: #000;">Enjoy a week-long adventure in Egypt</a></h3>
-                    
-                    <p class="rate mb-2">
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <span style="font-size: 11px; color: #999; margin-left: 5px;">(1 Review)</span>
-                    </p>
-                    
-                    <p class="days mb-3" style="font-size: 12px; color: #333; font-weight: 500;">
-                        <span><i class="icon-clock-o mr-1"></i> 9 Nights, 8 days</span>
-                    </p>
-                    <div class="mt-auto">
-                        <p class="bottom-area d-flex mb-0" style="margin-top: 10px;">
-                            <span style="font-size: 12px; color: #999;">From <span style="color: #000; font-weight: 700; font-size: 14px; margin-left: 5px;">$1500</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @include('paket.card')
           </div>
 
           <!-- Card 2 -->
           <div class="col-sm-6 col-md-4 ftco-animate mb-4">
-            <div class="destination d-flex flex-column h-100 bg-white shadow-sm" style="border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://themewagon.github.io/direngine/images/destination-2.jpg'); height: 200px; display: block; position: relative;">
-                </a>
-                <div class="text p-4 d-flex flex-column flex-grow-1">
-                    <h3 style="font-size: 16px; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;"><a href="#" style="color: #000;">Immerse yourself in USA adventures</a></h3>
-                    
-                    <p class="rate mb-2">
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <span style="font-size: 11px; color: #999; margin-left: 5px;">(1 Review)</span>
-                    </p>
-                    
-                    <p class="days mb-3" style="font-size: 12px; color: #333; font-weight: 500;">
-                        <span><i class="icon-clock-o mr-1"></i> 10 Nights, 9 days</span>
-                    </p>
-                    <div class="mt-auto">
-                        <p class="bottom-area d-flex mb-0" style="margin-top: 10px;">
-                            <span style="font-size: 12px; color: #999;">From <span style="color: #000; font-weight: 700; font-size: 14px; margin-left: 5px;">$2200</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @include('paket.card')
           </div>
 
           <!-- Card 3 -->
           <div class="col-sm-6 col-md-4 ftco-animate mb-4">
-            <div class="destination d-flex flex-column h-100 bg-white shadow-sm" style="border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://themewagon.github.io/direngine/images/destination-3.jpg'); height: 200px; display: block; position: relative;">
-                    <span class="badge" style="position: absolute; top: 15px; right: 15px; background: #000; color: #fff; padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 3px;">20% off</span>
-                </a>
-                <div class="text p-4 d-flex flex-column flex-grow-1">
-                    <h3 style="font-size: 16px; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;"><a href="#" style="color: #000;">Explore historical castles of Spain</a></h3>
-                    
-                    <p class="rate mb-2">
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <span style="font-size: 11px; color: #999; margin-left: 5px;">(1 Review)</span>
-                    </p>
-                    
-                    <p class="days mb-3" style="font-size: 12px; color: #333; font-weight: 500;">
-                        <span><i class="icon-clock-o mr-1"></i> 7 Nights, 8 days</span>
-                    </p>
-                    <div class="mt-auto">
-                        <p class="bottom-area d-flex mb-0" style="margin-top: 10px;">
-                            <span style="font-size: 12px; color: #999;">From <span style="text-decoration: line-through; color: #ccc; margin: 0 5px;">$1200</span> <span style="color: #000; font-weight: 700; font-size: 14px;">$960</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @include('paket.card')
           </div>
 
           <!-- Card 4 -->
           <div class="col-sm-6 col-md-4 ftco-animate mb-4">
-            <div class="destination d-flex flex-column h-100 bg-white shadow-sm" style="border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://themewagon.github.io/direngine/images/destination-4.jpg'); height: 200px; display: block; position: relative;">
-                    <span class="badge" style="position: absolute; top: 15px; right: 15px; background: #000; color: #fff; padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 3px;">20% off</span>
-                </a>
-                <div class="text p-4 d-flex flex-column flex-grow-1">
-                    <h3 style="font-size: 16px; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;"><a href="#" style="color: #000;">Enjoy a week-long adventure in Greece</a></h3>
-                    
-                    <p class="rate mb-2">
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <span style="font-size: 11px; color: #999; margin-left: 5px;">(1 Review)</span>
-                    </p>
-                    
-                    <p class="days mb-3" style="font-size: 12px; color: #333; font-weight: 500;">
-                        <span><i class="icon-clock-o mr-1"></i> 7 Nights, 8 days</span>
-                    </p>
-                    <div class="mt-auto">
-                        <p class="bottom-area d-flex mb-0" style="margin-top: 10px;">
-                            <span style="font-size: 12px; color: #999;">From <span style="text-decoration: line-through; color: #ccc; margin: 0 5px;">$1500</span> <span style="color: #000; font-weight: 700; font-size: 14px;">$1200</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @include('paket.card')
           </div>
 
           <!-- Card 5 -->
           <div class="col-sm-6 col-md-4 ftco-animate mb-4">
-            <div class="destination d-flex flex-column h-100 bg-white shadow-sm" style="border-radius: 10px; overflow: hidden; border: 1px solid #eee;">
-                <a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://themewagon.github.io/direngine/images/destination-5.jpg'); height: 200px; display: block; position: relative;">
-                </a>
-                <div class="text p-4 d-flex flex-column flex-grow-1">
-                    <h3 style="font-size: 16px; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;"><a href="#" style="color: #000;">Express Turkish tours for lasting memories</a></h3>
-                    
-                    <p class="rate mb-2">
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <i class="ion-ios-star" style="color: #f1b317; font-size: 12px;"></i>
-                        <span style="font-size: 11px; color: #999; margin-left: 5px;">(1 Review)</span>
-                    </p>
-                    
-                    <p class="days mb-3" style="font-size: 12px; color: #333; font-weight: 500;">
-                        <span><i class="icon-clock-o mr-1"></i> 3 Nights, 4 days</span>
-                    </p>
-                    <div class="mt-auto">
-                        <p class="bottom-area d-flex mb-0" style="margin-top: 10px;">
-                            <span style="font-size: 12px; color: #999;">From <span style="color: #000; font-weight: 700; font-size: 14px; margin-left: 5px;">$860</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @include('paket.card')
           </div>
 
         </div>

@@ -1,7 +1,7 @@
 @extends('template')
 @section('content')
 
-    <div class="hero-wrap" style="background: linear-gradient(rgba(129, 218, 209, 0.4), rgba(129, 218, 209, 0.4)), url('https://themewagon.github.io/direngine/images/bg_2.jpg'); background-size: cover; background-position: center; height: 50vh; min-height: 400px;">
+    <div class="hero-wrap" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('https://themewagon.github.io/direngine/images/bg_2.jpg'); background-size: cover; background-position: center; height: 50vh; min-height: 400px;">
       <div class="overlay"></div>
       <div class="container" style="height: 100%;">
         <div class="row no-gutters slider-text align-items-center justify-content-center" style="height: 100%;" data-scrollax-parent="true">
@@ -64,7 +64,7 @@
       </div>
     </section>
 
-    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(https://themewagon.github.io/direngine/images/bg_1.jpg);">
+    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('{{ asset('images/background/jungle-island.webp') }}');">
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">

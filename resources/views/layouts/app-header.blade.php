@@ -115,6 +115,29 @@
                     </svg>
                 </button>
 
+                <!-- Language Switcher -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open"
+                        class="flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-dark-900 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800">
+                        @if(App::getLocale() == 'id')
+                            <span class="text-xl">🇮🇩</span>
+                        @else
+                            <span class="text-xl">🇬🇧</span>
+                        @endif
+                    </button>
+                    <div x-show="open" @click.outside="open = false"
+                        class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 py-1 z-50">
+                        <a href="{{ route('lang.switch', 'id') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ App::getLocale() == 'id' ? 'bg-gray-50 dark:bg-gray-700' : '' }}">
+                            <span>🇮🇩</span> ID
+                        </a>
+                        <a href="{{ route('lang.switch', 'en') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ App::getLocale() == 'en' ? 'bg-gray-50 dark:bg-gray-700' : '' }}">
+                            <span>🇬🇧</span> EN
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Notification Dropdown -->
                 <x-header.notification-dropdown />
             </div>

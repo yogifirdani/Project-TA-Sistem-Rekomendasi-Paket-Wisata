@@ -24,8 +24,8 @@ class MenuHelper
             ],
             [
                 'icon' => 'user-profile',
-                'name' => 'User Profile',
-                'path' => '/admin/user-profile',
+                'name' => 'Kelola User',
+                'path' => '/admin/kelola-user',
             ],
             // Menu Forms, Tables, Pages disembunyikan
             // ['name' => 'Forms',  'icon' => 'forms',  'subItems' => [['name' => 'Form Elements', 'path' => '/form-elements', 'pro' => false]]],

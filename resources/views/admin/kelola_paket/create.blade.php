@@ -27,8 +27,28 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST">
+    <form action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST" x-data="{ activeTab: 'id' }">
         @csrf
+
+        <!-- Language Switcher Tabs -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-xl w-fit">
+                <button type="button" @click="activeTab = 'id'" 
+                    :class="activeTab === 'id' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600 dark:text-brand-400' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                    🇮🇩 Bahasa Indonesia
+                </button>
+                <button type="button" @click="activeTab = 'en'" 
+                    :class="activeTab === 'en' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600 dark:text-brand-400' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                    🇬🇧 English
+                </button>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 italic">
+                <span x-show="activeTab === 'id'">Mengisi konten dalam Bahasa Indonesia</span>
+                <span x-show="activeTab === 'en'">Filling content in English</span>
+            </div>
+        </div>
 
         <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
             <!-- Left Column: Main Info -->
@@ -39,12 +59,20 @@
                     <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Informasi Utama</h2>
                     <div class="space-y-5">
                         <!-- Nama Paket -->
-                        <div>
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Nama Paket <span class="text-error-500">*</span>
                             </label>
                             <input type="text" name="package_name" value="{{ old('package_name') }}"
                                 placeholder="Contoh: 3D2N Tour Bromo Sunrise"
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                Package Name (English)
+                            </label>
+                            <input type="text" name="package_name_en" value="{{ old('package_name_en') }}"
+                                placeholder="Example: 3D2N Tour Bromo Sunrise"
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                         </div>
 
@@ -55,13 +83,13 @@
                                     Tipe Paket <span class="text-error-500">*</span>
                                 </label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                    <select name="package_type"
+                                    <select name="package_type_id"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
                                         :class="isOptionSelected && 'text-gray-800 dark:text-white/90'" @change="isOptionSelected = true">
-                                        <option value="" class="dark:bg-gray-900">Pilih Tipe</option>
-                                        <option value="Open Trip" {{ old('package_type') == 'Open Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Open Trip</option>
-                                        <option value="Private Trip" {{ old('package_type') == 'Private Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Private Trip</option>
-                                        <option value="Custom Trip" {{ old('package_type') == 'Custom Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Custom Trip</option>
+                                        <option value="" class="dark:bg-gray-900">Pilih Tipe Paket</option>
+                                        @foreach($packageTypes as $type)
+                                            <option value="{{ $type->id }}" {{ old('package_type_id') == $type->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $type->type_name }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500 dark:text-gray-400">
                                         <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -111,10 +139,15 @@
                         </div>
 
                         <!-- Deskripsi -->
-                        <div>
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Deskripsi</label>
-                            <textarea name="description" rows="4" placeholder="Deskripsi singkat paket wisata..."
+                            <textarea id="editor-description" name="description" rows="4" placeholder="Deskripsi singkat paket wisata..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('description') }}</textarea>
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Description (English)</label>
+                            <textarea id="editor-description-en" name="description_en" rows="4" placeholder="Brief tour package description..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('description_en') }}</textarea>
                         </div>
 
                         <!-- Destinasi -->
@@ -128,13 +161,41 @@
                 </div>
 
                 <!-- Harga per Pax -->
-                <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-                    <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Harga per Pax (Rp)</h2>
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]" x-data="{ priceTab: 'local' }">
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 class="text-base font-semibold text-gray-800 dark:text-white/90">Harga per Pax (Rp)</h2>
+                        <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <button type="button" @click="priceTab = 'local'" 
+                                :class="priceTab === 'local' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600' : 'text-gray-500'"
+                                class="px-3 py-1.5 rounded-md text-xs font-medium transition-all">
+                                Lokal
+                            </button>
+                            <button type="button" @click="priceTab = 'foreign'" 
+                                :class="priceTab === 'foreign' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600' : 'text-gray-500'"
+                                class="px-3 py-1.5 rounded-md text-xs font-medium transition-all">
+                                Mancanegara
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Harga Lokal -->
+                    <div x-show="priceTab === 'local'" class="grid grid-cols-2 gap-4 sm:grid-cols-4">
                         @foreach([1,2,3,4,5,8,10] as $pax)
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">{{ $pax }} Pax</label>
                             <input type="number" name="price_{{ $pax }}pax" value="{{ old('price_'.$pax.'pax') }}"
+                                placeholder="0"
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Harga Mancanegara -->
+                    <div x-show="priceTab === 'foreign'" x-cloak class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                        @foreach([1,2,3,4,5,8,10] as $pax)
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">{{ $pax }} Pax</label>
+                            <input type="number" name="price_{{ $pax }}pax_foreign" value="{{ old('price_'.$pax.'pax_foreign') }}"
                                 placeholder="0"
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                         </div>
@@ -146,20 +207,37 @@
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Jadwal & Itinerary</h2>
                     <div class="space-y-5">
-                        <div>
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Jadwal Harian</label>
-                            <textarea name="daily_schedule" rows="4" placeholder="Jadwal hari per hari..."
+                            <textarea id="editor-daily-schedule" name="daily_schedule" rows="4" placeholder="Jadwal hari per hari..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('daily_schedule') }}</textarea>
                         </div>
-                        <div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Daily Schedule (English)</label>
+                            <textarea id="editor-daily-schedule-en" name="daily_schedule_en" rows="4" placeholder="Daily tour schedule..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('daily_schedule_en') }}</textarea>
+                        </div>
+
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Itinerary</label>
-                            <textarea name="itinerary" rows="4" placeholder="Detail itinerary perjalanan..."
+                            <textarea id="editor-itinerary" name="itinerary" rows="4" placeholder="Detail itinerary perjalanan..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('itinerary') }}</textarea>
                         </div>
-                        <div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Itinerary (English)</label>
+                            <textarea id="editor-itinerary-en" name="itinerary_en" rows="4" placeholder="Detailed tour itinerary..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('itinerary_en') }}</textarea>
+                        </div>
+
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point</label>
                             <textarea name="meeting_point" rows="2" placeholder="Lokasi keberangkatan..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('meeting_point') }}</textarea>
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point (English)</label>
+                            <textarea name="meeting_point_en" rows="2" placeholder="Departure location..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('meeting_point_en') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -168,20 +246,37 @@
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Fasilitas & Persyaratan</h2>
                     <div class="space-y-5">
-                        <div>
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Fasilitas Termasuk</label>
-                            <textarea name="facilities_included" rows="3" placeholder="Contoh: Transportasi, Penginapan, Makan..."
+                            <textarea id="editor-facilities-included" name="facilities_included" rows="3" placeholder="Contoh: Transportasi, Penginapan, Makan..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('facilities_included') }}</textarea>
                         </div>
-                        <div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Facilities Included (English)</label>
+                            <textarea id="editor-facilities-included-en" name="facilities_included_en" rows="3" placeholder="Example: Transport, Accommodation, Meals..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('facilities_included_en') }}</textarea>
+                        </div>
+
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Fasilitas Tidak Termasuk</label>
-                            <textarea name="facilities_excluded" rows="3" placeholder="Contoh: Tiket pesawat, Visa..."
+                            <textarea id="editor-facilities-excluded" name="facilities_excluded" rows="3" placeholder="Contoh: Tiket pesawat, Visa..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('facilities_excluded') }}</textarea>
                         </div>
-                        <div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Facilities Excluded (English)</label>
+                            <textarea id="editor-facilities-excluded-en" name="facilities_excluded_en" rows="3" placeholder="Example: Flight tickets, Visa..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('facilities_excluded_en') }}</textarea>
+                        </div>
+
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Persyaratan</label>
-                            <textarea name="persyaratan" rows="3" placeholder="Syarat dan ketentuan peserta..."
+                            <textarea id="editor-persyaratan" name="persyaratan" rows="3" placeholder="Syarat dan ketentuan peserta..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('persyaratan') }}</textarea>
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Requirements (English)</label>
+                            <textarea id="editor-persyaratan-en" name="persyaratan_en" rows="3" placeholder="Terms and conditions for participants..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('persyaratan_en') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -215,10 +310,15 @@
                         </div>
 
                         <!-- Info Pembayaran -->
-                        <div>
+                        <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Info Pembayaran</label>
                             <textarea name="payment" rows="3" placeholder="Rekening dan informasi pembayaran..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('payment') }}</textarea>
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Payment Info (English)</label>
+                            <textarea name="payment_en" rows="3" placeholder="Account and payment information..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('payment_en') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -244,4 +344,51 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+<script>
+    const editors = [
+        '#editor-description',
+        '#editor-description-en',
+        '#editor-daily-schedule',
+        '#editor-daily-schedule-en',
+        '#editor-itinerary',
+        '#editor-itinerary-en',
+        '#editor-facilities-included',
+        '#editor-facilities-included-en',
+        '#editor-facilities-excluded',
+        '#editor-facilities-excluded-en',
+        '#editor-persyaratan',
+        '#editor-persyaratan-en'
+    ];
+
+    editors.forEach(selector => {
+        ClassicEditor
+            .create(document.querySelector(selector), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+</script>
+<style>
+    .ck-editor__editable {
+        min-height: 200px;
+        background-color: transparent !important;
+        color: inherit !important;
+    }
+    .dark .ck-editor__editable {
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity)) !important;
+        color: white !important;
+    }
+    .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+        border-color: rgb(209 213 219) !important;
+    }
+    .dark .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+        border-color: rgb(55 65 81) !important;
+    }
+</style>
+@endpush
 

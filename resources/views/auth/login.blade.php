@@ -1,8 +1,7 @@
 @extends('template')
 
 @section('content')
-<div class="hero-wrap" style="background: linear-gradient(rgba(129, 218, 209, 0.4), rgba(129, 218, 209, 0.4)), 
-     url('https://themewagon.github.io/direngine/images/bg_1.jpg');">
+<div class="hero-wrap" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('{{ asset('images/background/jungle-island.webp') }}');">
     <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.15);"></div>
     <div class="container" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 80px; padding-bottom: 50px;">
         <div class="row w-100 justify-content-center">

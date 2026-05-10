@@ -7,9 +7,13 @@ use App\Http\Controllers\Admin\KelolaPackageController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\UserController;
 
-Route::get('/', function () {
-    return view('home');
-});
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TourController;
+
+Route::get('/paket-wisata', [TourController::class, 'index'])->name('paket-wisata');
+Route::get('/paket-wisata/{slug}', [TourController::class, 'show'])->name('paket-wisata.show');
+
+Route::get('/', [TourController::class, 'home'])->name('home');
 
 Route::get('/about', function () {
     return view('about');
@@ -35,9 +39,13 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -46,11 +54,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/kelola-pemesanan', [BookingController::class, 'index'])->name('kelola-pemesanan.index');
     Route::get('/kelola-pemesanan/{booking}', [BookingController::class, 'show'])->name('kelola-pemesanan.show');
     Route::delete('/kelola-pemesanan/{booking}', [BookingController::class, 'destroy'])->name('kelola-pemesanan.destroy');
-    Route::get('/user-profile', [UserController::class, 'index'])->name('user-profile.index');
-    Route::get('/user-profile/{user}', [UserController::class, 'show'])->name('user-profile.show');
-    Route::get('/user-profile/{user}/edit', [UserController::class, 'edit'])->name('user-profile.edit');
-    Route::put('/user-profile/{user}', [UserController::class, 'update'])->name('user-profile.update');
-    Route::delete('/user-profile/{user}', [UserController::class, 'destroy'])->name('user-profile.destroy');
+    Route::get('/kelola-user', [UserController::class, 'index'])->name('user-profile.index');
+    Route::get('/kelola-user/{user}', [UserController::class, 'show'])->name('user-profile.show');
+    Route::get('/kelola-user/{user}/edit', [UserController::class, 'edit'])->name('user-profile.edit');
+    Route::put('/kelola-user/{user}', [UserController::class, 'update'])->name('user-profile.update');
+    Route::delete('/kelola-user/{user}', [UserController::class, 'destroy'])->name('user-profile.destroy');
 });
+
+// Language Switch Route
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'id'])) {
+        Session::put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
 
 

@@ -5,27 +5,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://themewagon.github.io">
 
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap" rel="stylesheet">
+
+    <!-- Critical CSS (Load immediately) -->
+    <link rel="stylesheet" href="{{ asset('asset/css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/magnific-popup.css">
-
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/aos.css">
-
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/ionicons.min.css">
-
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/jquery.timepicker.css">
-
+    <!-- Non-Critical CSS (Deferred loading) -->
+    <link rel="preload" href="{{ asset('asset/css/open-iconic-bootstrap.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/animate.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/owl.carousel.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/owl.theme.default.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/magnific-popup.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/aos.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/ionicons.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/bootstrap-datepicker.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/jquery.timepicker.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/flaticon.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('asset/css/icomoon.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/flaticon.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/icomoon.css">
-    <link rel="stylesheet" href="https://themewagon.github.io/direngine/css/style.css">
+    <noscript>
+        <link rel="stylesheet" href="{{ asset('asset/css/open-iconic-bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/owl.theme.default.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/aos.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/ionicons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/bootstrap-datepicker.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/jquery.timepicker.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/flaticon.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset/css/icomoon.css') }}">
+    </noscript>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
       /* Efek Transparan / Kaca (Glassmorphism) untuk Dropdown */
       .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu {
@@ -68,6 +85,16 @@
         display: block !important;
       }
 
+      /* Global CTA (Register) Button Styling */
+      .navbar-nav .nav-item.cta .nav-link:hover {
+        background: transparent !important;
+      }
+      .navbar-nav .nav-item.cta .nav-link:hover span {
+        background: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #fff !important;
+      }
+
       /* Custom Menu Tengah (Rapet) */
       .center-nav .nav-link {
         padding-left: 12px !important;
@@ -108,69 +135,36 @@
         .ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
           color: #333333 !important;
         }
-        /* Warna aktif di menu HP */
         .ftco-navbar-light .navbar-nav > .nav-item.active > .nav-link {
           color: rgb(87, 201, 209) !important;
         }
+      }
+
+      .ftco_navbar {
+        z-index: 9999 !important;
+      }
+
+      /* Fix conflict between Tailwind and Bootstrap collapse */
+      .navbar-collapse.collapse {
+        display: none;
+      }
+      .navbar-collapse.collapse.show {
+        display: block;
+      }
+      @media (min-width: 992px) {
+        .navbar-expand-lg .navbar-collapse.collapse {
+          display: flex !important;
+          visibility: visible !important;
+        }
+      }
+      .dropdown-toggle::after {
+        display: none !important;
       }
     </style>
   </head>
   <body>
     
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="#" style="padding: 5px 0;">
-        <img src="{{ asset('asset/images/Logo-kutamasya.jpg') }}" alt="Kutamasya Logo" style="height: 50px; width: auto; border-radius: 5px;">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> 
-      </button>
-
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <!-- Menu Utama di Tengah -->
-        <ul class="navbar-nav mx-auto center-nav">
-          <li class="nav-item {{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}" class="nav-link">Beranda</a></li>          
-          <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}" class="nav-link">Tentang Kami</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdownPaketWisata" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paket Wisata Banyuwangi</a>
-            
-            <div class="dropdown-menu" aria-labelledby="dropdownPaketWisata">
-              <a class="dropdown-item" href="#"><span>Open Trip Banyuwangi</span> <i class="ion-ios-arrow-forward"></i></a>
-              <a class="dropdown-item" href="#"><span>One Day Trip Banyuwangi</span> <i class="ion-ios-arrow-forward"></i></a>
-              <a class="dropdown-item" href="#"><span>2 Day 1 Night Banyuwangi</span> <i class="ion-ios-arrow-forward"></i></a>
-              <a class="dropdown-item" href="#"><span>3 Day 2 Night Banyuwangi</span> <i class="ion-ios-arrow-forward"></i></a>
-            </div>
-          </li>
-          <!-- <li class="nav-item"><a href="tour.html" class="nav-link">Destinasi</a></li> -->
-          <li class="nav-item {{ request()->routeIs('recommendation') ? 'active' : '' }}"><a href="{{ route('recommendation') }}" class="nav-link">Rekomendasi</a></li>
-          <li class="nav-item {{ request()->routeIs('article') ? 'active' : '' }}"><a href="{{ route('article') }}" class="nav-link">Artikel</a></li>
-          <li class="nav-item {{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}" class="nav-link">Kontak</a></li>
-        </ul>
-
-        <!-- Tombol Auth di Kanan -->
-        <ul class="navbar-nav ml-auto">
-          @if (Route::has('login'))
-            @auth
-              @if(Auth::user()->role === 'admin')
-                <li class="nav-item cta"><a href="{{ route('admin.dashboard') }}" class="nav-link"><span>Admin Panel</span></a></li>
-              @else
-                <li class="nav-item cta"><a href="{{ url('/dashboard') }}" class="nav-link"><span>Dashboard</span></a></li>
-              @endif
-            @else
-              <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
-              @if (Route::has('register'))
-                <li class="nav-item cta"><a href="{{ route('register') }}" class="nav-link"><span>Sign Up</span></a></li>
-              @endif
-            @endauth
-          @else
-            <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
-            <li class="nav-item cta"><a href="/register" class="nav-link"><span>Sign Up</span></a></li>
-          @endif
-        </ul>
-      </div>
-    </div>
-  </nav>
-    <!-- END nav -->
+    @include('partials.navbar')
     
     @yield('content')
 	
@@ -181,27 +175,26 @@
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2 d-flex align-items-center">
-                <img src="{{ asset('asset/images/Logo-kutamasya.jpg') }}" alt="Kutamasya Logo" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+                <img src="{{ asset('asset/images/Logo-kutamasya.webp') }}" alt="Kutamasya Logo" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
                 <span style="color: #fff; font-weight: 700; font-size: 24px;">Kutamasya.id</span>
               </h2>
               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
                 <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-tiktok"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-youtube"></span></a></li>
               </ul>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Information</h2>
+              <h2 class="ftco-heading-2">Layanan Kami</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Service</a></li>
-                <li><a href="#" class="py-2 d-block">Terms and Conditions</a></li>
-                <li><a href="#" class="py-2 d-block">Become a partner</a></li>
-                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
-                <li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
+                <li><a href="{{ route('paket-wisata') }}?tipe=open-trip-banyuwangi" class="py-2 d-block">Open Trip Banyuwangi</a></li>
+                <li><a href="{{ route('paket-wisata') }}?tipe=one-day-trip-banyuwangi" class="py-2 d-block">One Day Trip</a></li>
+                <li><a href="{{ route('paket-wisata') }}?tipe=private-trip" class="py-2 d-block">Private Trip</a></li>
+                <li><a href="{{ route('paket-wisata') }}?tipe=paket-kawah-ijen" class="py-2 d-block">Paket Kawah Ijen</a></li>
+                <li><a href="{{ route('paket-wisata') }}?tipe=paket-menjangan" class="py-2 d-block">Paket Menjangan</a></li>
               </ul>
             </div>
           </div>
@@ -222,9 +215,9 @@
             	<h2 class="ftco-heading-2">Have a Questions?</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Jl.Raya Watukebo Kec. Blimbingsari Kab. Banyuwangi</span></li>
 	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">kutamasya@gmail.com</span></a></li>
 	              </ul>
 	            </div>
             </div>
@@ -233,9 +226,9 @@
         <div class="row">
           <div class="col-md-12 text-center">
 
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <p>
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="{{ url('/') }}">Kutamasya.id</a>
+            </p>
           </div>
         </div>
       </div>
@@ -244,26 +237,27 @@
   
 
   <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+  <div id="ftco-loader" class="fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-  <script src="https://themewagon.github.io/direngine/js/jquery.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/popper.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/bootstrap.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.easing.1.3.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.waypoints.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.stellar.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/owl.carousel.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.magnific-popup.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/aos.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.animateNumber.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/bootstrap-datepicker.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/jquery.timepicker.min.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="https://themewagon.github.io/direngine/js/google-map.js"></script>
-  <script src="https://themewagon.github.io/direngine/js/main.js"></script>
+  <script src="{{ asset('asset/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('asset/js/jquery-migrate-3.0.1.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/popper.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/bootstrap.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.easing.1.3.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.waypoints.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.stellar.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/owl.carousel.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.magnific-popup.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/aos.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.animateNumber.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/bootstrap-datepicker.js') }}" defer></script>
+  <script src="{{ asset('asset/js/jquery.timepicker.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/scrollax.min.js') }}" defer></script>
+  <script src="{{ asset('asset/js/main.js') }}" defer></script>
+  
+  <!-- instant.page to make everything feel faster -->
+  <script src="//instant.page/5.2.0" type="module" integrity="sha384-JnE3Wv9Q9G8PPdaJpInS96p58S8B53O4a2zI5bWfRz+4hHnC65vE4S1XvVlD6QZ3" crossorigin="anonymous"></script>
     
   </body>
 </html>

@@ -19,7 +19,7 @@
 
     <!-- Alert -->
     @if(session('success'))
-    <div class="flex items-center gap-3 rounded-lg border border-success-300 bg-success-50 px-4 py-3 text-sm text-success-700 dark:border-success-700 dark:bg-success-500/15 dark:text-success-400">
+    <div id="success-alert" class="flex items-center gap-3 rounded-lg border border-success-300 bg-success-50 px-4 py-3 text-sm text-success-700 dark:border-success-700 dark:bg-success-500/15 dark:text-success-400 transition-all duration-500">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
@@ -27,73 +27,125 @@
     </div>
     @endif
 
-    <!-- Table Card -->
-    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[700px] text-sm">
-                <thead>
-                    <tr class="border-b border-gray-200 dark:border-gray-800">
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">#</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Nama Paket</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Kategori</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Tipe</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Kota</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Durasi</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Status</th>
-                        <th class="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                    @forelse($packages as $index => $package)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
-                        <td class="px-5 py-4 text-gray-500 dark:text-gray-400">{{ $packages->firstItem() + $index }}</td>
-                        <td class="px-5 py-4 font-medium text-gray-800 dark:text-white/90">{{ $package->package_name }}</td>
-                        <td class="px-5 py-4 text-gray-600 dark:text-gray-300">{{ $package->category->category_name ?? '-' }}</td>
-                        <td class="px-5 py-4 text-gray-600 dark:text-gray-300">{{ $package->package_type }}</td>
-                        <td class="px-5 py-4 text-gray-600 dark:text-gray-300">{{ $package->city }}</td>
-                        <td class="px-5 py-4 text-gray-600 dark:text-gray-300">{{ $package->duration }}</td>
-                        <td class="px-5 py-4">
-                            @if($package->is_active)
-                                <span class="inline-flex rounded-full bg-success-50 px-2.5 py-0.5 text-xs font-medium text-success-700 dark:bg-success-500/15 dark:text-success-400">Aktif</span>
-                            @else
-                                <span class="inline-flex rounded-full bg-error-50 px-2.5 py-0.5 text-xs font-medium text-error-700 dark:bg-error-500/15 dark:text-error-400">Nonaktif</span>
-                            @endif
-                        </td>
-                        <td class="px-5 py-4">
-                            <div class="flex items-center gap-2">
-                                <a href="{{ route('admin.kelola-paket-wisata.edit', $package) }}"
-                                    class="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
-                                    Edit
-                                </a>
-                                <form action="{{ route('admin.kelola-paket-wisata.destroy', $package) }}" method="POST"
-                                    onsubmit="return confirm('Hapus paket ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="rounded-lg border border-error-200 bg-error-50 px-3 py-1.5 text-xs font-medium text-error-700 hover:bg-error-100 dark:border-error-700 dark:bg-error-500/15 dark:text-error-400 transition-colors">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="px-5 py-10 text-center text-gray-400 dark:text-gray-500">
-                            Belum ada paket wisata. <a href="{{ route('admin.kelola-paket-wisata.create') }}" class="text-brand-500 hover:underline">Tambah sekarang</a>.
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+    <!-- Filters & Search -->
+    <div class="mb-5">
+        <form action="{{ route('admin.kelola-paket-wisata.index') }}" method="GET" class="flex flex-wrap items-center gap-2">
+            <div class="relative flex-1 min-w-[200px] sm:max-w-sm">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
+                    </svg>
+                </span>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari nama paket, kota, atau kategori..."
+                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-10 w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-900 pl-10 pr-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:text-white/90 dark:placeholder:text-white/30" />
+            </div>
+            <button type="submit"
+                class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 transition-colors">
+                Cari
+            </button>
+            <a href="{{ route('admin.kelola-paket-wisata.index') }}"
+                class="reset-search {{ request('search') ? '' : 'hidden' }} inline-flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 transition-colors">
+                Reset
+            </a>
+        </form>
+    </div>
 
-        @if($packages->hasPages())
-        <div class="border-t border-gray-200 px-5 py-4 dark:border-gray-800">
-            {{ $packages->links() }}
-        </div>
-        @endif
+    <!-- Table Card -->
+    <div id="table-container" class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+        @include('admin.kelola_paket._table')
     </div>
 </div>
-@endsection
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableContainer = document.getElementById('table-container');
+        const searchInput = document.querySelector('input[name="search"]');
+        const searchForm = searchInput.closest('form');
+        let searchTimeout;
+
+        // Function to fetch and update table
+        async function updateTable(url) {
+            // Add loading state
+            tableContainer.style.opacity = '0.5';
+            tableContainer.style.pointerEvents = 'none';
+
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                const html = await response.text();
+                tableContainer.innerHTML = html;
+                
+                // Update URL in browser without reload
+                window.history.pushState({}, '', url);
+
+                // Update Reset button visibility after search
+                const resetBtn = document.querySelector('.reset-search');
+                const searchVal = new URL(url).searchParams.get('search');
+                if (searchVal && searchVal.trim() !== '') {
+                    resetBtn.classList.remove('hidden');
+                } else {
+                    resetBtn.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error fetching table:', error);
+            } finally {
+                tableContainer.style.opacity = '1';
+                tableContainer.style.pointerEvents = 'auto';
+            }
+        }
+
+        // Handle search input (debounce)
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const url = new URL(searchForm.action);
+                url.searchParams.set('search', this.value);
+                updateTable(url.toString());
+            }, 500); // Wait 500ms after last keystroke
+        });
+
+        // Prevent form submission reload
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const url = new URL(this.action);
+            url.searchParams.set('search', searchInput.value);
+            updateTable(url.toString());
+        });
+
+        // Handle pagination clicks (Event Delegation)
+        tableContainer.addEventListener('click', function(e) {
+            const link = e.target.closest('.pagination-container a');
+            if (link) {
+                e.preventDefault();
+                updateTable(link.href);
+            }
+        });
+
+        // Handle Reset button click
+        document.addEventListener('click', function(e) {
+            const resetBtn = e.target.closest('.reset-search');
+            if (resetBtn) {
+                e.preventDefault();
+                searchInput.value = '';
+                updateTable(resetBtn.href);
+            }
+        });
+
+        // Success Alert timeout
+        const successAlert = document.getElementById('success-alert');
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.style.opacity = '0';
+                successAlert.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    successAlert.remove();
+                }, 500);
+            }, 5000);
+        }
+    });
+</script>
+@endsection

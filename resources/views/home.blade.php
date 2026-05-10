@@ -1,23 +1,22 @@
-﻿@extends('template')
+@extends('template')
 @section('content')
     <div class="hero-wrap" 
-     style="background: linear-gradient(rgba(129, 218, 209, 0.4), rgba(129, 218, 209, 0.4)), 
-     url('https://themewagon.github.io/direngine/images/bg_1.jpg');
+     style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('{{ asset('images/background/jungle-island.webp') }}');
      background-size: cover; background-position: center; height: 80vh; min-height: 600px;">
       <div class="overlay"></div>
       <div class="container" style="height: 100%;">
         <div class="row no-gutters slider-text align-items-center justify-content-start" style="height: 100%;" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-2" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="line-height: 1;">
-              <span style="font-family: 'Alex Brush', cursive; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #fff; font-weight: 400; display: block; margin-bottom: -10px;">Jelajahi Keindahan</span>
-              <span style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 600;">Alam Banyuwangi</span>
+              <span style="font-family: 'Alex Brush', cursive; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #fff; font-weight: 400; display: block; margin-bottom: -10px;">{{ __('messages.hero_title_1') }}</span>
+              <span style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 600;">{{ __('messages.hero_title_2') }}</span>
             </h1>
             <p class="mb-8" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="font-size: clamp(0.9rem, 3vw, 1.1rem); color: rgba(255,255,255,0.9); font-weight: 400; max-width: 600px; line-height: 1.6;">
-              Temukan pesona alam eksotis, budaya yang kaya, dan petualangan tak terlupakan di ujung timur Pulau Jawa
+              {{ __('messages.hero_subtitle') }}
             </p>
             <div data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" class="mt-4">
-              <a href="#" class="btn btn-primary py-3 px-4 mr-md-2 mb-2 mb-md-0" style="border-radius: 30px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Lihat Paket Wisata</a>
-              <a href="/about" class="btn btn-white btn-outline-white py-3 px-4" style="border-radius: 30px; font-weight: 500;">Kenali Kami</a>
+              <a href="{{ route('paket-wisata') }}" class="btn btn-primary py-3 px-4 mr-md-2 mb-2 mb-md-0" style="border-radius: 30px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">{{ __('messages.see_packages') }}</a>
+              <a href="/about" class="btn btn-white btn-outline-white py-3 px-4" style="border-radius: 30px; font-weight: 500;">{{ __('messages.know_us') }}</a>
             </div>
           </div>
         </div>
@@ -67,7 +66,7 @@
       </div>
     </section>
     
-    <section class="ftco-section ftco-destination">
+    <!-- <section class="ftco-section ftco-destination">
     	<div class="container">
     		<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
@@ -160,160 +159,33 @@
     			</div>
     		</div>
     	</div>
-    </section>
+    </section> -->
 
     <section class="ftco-section bg-light">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
-          	<span class="subheading">Special Offers</span>
-            <h2 class="mb-4"><strong>Top</strong> Tour Packages</h2>
+          	<span class="subheading">{{ __('messages.special_offers') }}</span>
+            <h2 class="mb-4"><strong>Top</strong> {{ __('messages.tour_packages') }}</h2>
           </div>
         </div>    		
-    	</div>
-    	<div class="container-fluid">
     		<div class="row">
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(https://themewagon.github.io/direngine/images/destination-1.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price">$200</span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<p class="days"><span>2 days 3 nights</span></p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span> 
-    							<span class="ml-auto"><a href="#">Discover</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(https://themewagon.github.io/direngine/images/destination-2.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price">$200</span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<p class="days"><span>2 days 3 nights</span></p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span> 
-    							<span class="ml-auto"><a href="#">Discover</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(https://themewagon.github.io/direngine/images/destination-3.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price">$200</span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<p class="days"><span>2 days 3 nights</span></p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span> 
-    							<span class="ml-auto"><a href="#">Discover</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(https://themewagon.github.io/direngine/images/destination-4.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Paris, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price">$200</span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<p class="days"><span>2 days 3 nights</span></p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span> 
-    							<span class="ml-auto"><a href="#">Discover</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
+                @if(isset($topPackages) && $topPackages->count() > 0)
+                    @foreach($topPackages as $package)
+                        <div class="col-md-6 col-lg-3 ftco-animate mb-4">
+                            @include('paket.card', ['package' => $package])
+                        </div>
+                    @endforeach
+                @else
+                    <div class="col-12 text-center py-5">
+                        <p style="color: #666;">Belum ada paket wisata yang tersedia.</p>
+                    </div>
+                @endif
     		</div>
     	</div>
     </section>
 
-    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(https://themewagon.github.io/direngine/images/bg_1.jpg);">
+    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('{{ asset('images/background/jungle-island.webp') }}');">
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
@@ -363,7 +235,7 @@
     </section>
 
 
-    <section class="ftco-section">
+    <!-- <section class="ftco-section">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
@@ -541,7 +413,7 @@
     			</div>
     		</div>
     	</div>
-    </section>
+    </section> -->
 
     <section class="ftco-section testimony-section bg-light">
       <div class="container">
