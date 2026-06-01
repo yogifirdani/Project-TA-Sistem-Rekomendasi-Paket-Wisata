@@ -3,24 +3,31 @@
 @section('content')
 
 <style>
-    /* Ubah warna teks navbar menjadi hitam di halaman detail (sebelum di-scroll) */
-    #ftco-navbar:not(.scrolled) .nav-link {
-        color: #222222 !important;
-        font-weight: normal;
+    /* Paksa semua menu navbar menjadi tebal di halaman ini (baik saat scroll maupun tidak) */
+    #ftco-navbar .nav-link,
+    #ftco-navbar .dropdown-item,
+    #ftco-navbar .cta .nav-link span {
+        font-weight: 700 !important;
     }
-    /* Warna saat menu aktif atau di-hover menjadi warna brand */
-    #ftco-navbar:not(.scrolled) .nav-item.active .nav-link,
-    #ftco-navbar:not(.scrolled) .nav-link:hover {
+
+    /* Ubah warna teks navbar menjadi hitam di halaman detail (sebelum di-scroll) agar terlihat di background putih */
+    #ftco-navbar:not(.scrolled) .nav-link,
+    #ftco-navbar:not(.scrolled) .dropdown-item {
+        color: #222222 !important;
+    }
+    /* Warna saat menu aktif atau di-hover menjadi warna brand (baik scroll maupun tidak) */
+    #ftco-navbar .nav-item.active .nav-link,
+    #ftco-navbar .nav-link:hover {
         color: rgb(87, 201, 209) !important;
     }
     /* Ikon panah bawah (dropdown) */
-    #ftco-navbar:not(.scrolled) .nav-link i {
-        color: #222222 !important;
+    #ftco-navbar .nav-link i {
+        color: inherit !important;
     }
     /* Tombol Sign Up (garis tepi) */
     #ftco-navbar:not(.scrolled) .cta .nav-link span {
         color: #222222 !important;
-        border-color: #222222 !important;
+        border: 1px solid rgb(87, 201, 209) !important;
     }
     /* Efek hover Sign Up (Register) agar rapi */
     #ftco-navbar:not(.scrolled) .cta .nav-link:hover {
@@ -30,8 +37,8 @@
         transition: all 0.3s ease;
     }
     #ftco-navbar:not(.scrolled) .cta .nav-link:hover span {
-        background: rgb(87, 201, 209) !important;
-        border-color: rgb(87, 201, 209) !important;
+        background: #70d4de !important;
+        border-color: #70d4de !important;
         color: #fff !important;
     }
     /* Ikon Menu (hamburger di mobile) */
@@ -50,7 +57,7 @@
             
             <!-- Gambar Destinasi (Nanti diambil dari database) -->
             <div class="mb-4" style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <img src="{{ asset('images/background/jungle-island.webp') }}" 
+                <img src="{{ $package->image_url ? $package->image_url : asset('images/background/jungle-island.webp') }}" 
                      alt="{{ $package->getTranslation('package_name') }}" 
                      class="img-fluid w-100" 
                      style="object-fit: cover; max-height: 500px;" 
@@ -62,9 +69,9 @@
             <!-- Title & Breadcrumbs -->
             <div class="mb-4 pb-4" style="border-bottom: 1px solid #eee;">
                 <p class="breadcrumbs mb-2">
-                    <span class="mr-2"><a href="{{ url('/') }}" style="color: #666; font-weight: 500;">{{ __('messages.home') }}</a> <span style="color: #ccc; margin: 0 5px;">/</span></span> 
-                    <span class="mr-2"><a href="{{ route('paket-wisata') }}" style="color: #666; font-weight: 500;">{{ __('messages.tour_packages') }}</a> <span style="color: #ccc; margin: 0 5px;">/</span></span>
-                    <span style="color: #2188ff; font-weight: 600;">{{ $package->getTranslation('package_name') }}</span>
+                    <span class="mr-2"><a href="{{ lroute('home') }}" style="color: #666; font-weight: 500;">{{ __('messages.home') }}</a> <span style="color: #ccc; margin: 0 5px;">/</span></span> 
+                    <span class="mr-2"><a href="{{ lroute('paket-wisata') }}" style="color: #666; font-weight: 500;">{{ __('messages.tour_packages') }}</a> <span style="color: #ccc; margin: 0 5px;">/</span></span>
+                    <span style="color: rgb(87, 201, 209); font-weight: 600;">{{ $package->getTranslation('package_name') }}</span>
                 </p>
                 <h1 class="mb-0" style="font-weight: 800; font-size: 26px; color: #222; line-height: 1.3;">{{ $package->getTranslation('package_name') }}</h1>
             </div>
@@ -72,22 +79,40 @@
             <!-- Quick Info -->
             <div class="d-flex flex-wrap mb-4 pb-3" style="border-bottom: 1px solid #eee;">
                 <div class="mr-4 mb-2">
-                    <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.category') }}</span>
+                    <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.package_category') }}</span>
                     <span style="color: #222; font-weight: 700;">{{ $package->category ? $package->category->getTranslation('category_name') : __('messages.tour_packages') }}</span>
                 </div>
+                @if($package->tour_category)
+                <div class="mr-4 mb-2">
+                    <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.tour_category_label') }}</span>
+                    <span style="color: #222; font-weight: 700;">{{ $package->tour_category }}</span>
+                </div>
+                @endif
                 <div class="mr-4 mb-2">
                     <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.type') }}</span>
                     <span style="color: #222; font-weight: 700;">{{ $package->packageType ? $package->packageType->getTranslation('type_name') : 'Reguler' }}</span>
                 </div>
                 <div class="mr-4 mb-2">
                     <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.duration') }}</span>
-                    <span style="color: #222; font-weight: 700;"><i class="icon-clock-o mr-1" style="color: #2188ff;"></i> {{ $package->duration }}</span>
+                    <span style="color: #222; font-weight: 700;"><i class="fa fa-clock-o mr-1" style="color: rgb(87, 201, 209);"></i> {{ $package->getTranslation('duration') }}</span>
                 </div>
                 <div class="mb-2">
                     <span style="color: #999; font-size: 13px; font-weight: 600; display: block;">{{ __('messages.city') }}</span>
-                    <span style="color: #222; font-weight: 700;"><i class="icon-map-o mr-1" style="color: #2188ff;"></i> {{ $package->city }}</span>
+                    <span style="color: #222; font-weight: 700;"><i class="fa fa-map-marker mr-1" style="color: rgb(87, 201, 209);"></i> {{ $package->city }}</span>
                 </div>
             </div>
+
+            @if($package->packageType && (Str::contains(strtolower($package->packageType->type_name), 'open') || Str::contains(strtolower($package->packageType->slug), 'open')))
+            <div class="mb-4 p-4 d-flex align-items-start" style="background-color: #e8f9fd; border-left: 4px solid rgb(87, 201, 209); border-radius: 12px; box-shadow: 0 4px 12px rgba(87, 201, 209, 0.05);">
+                <i class="fa fa-info-circle mr-3 mt-1" style="color: rgb(87, 201, 209); font-size: 20px;"></i>
+                <div>
+                    <h5 class="mb-1" style="font-weight: 700; font-size: 14px; color: #17a2b8;">{{ __('messages.open_trip_notice_title') }}</h5>
+                    <p class="mb-0" style="font-size: 13px; color: #444; line-height: 1.6; font-weight: 500;">
+                        {!! __('messages.open_trip_notice_desc') !!}
+                    </p>
+                </div>
+            </div>
+            @endif
 
             <!-- Description -->
             <h3 class="mb-3" style="font-weight: 700; font-size: 22px;">{{ __('messages.description') }}</h3>
@@ -96,18 +121,18 @@
             @if($package->destination)
             <div class="mt-4">
                 <h3 class="mb-3" style="font-weight: 700; font-size: 20px;">{{ __('messages.destination_goal') }}</h3>
-                <p style="color: #555; line-height: 1.8;">{!! nl2br(e($package->destination)) !!}</p>
+                <div style="color: #555; line-height: 1.8;">{!! $package->destination !!}</div>
             </div>
             @endif
 
             @if($package->meeting_point)
-            <div class="mt-4 p-4" style="background-color: #f8f9fa; border-left: 4px solid #2188ff; border-radius: 4px;">
-                <h4 style="font-weight: 700; font-size: 16px; margin-bottom: 5px;">{{ __('messages.meeting_point') }}</h4>
-                <p style="color: #555; margin-bottom: 0;">{{ $package->getTranslation('meeting_point') }}</p>
+            <div class="mt-4 p-4" style="background-color: #f8f9fa; border-left: 4px solid rgb(87, 201, 209); border-radius: 4px;">
+                <h4 style="font-weight: 700; font-size: 16px; margin-bottom: 5px;">{{ __('messages.meeting_point_title') }}</h4>
+                <div style="color: #555; margin-bottom: 0;">{!! $package->getTranslation('meeting_point') !!}</div>
             </div>
             @endif
 
-            <hr class="my-4" style="border-top: 1px dashed #ddd;">
+            <hr class="my-4" style="border-top: 1px solid #eee;">
 
             <!-- Jadwal & Itinerary -->
             @if($package->daily_schedule || $package->itinerary)
@@ -124,14 +149,14 @@
                 {!! $package->getTranslation('itinerary') !!}
             </div>
             @endif
-            <hr class="my-4" style="border-top: 1px dashed #ddd;">
+            <hr class="my-4" style="border-top: 1px solid #eee;">
             @endif
 
             <!-- Facilities -->
             <div class="row">
                 @if($package->facilities_included)
                 <div class="col-md-6 mb-4">
-                    <h3 class="mb-3" style="font-weight: 700; font-size: 18px; color: #28a745;"><i class="icon-check-circle mr-2"></i>{{ __('messages.included') }}</h3>
+                    <h3 class="mb-3" style="font-weight: 700; font-size: 18px; color: #28a745;"><i class="fa fa-check-circle mr-2"></i>{{ __('messages.included') }}</h3>
                     <div style="color: #555; line-height: 1.8;">
                         {!! $package->getTranslation('facilities_included') !!}
                     </div>
@@ -140,7 +165,7 @@
                 
                 @if($package->facilities_excluded)
                 <div class="col-md-6 mb-4">
-                    <h3 class="mb-3" style="font-weight: 700; font-size: 18px; color: #dc3545;"><i class="icon-times-circle mr-2"></i>{{ __('messages.excluded') }}</h3>
+                    <h3 class="mb-3" style="font-weight: 700; font-size: 18px; color: #dc3545;"><i class="fa fa-times-circle mr-2"></i>{{ __('messages.excluded') }}</h3>
                     <div style="color: #555; line-height: 1.8;">
                         {!! $package->getTranslation('facilities_excluded') !!}
                     </div>
@@ -149,9 +174,9 @@
             </div>
 
             @if($package->persyaratan)
-            <hr class="my-4" style="border-top: 1px dashed #ddd;">
+            <hr class="my-4" style="border-top: 1px solid #eee;">
             <div class="mt-4">
-                <h3 class="mb-3" style="font-weight: 700; font-size: 18px;"><i class="icon-info-circle mr-2" style="color: #ffc107;"></i>{{ __('messages.terms') }}</h3>
+                <h3 class="mb-3" style="font-weight: 700; font-size: 18px;"><i class="fa fa-info-circle mr-2" style="color: #ffc107;"></i>{{ __('messages.terms') }}</h3>
                 <div style="color: #555; line-height: 1.8; font-size: 14px;">
                     {!! $package->getTranslation('persyaratan') !!}
                 </div>
@@ -167,15 +192,15 @@
             <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; text-align: center; color: #222;">{{ __('messages.book_now') }}</h3>
             
             <!-- Price Type Toggle -->
-            <div class="d-flex p-1 bg-light rounded mb-4" style="border: 1px solid #eee;">
+            <div class="d-flex p-1 bg-light rounded mb-4" style="border: 1px solid #ddd; background-color: #f0f0f0 !important;">
                 <button type="button" @click="priceType = 'local'" 
-                    :class="priceType === 'local' ? 'bg-white shadow-sm text-primary' : 'text-muted'"
-                    class="btn btn-sm flex-fill py-2 px-1 border-0" style="font-weight: 600; font-size: 11px; transition: all 0.3s;">
+                    :style="priceType === 'local' ? 'background-color: #fff; color: rgb(87, 201, 209); box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-weight: 700;' : 'color: #777; font-weight: 500;'"
+                    class="btn btn-sm flex-fill py-2 px-1 border-0" style="font-size: 12px; transition: all 0.3s ease-in-out; border-radius: 8px;">
                     {{ __('messages.local_tourist') }}
                 </button>
                 <button type="button" @click="priceType = 'foreign'" 
-                    :class="priceType === 'foreign' ? 'bg-white shadow-sm text-primary' : 'text-muted'"
-                    class="btn btn-sm flex-fill py-2 px-1 border-0" style="font-weight: 600; font-size: 11px; transition: all 0.3s;">
+                    :style="priceType === 'foreign' ? 'background-color: #fff; color: rgb(87, 201, 209); box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-weight: 700;' : 'color: #777; font-weight: 500;'"
+                    class="btn btn-sm flex-fill py-2 px-1 border-0" style="font-size: 12px; transition: all 0.3s ease-in-out; border-radius: 8px;">
                     {{ __('messages.foreign_tourist') }}
                 </button>
             </div>
@@ -187,8 +212,8 @@
                         @foreach([1,2,3,4,5,8,10] as $pax)
                             @if($package->{'price_'.$pax.'pax'})
                             <div class="d-flex justify-content-between mb-2 pb-2" style="border-bottom: 1px dashed #eee;">
-                                <span style="color: #666;">{{ $pax }} Orang ({{ $pax }} Pax)</span>
-                                <span style="font-weight: 700; color: #2188ff;">Rp {{ number_format($package->{'price_'.$pax.'pax'}, 0, ',', '.') }}</span>
+                                <span style="color: #666;">{{ __('messages.person_plural', ['count' => $pax]) }}</span>
+                                <span style="font-weight: 700; color: #000;">Rp {{ number_format($package->{'price_'.$pax.'pax'}, 0, ',', '.') }}</span>
                             </div>
                             @endif
                         @endforeach
@@ -201,15 +226,15 @@
                         @foreach([1,2,3,4,5,8,10] as $pax)
                             @if($package->{'price_'.$pax.'pax_foreign'})
                             <div class="d-flex justify-content-between mb-2 pb-2" style="border-bottom: 1px dashed #eee;">
-                                <span style="color: #666;">{{ $pax }} Person ({{ $pax }} Pax)</span>
-                                <span style="font-weight: 700; color: #2188ff;">Rp {{ number_format($package->{'price_'.$pax.'pax_foreign'}, 0, ',', '.') }}</span>
+                                <span style="color: #666;">{{ __('messages.person_plural_en', ['count' => $pax]) }}</span>
+                                <span style="font-weight: 700; color: #000;">Rp {{ number_format($package->{'price_'.$pax.'pax_foreign'}, 0, ',', '.') }}</span>
                             </div>
                             @else
                                 {{-- Fallback to local if foreign not set, or show notice --}}
                                 @if($package->{'price_'.$pax.'pax'})
                                 <div class="d-flex justify-content-between mb-2 pb-2" style="border-bottom: 1px dashed #eee;">
-                                    <span style="color: #666;">{{ $pax }} Person ({{ $pax }} Pax)</span>
-                                    <span style="font-weight: 700; color: #2188ff;">Rp {{ number_format($package->{'price_'.$pax.'pax'}, 0, ',', '.') }}</span>
+                                    <span style="color: #666;">{{ __('messages.person_plural_en', ['count' => $pax]) }}</span>
+                                    <span style="font-weight: 700; color: #000;">Rp {{ number_format($package->{'price_'.$pax.'pax'}, 0, ',', '.') }}</span>
                                 </div>
                                 @endif
                             @endif
@@ -219,7 +244,7 @@
             </div>
 
             <div class="form-group mb-0">
-                <a href="#" class="btn btn-primary py-3 px-4 d-block w-100" style="border-radius: 30px; font-weight: 700; background-color: #2188ff; border: none; box-shadow: 0 4px 15px rgba(33, 136, 255, 0.4);">{{ __('messages.book_now') }}</a>
+                <a href="{{ route('checkout.index', ['locale' => app()->getLocale(), 'slug' => $package->slug]) }}" class="btn btn-primary py-3 px-4 d-block w-100" style="border-radius: 30px; font-weight: 700; background-color: rgb(87, 201, 209); border: none; box-shadow: 0 4px 15px rgba(87, 201, 209, 0.4);">{{ __('messages.book_now') }}</a>
             </div>
             
             <p class="text-center mt-3" style="font-size: 12px; color: #999;">{{ __('messages.special_offer') }}</p>
@@ -270,4 +295,8 @@
         margin-bottom: 1rem;
     }
 </style>
+@endpush
+
+@push('scripts')
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 @endpush

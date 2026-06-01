@@ -17,8 +17,21 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::has('locale')) {
+        // Read locale from URL prefix: /id/... or /en/...
+        $localeFromUrl = $request->segment(1);
+
+        if (in_array($localeFromUrl, ['en', 'id'])) {
+            App::setLocale($localeFromUrl);
+            Session::put('locale', $localeFromUrl);
+            
+            // Penting: Hapus parameter 'locale' agar tidak mengganggu parameter di Controller
+            if ($request->route()) {
+                $request->route()->forgetParameter('locale');
+            }
+        } elseif (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
+        } else {
+            App::setLocale('id');
         }
 
         return $next($request);

@@ -4,13 +4,13 @@
     $defaultCountries = [
         [
             'name' => 'USA',
-            'flag' => './images/country/country-01.svg',
+            'flag' => asset('images/country/country-01.svg'),
             'customers' => '2,379',
             'percentage' => 79
         ],
         [
             'name' => 'France',
-            'flag' => './images/country/country-02.svg',
+            'flag' => asset('images/country/country-02.svg'),
             'customers' => '589',
             'percentage' => 23
         ],
@@ -25,7 +25,7 @@
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
                 Customers Demographic
             </h3>
-            <p class="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
+            <p class="mt-1 text-theme-sm text-gray-600 dark:text-gray-300">
                 Number of customer based on country
             </p>
         </div>
@@ -41,14 +41,14 @@
         @foreach($countriesList as $country)
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-full max-w-8 items-center rounded-full">
-                        <img src="{{ $country['flag'] }}" alt="{{ strtolower($country['name']) }}" />
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full overflow-hidden">
+                        <img src="{{ $country['flag'] }}" alt="{{ strtolower($country['name']) }}" width="32" height="32" class="rounded-full" />
                     </div>
                     <div>
                         <p class="text-theme-sm font-semibold text-gray-800 dark:text-white/90">
                             {{ $country['name'] }}
                         </p>
-                        <span class="block text-theme-xs text-gray-500 dark:text-gray-400">
+                        <span class="block text-theme-xs text-gray-600 dark:text-gray-300">
                             {{ $country['customers'] }} Customers
                         </span>
                     </div>

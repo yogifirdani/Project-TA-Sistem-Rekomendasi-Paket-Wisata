@@ -27,7 +27,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.kelola-paket-wisata.update', $kelolaPackage) }}" method="POST" x-data="{ activeTab: 'id' }">
+    <form action="{{ route('admin.kelola-paket-wisata.update', $kelolaPackage) }}" method="POST" enctype="multipart/form-data" x-data="{ activeTab: 'id' }">
         @csrf
         @method('PUT')
 
@@ -78,22 +78,36 @@
                             <div>
                                 <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Tipe Paket <span class="text-error-500">*</span></label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                    <select name="package_type_id" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">
+                                    <select name="package_type_id" id="type-select" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">
                                         <option value="" class="dark:bg-gray-900">Pilih Tipe Paket</option>
                                         @foreach($packageTypes as $type)
-                                            <option value="{{ $type->id }}" {{ old('package_type_id', $kelolaPackage->package_type_id) == $type->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $type->type_name }}</option>
+                                            <option value="{{ $type->id }}" data-slug="{{ $type->slug }}" {{ old('package_type_id', $kelolaPackage->package_type_id) == $type->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $type->type_name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500"><svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                                 </div>
                             </div>
                             <div>
-                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Kategori <span class="text-error-500">*</span></label>
+                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Kategori Paket <span class="text-error-500">*</span></label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                    <select name="category_id" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">
+                                    <select name="category_id" id="category-select" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">
+                                        <option value="" class="dark:bg-gray-900">Pilih Kategori Paket</option>
                                         @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}" {{ old('category_id', $kelolaPackage->category_id) == $cat->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $cat->category_name }}</option>
+                                            <option value="{{ $cat->id }}" data-slug="{{ $cat->slug }}" {{ old('category_id', $kelolaPackage->category_id) == $cat->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $cat->category_name }}</option>
                                         @endforeach
+                                    </select>
+                                    <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500"><svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Kategori Wisata</label>
+                                <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
+                                    <select name="tour_category" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">
+                                        <option value="" class="dark:bg-gray-900">Pilih Kategori Wisata</option>
+                                        <option value="Culture Trip" {{ old('tour_category', $kelolaPackage->tour_category) == 'Culture Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Culture Trip (Wisata Budaya)</option>
+                                        <option value="Nature Trip" {{ old('tour_category', $kelolaPackage->tour_category) == 'Nature Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Nature Trip (Wisata Alam)</option>
+                                        <option value="Culinary Trip" {{ old('tour_category', $kelolaPackage->tour_category) == 'Culinary Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Culinary Trip (Wisata Kuliner)</option>
+                                        <option value="Adventure Trip" {{ old('tour_category', $kelolaPackage->tour_category) == 'Adventure Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Adventure Trip (Wisata Petualangan)</option>
                                     </select>
                                     <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500"><svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                                 </div>
@@ -104,9 +118,16 @@
                                     class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
                             </div>
                             <div>
-                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Durasi <span class="text-error-500">*</span></label>
-                                <input type="text" name="duration" value="{{ old('duration', $kelolaPackage->duration) }}"
-                                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
+                                <div x-show="activeTab === 'id'">
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Durasi <span class="text-error-500">*</span></label>
+                                    <input type="text" name="duration" value="{{ old('duration', $kelolaPackage->duration) }}"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
+                                </div>
+                                <div x-show="activeTab === 'en'" x-cloak>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Duration (English) <span class="text-error-500">*</span></label>
+                                    <input type="text" name="duration_en" value="{{ old('duration_en', $kelolaPackage->duration_en) }}"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
+                                </div>
                             </div>
                         </div>
 
@@ -120,8 +141,8 @@
                         </div>
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Destinasi</label>
-                            <input type="text" name="destination" value="{{ old('destination', $kelolaPackage->destination) }}"
-                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
+                            <textarea id="editor-destination" name="destination" rows="2"
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('destination', $kelolaPackage->destination) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -149,7 +170,7 @@
                         @foreach([1,2,3,4,5,8,10] as $pax)
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">{{ $pax }} Pax</label>
-                            <input type="number" name="price_{{ $pax }}pax" value="{{ old('price_'.$pax.'pax', $kelolaPackage->{'price_'.$pax.'pax'}) }}"
+                            <input type="number" name="price_{{ $pax }}pax" value="{{ old('price_'.$pax.'pax', $kelolaPackage->{'price_'.$pax.'pax'} ? intval($kelolaPackage->{'price_'.$pax.'pax'}) : '') }}"
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
                         </div>
                         @endforeach
@@ -160,7 +181,7 @@
                         @foreach([1,2,3,4,5,8,10] as $pax)
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">{{ $pax }} Pax</label>
-                            <input type="number" name="price_{{ $pax }}pax_foreign" value="{{ old('price_'.$pax.'pax_foreign', $kelolaPackage->{'price_'.$pax.'pax_foreign'}) }}"
+                            <input type="number" name="price_{{ $pax }}pax_foreign" value="{{ old('price_'.$pax.'pax_foreign', $kelolaPackage->{'price_'.$pax.'pax_foreign'} ? intval($kelolaPackage->{'price_'.$pax.'pax_foreign'}) : '') }}"
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden" />
                         </div>
                         @endforeach
@@ -191,11 +212,11 @@
 
                         <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point</label>
-                            <textarea name="meeting_point" rows="2" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('meeting_point', $kelolaPackage->meeting_point) }}</textarea>
+                            <textarea id="editor-meeting-point" name="meeting_point" rows="2" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('meeting_point', $kelolaPackage->meeting_point) }}</textarea>
                         </div>
                         <div x-show="activeTab === 'en'" x-cloak>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point (English)</label>
-                            <textarea name="meeting_point_en" rows="2" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('meeting_point_en', $kelolaPackage->meeting_point_en) }}</textarea>
+                            <textarea id="editor-meeting-point-en" name="meeting_point_en" rows="2" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('meeting_point_en', $kelolaPackage->meeting_point_en) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -236,6 +257,26 @@
 
             <!-- Right Column -->
             <div class="col-span-1 space-y-6">
+                <!-- Gambar Banner / Thumbnail -->
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+                    <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Gambar Paket</h2>
+                    <div class="space-y-4">
+                        @if($kelolaPackage->image)
+                        <div>
+                            <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-400">Gambar Saat Ini:</p>
+                            <img src="{{ $kelolaPackage->image_url }}" alt="Thumbnail" class="w-full h-auto rounded-lg border border-gray-200 object-cover shadow-sm">
+                        </div>
+                        @endif
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                Ubah Gambar (Opsional, Format: WebP, Maks: 150KB)
+                            </label>
+                            <input type="file" name="image" accept=".webp"
+                                class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-3 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
+                        </div>
+                    </div>
+                </div>
+
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Pengaturan</h2>
                     <div class="space-y-5">
@@ -257,11 +298,11 @@
                         </div>
                         <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Info Pembayaran</label>
-                            <textarea name="payment" rows="3" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('payment', $kelolaPackage->payment) }}</textarea>
+                            <textarea id="editor-payment" name="payment" rows="3" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('payment', $kelolaPackage->payment) }}</textarea>
                         </div>
                         <div x-show="activeTab === 'en'" x-cloak>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Payment Info (English)</label>
-                            <textarea name="payment_en" rows="3" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('payment_en', $kelolaPackage->payment_en) }}</textarea>
+                            <textarea id="editor-payment-en" name="payment_en" rows="3" class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 focus:ring-3 focus:outline-hidden">{{ old('payment_en', $kelolaPackage->payment_en) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -302,7 +343,12 @@
         '#editor-facilities-excluded',
         '#editor-facilities-excluded-en',
         '#editor-persyaratan',
-        '#editor-persyaratan-en'
+        '#editor-persyaratan-en',
+        '#editor-destination',
+        '#editor-meeting-point',
+        '#editor-meeting-point-en',
+        '#editor-payment',
+        '#editor-payment-en'
     ];
 
     editors.forEach(selector => {
@@ -313,6 +359,55 @@
             .catch(error => {
                 console.error(error);
             });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('category-select');
+        const typeSelect = document.getElementById('type-select');
+
+        if (categorySelect && typeSelect) {
+            const originalOptions = Array.from(typeSelect.options);
+
+            function updateTypeOptions() {
+                const selectedOpt = categorySelect.options[categorySelect.selectedIndex];
+                const catSlug = selectedOpt ? selectedOpt.getAttribute('data-slug') : '';
+                const currentSelectedValue = typeSelect.value;
+
+                typeSelect.innerHTML = '';
+
+                originalOptions.forEach(opt => {
+                    const typeSlug = opt.getAttribute('data-slug');
+                    
+                    if (!typeSlug) {
+                        typeSelect.appendChild(opt.cloneNode(true));
+                        return;
+                    }
+
+                    let isAllowed = false;
+                    if (catSlug === 'ekonomis-trip') {
+                        isAllowed = ['open-trip-banyuwangi', 'one-day-trip-banyuwangi', '2-day-1-night-banyuwangi', '3-day-2-night-banyuwangi', '4-day-3-night-banyuwangi'].includes(typeSlug);
+                    } else if (['exclusive-trip', 'luxury-trip', 'comparment-trip'].includes(catSlug)) {
+                        isAllowed = ['one-day-trip-banyuwangi', '2-day-1-night-banyuwangi', '3-day-2-night-banyuwangi', '4-day-3-night-banyuwangi'].includes(typeSlug);
+                    } else if (catSlug === 'education-trip') {
+                        isAllowed = ['conference', 'symposium', 'seminar-international', 'study-tour', 'summer-winter-tour', 'gathering'].includes(typeSlug);
+                    } else {
+                        isAllowed = true;
+                    }
+
+                    if (isAllowed) {
+                        typeSelect.appendChild(opt.cloneNode(true));
+                    }
+                });
+
+                typeSelect.value = currentSelectedValue;
+                if (typeSelect.selectedIndex === -1) {
+                    typeSelect.value = '';
+                }
+            }
+
+            categorySelect.addEventListener('change', updateTypeOptions);
+            updateTypeOptions();
+        }
     });
 </script>
 <style>

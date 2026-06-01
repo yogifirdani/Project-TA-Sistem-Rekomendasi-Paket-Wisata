@@ -5,7 +5,7 @@
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
                     Monthly Target
                 </h3>
-                <p class="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
+                <p class="mt-1 text-theme-sm text-gray-600 dark:text-gray-300">
                     Target you’ve set for each month
                 </p>
             </div>
@@ -17,14 +17,14 @@
             <div id="chartTwo" class="h-full"></div>
             <span class="absolute left-1/2 top-[85%] -translate-x-1/2 -translate-y-[85%] rounded-full bg-success-50 px-3 py-1 text-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">+10%</span>
         </div>
-        <p class="mx-auto mt-1.5 w-full max-w-[380px] text-center text-sm text-gray-500 sm:text-base">
+        <p class="mx-auto mt-1.5 w-full max-w-[380px] text-center text-sm text-gray-600 dark:text-gray-300 sm:text-base">
             You earn $3287 today, it's higher than last month. Keep up your good work!
         </p>
     </div>
 
     <div class="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5">
         <div>
-            <p class="mb-1 text-center text-theme-xs text-gray-500 dark:text-gray-400 sm:text-sm">
+            <p class="mb-1 text-center text-theme-xs text-gray-600 dark:text-gray-300 sm:text-sm">
                 Target
             </p>
             <p
@@ -42,7 +42,7 @@
         <div class="h-7 w-px bg-gray-200 dark:bg-gray-800"></div>
 
         <div>
-            <p class="mb-1 text-center text-theme-xs text-gray-500 dark:text-gray-400 sm:text-sm">
+            <p class="mb-1 text-center text-theme-xs text-gray-600 dark:text-gray-300 sm:text-sm">
                 Revenue
             </p>
             <p
@@ -60,7 +60,7 @@
         <div class="h-7 w-px bg-gray-200 dark:bg-gray-800"></div>
 
         <div>
-            <p class="mb-1 text-center text-theme-xs text-gray-500 dark:text-gray-400 sm:text-sm">
+            <p class="mb-1 text-center text-theme-xs text-gray-600 dark:text-gray-300 sm:text-sm">
                 Today
             </p>
             <p

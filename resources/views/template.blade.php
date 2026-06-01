@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <title>Kutamasya.id</title>
     <meta charset="utf-8">
@@ -9,41 +9,70 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://themewagon.github.io">
 
+    <!-- Preload Critical Largest Contentful Paint (LCP) Hero Image -->
+    @if(request()->is(app()->getLocale()) || request()->is(app()->getLocale().'/') || request()->is('/'))
+    <link rel="preload" href="{{ asset('images/background/jungle-island.webp') }}" as="image" type="image/webp">
+    @endif
+
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CDN as backup for missing icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Preload Critical CSS -->
+    <link rel="preload" href="{{ asset('asset/css/style.min.css') }}" as="style">
+    <link rel="preload" href="{{ asset('asset/css/bootstrap.min.css') }}" as="style">
 
     <!-- Critical CSS (Load immediately) -->
     <link rel="stylesheet" href="{{ asset('asset/css/style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
     
     <!-- Non-Critical CSS (Deferred loading) -->
-    <link rel="preload" href="{{ asset('asset/css/open-iconic-bootstrap.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/animate.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/owl.carousel.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/owl.theme.default.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('asset/css/magnific-popup.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/aos.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/ionicons.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('asset/css/bootstrap-datepicker.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('asset/css/jquery.timepicker.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/flaticon.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('asset/css/icomoon.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <noscript>
-        <link rel="stylesheet" href="{{ asset('asset/css/open-iconic-bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/animate.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/owl.theme.default.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('asset/css/magnific-popup.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/aos.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/ionicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('asset/css/bootstrap-datepicker.css') }}">
-        <link rel="stylesheet" href="{{ asset('asset/css/jquery.timepicker.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/flaticon.css') }}">
         <link rel="stylesheet" href="{{ asset('asset/css/icomoon.css') }}">
     </noscript>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
+      /* Override warna tombol utama (primary) Bootstrap secara global sesuai tema brand */
+      .btn-primary {
+        background-color: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #ffffff !important;
+        transition: all 0.3s ease !important;
+      }
+      .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: rgb(68, 189, 199) !important;
+        border-color: rgb(68, 189, 199) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 15px rgba(87, 201, 209, 0.4) !important;
+      }
+      .btn-outline-primary {
+        color: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        background-color: transparent !important;
+        transition: all 0.3s ease !important;
+      }
+      .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+        background-color: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #ffffff !important;
+      }
+
       /* Efek Transparan / Kaca (Glassmorphism) untuk Dropdown */
       .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu {
         background-color: rgba(255, 255, 255, 0.73) !important;
@@ -65,9 +94,59 @@
         padding: 0.4rem 1.2rem;
         gap: 15px;
       }
+      /* Warna saat kursor diarahkan (hover) - lebih muda */
       .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu .dropdown-item:hover {
-        background-color: rgb(87, 201, 209) !important;
-        color: #fffff !important;
+        background-color: #70d4deff !important;
+        color: #ffffff !important;
+      }
+
+      /* Warna saat berada di halaman tersebut (active) - lebih tua */
+      .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu .dropdown-item.active {
+        background-color: rgb(68, 189, 199) !important;
+        color: #ffffff !important;
+      }
+
+      /* Hover warna untuk semua link menu navbar (baik saat scroll maupun tidak) */
+      .ftco_navbar .navbar-nav .nav-link:hover {
+        color: rgb(87, 201, 209) !important;
+      }
+      
+      /* Pastikan warna active juga konsisten (opsional, tapi disarankan) */
+      .ftco_navbar .navbar-nav .nav-item.active .nav-link {
+        color: rgb(87, 201, 209) !important;
+      }
+
+      /* Gaya tombol Register (CTA) Global */
+      .ftco_navbar .navbar-nav .nav-item.cta > .nav-link {
+        background: transparent !important; /* Hapus background bawaan tema */
+        border: none !important;
+      }
+      .ftco_navbar .navbar-nav .nav-item.cta > .nav-link span {
+        padding: 5px 20px !important;
+        border-radius: 30px !important;
+        display: inline-block !important;
+        transition: all 0.3s ease;
+      }
+
+      /* Saat TIDAK di-scroll (Navbar Transparan) */
+      .ftco_navbar:not(.scrolled) .navbar-nav .nav-item.cta > .nav-link span {
+        background: rgb(68, 189, 199) !important;
+        border: 1px solid rgb(68, 189, 199) !important;
+        color: #fff !important;
+      }
+
+      /* Saat DI-scroll (Navbar Putih) */
+      .ftco_navbar.scrolled .navbar-nav .nav-item.cta > .nav-link span {
+        background: rgb(68, 189, 199) !important;
+        border: 1px solid rgb(68, 189, 199) !important;
+        color: #fff !important;
+      }
+      
+      /* Hover untuk tombol Register (Semua Kondisi) */
+      .ftco_navbar .navbar-nav .nav-item.cta > .nav-link:hover span {
+        background: #70d4de !important;
+        border-color: #70d4de !important;
+        color: #fff !important;
       }
 
       /* Logika untuk Nested Dropdown (Submenu) */
@@ -122,6 +201,20 @@
 
       /* Perbaikan Navbar Hitam di Mobile (di bawah 992px) */
       @media (max-width: 991.98px) {
+        
+        /* Perkecil ukuran logo di mobile/tablet */
+        .navbar-brand img {
+          height: 38px !important;
+          padding: 3px !important;
+        }
+
+        /* Ukuran logo sedikit lebih besar di Tablet */
+        @media (min-width: 768px) {
+          .navbar-brand img {
+            height: 42px !important;
+            padding: 4px !important;
+          }
+        }
 
         /* Berikan background putih transparan/kaca untuk isi menu saat dibuka */
         .ftco-navbar-light .navbar-collapse {
@@ -138,6 +231,20 @@
         .ftco-navbar-light .navbar-nav > .nav-item.active > .nav-link {
           color: rgb(87, 201, 209) !important;
         }
+        /* Pastikan dropdown menu tampil wajar di mobile (tidak tumpang tindih) */
+        .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu {
+          position: relative !important;
+          float: none !important;
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding-left: 15px;
+          margin-top: 0;
+        }
+        .ftco-navbar-light .navbar-nav .nav-item .dropdown-menu .dropdown-item {
+          color: #555 !important;
+          padding: 8px 15px;
+        }
       }
 
       .ftco_navbar {
@@ -145,14 +252,17 @@
       }
 
       /* Fix conflict between Tailwind and Bootstrap collapse */
-      .navbar-collapse.collapse {
-        display: none;
-      }
-      .navbar-collapse.collapse.show {
-        display: block;
+      @media (max-width: 991.98px) {
+        .navbar-collapse:not(.show):not(.collapsing) {
+          display: none !important;
+        }
+        .navbar-collapse.collapsing,
+        .navbar-collapse.show {
+          display: block !important;
+        }
       }
       @media (min-width: 992px) {
-        .navbar-expand-lg .navbar-collapse.collapse {
+        .navbar-expand-lg .navbar-collapse {
           display: flex !important;
           visibility: visible !important;
         }
@@ -160,7 +270,48 @@
       .dropdown-toggle::after {
         display: none !important;
       }
+
+      /* Ganti global navigasi owl-carousel dengan Font Awesome & Warna Tema kita */
+      .owl-carousel .owl-prev span,
+      .owl-carousel .owl-next span {
+        display: none !important;
+      }
+      .owl-carousel .owl-prev::before {
+        content: "\f053" !important; /* fa-chevron-left */
+        font-family: "FontAwesome" !important;
+        font-size: 16px;
+        color: rgb(87, 201, 209) !important;
+      }
+      .owl-carousel .owl-next::before {
+        content: "\f054" !important; /* fa-chevron-right */
+        font-family: "FontAwesome" !important;
+        font-size: 16px;
+        color: rgb(87, 201, 209) !important;
+      }
+      .owl-carousel .owl-nav .owl-prev,
+      .owl-carousel .owl-nav .owl-next {
+        border: 1.5px solid rgb(87, 201, 209) !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border-radius: 50% !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+      }
+      .owl-carousel .owl-nav .owl-prev:hover,
+      .owl-carousel .owl-nav .owl-next:hover {
+        background: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+      }
+      .owl-carousel .owl-nav .owl-prev:hover::before,
+      .owl-carousel .owl-nav .owl-next:hover::before {
+        color: #fff !important;
+      }
     </style>
+    @stack('styles')
   </head>
   <body>
     
@@ -175,14 +326,14 @@
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2 d-flex align-items-center">
-                <img src="{{ asset('asset/images/Logo-kutamasya.webp') }}" alt="Kutamasya Logo" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;">
+                <img src="{{ asset('asset/images/Logo-kutamasya.webp') }}" alt="Kutamasya Logo" style="height: 40px; width: auto; margin-right: 10px; border-radius: 5px;" width="120" height="40" loading="lazy">
                 <span style="color: #fff; font-weight: 700; font-size: 24px;">Kutamasya.id</span>
               </h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              <p>{{ __('messages.footer_desc') }}</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-tiktok"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-youtube"></span></a></li>
+                <li class="ftco-animate"><a href="#" aria-label="Instagram"><span class="fa fa-instagram"></span></a></li>
+                <li class="ftco-animate"><a href="#" aria-label="TikTok"><span class="fa fa-music"></span></a></li>
+                <li class="ftco-animate"><a href="#" aria-label="YouTube"><span class="fa fa-youtube-play"></span></a></li>
               </ul>
             </div>
           </div>
@@ -190,11 +341,11 @@
             <div class="ftco-footer-widget mb-4 ml-md-5">
               <h2 class="ftco-heading-2">Layanan Kami</h2>
               <ul class="list-unstyled">
-                <li><a href="{{ route('paket-wisata') }}?tipe=open-trip-banyuwangi" class="py-2 d-block">Open Trip Banyuwangi</a></li>
-                <li><a href="{{ route('paket-wisata') }}?tipe=one-day-trip-banyuwangi" class="py-2 d-block">One Day Trip</a></li>
-                <li><a href="{{ route('paket-wisata') }}?tipe=private-trip" class="py-2 d-block">Private Trip</a></li>
-                <li><a href="{{ route('paket-wisata') }}?tipe=paket-kawah-ijen" class="py-2 d-block">Paket Kawah Ijen</a></li>
-                <li><a href="{{ route('paket-wisata') }}?tipe=paket-menjangan" class="py-2 d-block">Paket Menjangan</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}?tipe=open-trip-banyuwangi" class="py-2 d-block">Open Trip Banyuwangi</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}?tipe=one-day-trip-banyuwangi" class="py-2 d-block">One Day Trip</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}?tipe=private-trip" class="py-2 d-block">Private Trip</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}?tipe=paket-kawah-ijen" class="py-2 d-block">Paket Kawah Ijen</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}?tipe=paket-menjangan" class="py-2 d-block">Paket Menjangan</a></li>
               </ul>
             </div>
           </div>
@@ -206,7 +357,7 @@
                 <li><a href="#" class="py-2 d-block">Payment Option</a></li>
                 <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
                 <li><a href="#" class="py-2 d-block">How it works</a></li>
-                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                <li><a href="{{ lroute('contact') }}" class="py-2 d-block">Contact Us</a></li>
               </ul>
             </div>
           </div>
@@ -215,9 +366,9 @@
             	<h2 class="ftco-heading-2">Have a Questions?</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">Jl.Raya Watukebo Kec. Blimbingsari Kab. Banyuwangi</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">kutamasya@gmail.com</span></a></li>
+	                <li><span class="icon fa fa-map-marker"></span><span class="text">Jl.Raya Watukebo Kec. Blimbingsari Kab. Banyuwangi</span></li>
+	                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+62 823 4399 1298</span></a></li>
+	                <li><a href="#"><span class="icon fa fa-envelope"></span><span class="text">kutamasya@gmail.com</span></a></li>
 	              </ul>
 	            </div>
             </div>
@@ -240,24 +391,103 @@
   <div id="ftco-loader" class="fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-  <script src="{{ asset('asset/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('asset/js/jquery.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/jquery-migrate-3.0.1.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/popper.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/bootstrap.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/jquery.easing.1.3.js') }}" defer></script>
   <script src="{{ asset('asset/js/jquery.waypoints.min.js') }}" defer></script>
-  <script src="{{ asset('asset/js/jquery.stellar.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/owl.carousel.min.js') }}" defer></script>
-  <script src="{{ asset('asset/js/jquery.magnific-popup.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/aos.js') }}" defer></script>
   <script src="{{ asset('asset/js/jquery.animateNumber.min.js') }}" defer></script>
-  <script src="{{ asset('asset/js/bootstrap-datepicker.js') }}" defer></script>
-  <script src="{{ asset('asset/js/jquery.timepicker.min.js') }}" defer></script>
-  <script src="{{ asset('asset/js/scrollax.min.js') }}" defer></script>
   <script src="{{ asset('asset/js/main.js') }}" defer></script>
   
-  <!-- instant.page to make everything feel faster -->
-  <script src="//instant.page/5.2.0" type="module" integrity="sha384-JnE3Wv9Q9G8PPdaJpInS96p58S8B53O4a2zI5bWfRz+4hHnC65vE4S1XvVlD6QZ3" crossorigin="anonymous"></script>
+  <!-- Fix: Navbar mobile burger tidak langsung menutup -->
+  <script>
+    // Gunakan window.load agar dijamin berjalan SETELAH main.js (defer) selesai
+    window.addEventListener('load', function() {
+      function fixMobileNavbar() {
+        if (window.innerWidth < 992) {
+          // Lepas event hover mouseenter/mouseleave yang dipasang main.js
+          // karena di mobile/touchscreen langsung mentrigger mouseleave
+          // sehingga menu dropdown menutup sendiri
+          if (typeof jQuery !== 'undefined') {
+            jQuery('nav .dropdown').off('mouseenter mouseleave');
+          }
+        }
+      }
+
+      fixMobileNavbar();
+      window.addEventListener('resize', fixMobileNavbar);
+    });
+  </script>
+
+
     
+
+
+  
+  <!-- INI BAGIAN WHATSAPP YANG MUNCUL DI BAWAH KANAN -->
+  <!-- Floating WhatsApp Widget -->
+  <div class="whatsapp-floating-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
+      <!-- Chat Pill (Tooltip) -->
+      <a href="https://wa.me/6282343991298?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Tanya kami via WhatsApp" class="whatsapp-chat-pill" style="background: white; border: 1px solid rgba(0,0,0,0.08); padding: 8px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); font-size: 11px; font-weight: 600; color: #333; text-decoration: none; display: flex; align-items: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: right center; animation: pulseGlow 2s infinite;">
+          {{ __('messages.whatsapp_chat_pill') }}
+      </a>
+      
+      <!-- WhatsApp Icon Button -->
+      <a href="https://wa.me/6282343991298?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Hubungi kami melalui WhatsApp" class="whatsapp-btn" style="background-color: #25d366; width: 50px; height: 50px; border-radius: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none;">
+          <i class="fa fa-whatsapp"></i>
+      </a>
+  </div>
+
+  <style>
+      /* Hover & Animation effects for the WhatsApp widget */
+      .whatsapp-floating-widget:hover .whatsapp-btn {
+          transform: scale(1.1) rotate(8deg);
+          box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+      }
+      
+      .whatsapp-floating-widget:hover .whatsapp-chat-pill {
+          transform: scale(1.05);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+          border-color: rgba(37, 211, 102, 0.3);
+          color: #25d366;
+      }
+
+      @keyframes pulseGlow {
+          0% {
+              box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+          }
+          50% {
+              box-shadow: 0 4px 20px rgba(37, 211, 102, 0.15);
+              border-color: rgba(37, 211, 102, 0.2);
+          }
+          100% {
+              box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+          }
+      }
+
+      /* Responsive styling for mobile screens */
+      @media (max-width: 575.98px) {
+          .whatsapp-floating-widget {
+              bottom: 20px !important;
+              right: 20px !important;
+              gap: 8px !important;
+          }
+          .whatsapp-btn {
+              width: 44px !important;
+              height: 44px !important;
+              font-size: 20px !important;
+          }
+          .whatsapp-chat-pill {
+              padding: 6px 12px !important;
+              font-size: 10px !important;
+          }
+      }
+  </style>
+<!-- INI BAGIANAKHIR DARI WHATSAPP -->
+
+  @stack('scripts')
   </body>
 </html>

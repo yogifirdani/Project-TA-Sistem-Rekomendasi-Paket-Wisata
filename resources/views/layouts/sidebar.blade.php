@@ -62,19 +62,25 @@
     <div class="pt-4 pb-5 hidden xl:flex"
     :class="(!$store.sidebar.isExpanded && !$store.sidebar.isHovered && !$store.sidebar.isMobileOpen) ? 
     'xl:justify-center' : 
-    'justify-start px-4'"> <a href="/" class="flex items-center gap-3"> <div class="flex items-center">
+    'justify-start px-4'"> <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3"> <div class="flex items-center">
             <div x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen">
                 <img class="rounded-xl shadow-sm" 
-                     src="/images/logo/Logo-kutamasya.jpg" 
+                     src="/images/logo/Logo-kutamasya.webp" 
                      alt="Logo Kutamasya" 
-                     style="height: 60px; width: 63px; object-fit: cover;" />
+                     style="height: 60px; width: 63px; object-fit: cover;"
+                     width="63"
+                     height="60"
+                     loading="lazy" />
             </div>
 
             <div x-show="!$store.sidebar.isExpanded && !$store.sidebar.isHovered && !$store.sidebar.isMobileOpen">
                 <img class="rounded-lg shadow-sm" 
-                     src="/images/logo/Logo-kutamasya.jpg" 
+                     src="/images/logo/Logo-kutamasya.webp" 
                      alt="Logo Icon" 
-                     style="height: 35px; width: 35px; object-fit: cover;" />
+                     style="height: 35px; width: 35px; object-fit: cover;"
+                     width="35"
+                     height="35"
+                     loading="lazy" />
             </div>
         </div>
 
@@ -121,6 +127,7 @@
                                         <!-- Menu Item with Submenu -->
                                         <button @click="toggleSubmenu({{ $groupIndex }}, {{ $itemIndex }})"
                                             class="menu-item group w-full"
+                                            aria-label="{{ $item['name'] }}"
                                             :class="[
                                                 isSubmenuOpen({{ $groupIndex }}, {{ $itemIndex }}) ?
                                                 'menu-item-active' : 'menu-item-inactive',
@@ -186,6 +193,7 @@
                                     @else
                                         <!-- Simple Menu Item -->
                                         <a href="{{ $item['path'] }}" class="menu-item group"
+                                            aria-label="{{ $item['name'] }}"
                                             :class="[
                                                 isActive('{{ $item['path'] }}') ? 'menu-item-active' :
                                                 'menu-item-inactive',

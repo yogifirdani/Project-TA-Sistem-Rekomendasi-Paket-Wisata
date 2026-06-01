@@ -27,7 +27,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST" x-data="{ activeTab: 'id' }">
+    <form action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST" enctype="multipart/form-data" x-data="{ activeTab: 'id' }">
         @csrf
 
         <!-- Language Switcher Tabs -->
@@ -83,12 +83,12 @@
                                     Tipe Paket <span class="text-error-500">*</span>
                                 </label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                    <select name="package_type_id"
+                                    <select name="package_type_id" id="type-select"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
                                         :class="isOptionSelected && 'text-gray-800 dark:text-white/90'" @change="isOptionSelected = true">
                                         <option value="" class="dark:bg-gray-900">Pilih Tipe Paket</option>
                                         @foreach($packageTypes as $type)
-                                            <option value="{{ $type->id }}" {{ old('package_type_id') == $type->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $type->type_name }}</option>
+                                            <option value="{{ $type->id }}" data-slug="{{ $type->slug }}" {{ old('package_type_id') == $type->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $type->type_name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500 dark:text-gray-400">
@@ -97,19 +97,40 @@
                                 </div>
                             </div>
 
-                            <!-- Kategori -->
+                            <!-- Kategori Paket -->
                             <div>
                                 <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                    Kategori <span class="text-error-500">*</span>
+                                    Kategori Paket <span class="text-error-500">*</span>
                                 </label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                    <select name="category_id"
+                                    <select name="category_id" id="category-select"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
                                         :class="isOptionSelected && 'text-gray-800 dark:text-white/90'" @change="isOptionSelected = true">
-                                        <option value="" class="dark:bg-gray-900">Pilih Kategori</option>
+                                        <option value="" class="dark:bg-gray-900">Pilih Kategori Paket</option>
                                         @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $cat->category_name }}</option>
+                                            <option value="{{ $cat->id }}" data-slug="{{ $cat->slug }}" {{ old('category_id') == $cat->id ? 'selected' : '' }} class="dark:bg-gray-900">{{ $cat->category_name }}</option>
                                         @endforeach
+                                    </select>
+                                    <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                                        <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Kategori Wisata -->
+                            <div>
+                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                    Kategori Wisata
+                                </label>
+                                <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
+                                    <select name="tour_category"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                                        :class="isOptionSelected && 'text-gray-800 dark:text-white/90'" @change="isOptionSelected = true">
+                                        <option value="" class="dark:bg-gray-900">Pilih Kategori Wisata</option>
+                                        <option value="Culture Trip" {{ old('tour_category') == 'Culture Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Culture Trip (Wisata Budaya)</option>
+                                        <option value="Nature Trip" {{ old('tour_category') == 'Nature Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Nature Trip (Wisata Alam)</option>
+                                        <option value="Culinary Trip" {{ old('tour_category') == 'Culinary Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Culinary Trip (Wisata Kuliner)</option>
+                                        <option value="Adventure Trip" {{ old('tour_category') == 'Adventure Trip' ? 'selected' : '' }} class="dark:bg-gray-900">Adventure Trip (Wisata Petualangan)</option>
                                     </select>
                                     <span class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-500 dark:text-gray-400">
                                         <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -129,12 +150,22 @@
 
                             <!-- Durasi -->
                             <div>
-                                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                    Durasi <span class="text-error-500">*</span>
-                                </label>
-                                <input type="text" name="duration" value="{{ old('duration') }}"
-                                    placeholder="Contoh: 3 Hari 2 Malam"
-                                    class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                                <div x-show="activeTab === 'id'">
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                        Durasi <span class="text-error-500">*</span>
+                                    </label>
+                                    <input type="text" name="duration" value="{{ old('duration') }}"
+                                        placeholder="Contoh: 3 Hari 2 Malam"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                                </div>
+                                <div x-show="activeTab === 'en'" x-cloak>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                        Duration (English) <span class="text-error-500">*</span>
+                                    </label>
+                                    <input type="text" name="duration_en" value="{{ old('duration_en') }}"
+                                        placeholder="Example: 3 Days 2 Nights"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                                </div>
                             </div>
                         </div>
 
@@ -153,9 +184,8 @@
                         <!-- Destinasi -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Destinasi</label>
-                            <input type="text" name="destination" value="{{ old('destination') }}"
-                                placeholder="Contoh: Bromo, Semeru, Ijen"
-                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                            <textarea id="editor-destination" name="destination" rows="2" placeholder="Contoh: Bromo, Semeru, Ijen"
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('destination') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -231,12 +261,12 @@
 
                         <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point</label>
-                            <textarea name="meeting_point" rows="2" placeholder="Lokasi keberangkatan..."
+                            <textarea id="editor-meeting-point" name="meeting_point" rows="2" placeholder="Lokasi keberangkatan..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('meeting_point') }}</textarea>
                         </div>
                         <div x-show="activeTab === 'en'" x-cloak>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Meeting Point (English)</label>
-                            <textarea name="meeting_point_en" rows="2" placeholder="Departure location..."
+                            <textarea id="editor-meeting-point-en" name="meeting_point_en" rows="2" placeholder="Departure location..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('meeting_point_en') }}</textarea>
                         </div>
                     </div>
@@ -284,6 +314,20 @@
 
             <!-- Right Column: Settings -->
             <div class="col-span-1 space-y-6">
+                <!-- Gambar Banner / Thumbnail -->
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+                    <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Gambar Paket</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                Gambar Thumbnail/Banner (Format: WebP, Maks: 150KB)
+                            </label>
+                            <input type="file" name="image" accept=".webp"
+                                class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-3 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Status & Pengaturan -->
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <h2 class="mb-5 text-base font-semibold text-gray-800 dark:text-white/90">Pengaturan</h2>
@@ -312,12 +356,12 @@
                         <!-- Info Pembayaran -->
                         <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Info Pembayaran</label>
-                            <textarea name="payment" rows="3" placeholder="Rekening dan informasi pembayaran..."
+                            <textarea id="editor-payment" name="payment" rows="3" placeholder="Rekening dan informasi pembayaran..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('payment') }}</textarea>
                         </div>
                         <div x-show="activeTab === 'en'" x-cloak>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Payment Info (English)</label>
-                            <textarea name="payment_en" rows="3" placeholder="Account and payment information..."
+                            <textarea id="editor-payment-en" name="payment_en" rows="3" placeholder="Account and payment information..."
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('payment_en') }}</textarea>
                         </div>
                     </div>
@@ -360,7 +404,12 @@
         '#editor-facilities-excluded',
         '#editor-facilities-excluded-en',
         '#editor-persyaratan',
-        '#editor-persyaratan-en'
+        '#editor-persyaratan-en',
+        '#editor-destination',
+        '#editor-meeting-point',
+        '#editor-meeting-point-en',
+        '#editor-payment',
+        '#editor-payment-en'
     ];
 
     editors.forEach(selector => {
@@ -371,6 +420,55 @@
             .catch(error => {
                 console.error(error);
             });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('category-select');
+        const typeSelect = document.getElementById('type-select');
+
+        if (categorySelect && typeSelect) {
+            const originalOptions = Array.from(typeSelect.options);
+
+            function updateTypeOptions() {
+                const selectedOpt = categorySelect.options[categorySelect.selectedIndex];
+                const catSlug = selectedOpt ? selectedOpt.getAttribute('data-slug') : '';
+                const currentSelectedValue = typeSelect.value;
+
+                typeSelect.innerHTML = '';
+
+                originalOptions.forEach(opt => {
+                    const typeSlug = opt.getAttribute('data-slug');
+                    
+                    if (!typeSlug) {
+                        typeSelect.appendChild(opt.cloneNode(true));
+                        return;
+                    }
+
+                    let isAllowed = false;
+                    if (catSlug === 'ekonomis-trip') {
+                        isAllowed = ['open-trip-banyuwangi', 'one-day-trip-banyuwangi', '2-day-1-night-banyuwangi', '3-day-2-night-banyuwangi', '4-day-3-night-banyuwangi'].includes(typeSlug);
+                    } else if (['exclusive-trip', 'luxury-trip', 'comparment-trip'].includes(catSlug)) {
+                        isAllowed = ['one-day-trip-banyuwangi', '2-day-1-night-banyuwangi', '3-day-2-night-banyuwangi', '4-day-3-night-banyuwangi'].includes(typeSlug);
+                    } else if (catSlug === 'education-trip') {
+                        isAllowed = ['conference', 'symposium', 'seminar-international', 'study-tour', 'summer-winter-tour', 'gathering'].includes(typeSlug);
+                    } else {
+                        isAllowed = true;
+                    }
+
+                    if (isAllowed) {
+                        typeSelect.appendChild(opt.cloneNode(true));
+                    }
+                });
+
+                typeSelect.value = currentSelectedValue;
+                if (typeSelect.selectedIndex === -1) {
+                    typeSelect.value = '';
+                }
+            }
+
+            categorySelect.addEventListener('change', updateTypeOptions);
+            updateTypeOptions();
+        }
     });
 </script>
 <style>

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\PackageType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class KelolaPackageController extends Controller
 {
@@ -64,8 +65,11 @@ class KelolaPackageController extends Controller
             'package_name_en'     => 'nullable|string|max:255',
             'package_type_id'     => 'required|exists:package_types,id',
             'category_id'         => 'required|exists:categories,id',
+            'tour_category'       => 'nullable|string|max:255',
             'duration'            => 'required|string|max:100',
+            'duration_en'         => 'nullable|string|max:100',
             'city'                => 'required|string|max:255',
+            'destination'         => 'nullable|string',
             'description'         => 'nullable|string',
             'description_en'      => 'nullable|string',
             'price_1pax'          => 'nullable|integer',
@@ -97,13 +101,34 @@ class KelolaPackageController extends Controller
             'dp_days_before'      => 'nullable|integer',
             'payment'             => 'nullable|string',
             'payment_en'          => 'nullable|string',
+            'image'               => 'nullable|image|mimes:webp|max:150',
             'is_active'           => 'nullable|boolean',
         ]);
 
         $validated['slug'] = Str::slug($validated['package_name']) . '-' . time();
         $validated['is_active'] = $request->has('is_active');
 
-        TourPackage::create($validated);
+        if ($request->hasFile('image')) {
+            $disk = env('FILESYSTEM_DISK', 'public');
+            
+            if ($disk === 's3' && !env('AWS_ACCESS_KEY_ID')) {
+                $disk = 'public';
+            }
+
+            try {
+                $imagePath = $request->file('image')->store('tour_packages', $disk);
+                $validated['image'] = $imagePath;
+            } catch (\Exception $e) {
+                \Log::error('Upload Error: ' . $e->getMessage());
+                return back()->withInput()->with('error', 'Gagal mengunggah gambar: ' . $e->getMessage());
+            }
+        }
+
+        $package = TourPackage::create($validated);
+
+        if (!empty($package->destination)) {
+            $this->saveDestinationsToTable($package->destination, $package->city);
+        }
 
         return redirect()->route('admin.kelola-paket-wisata.index')
             ->with('success', 'Paket wisata berhasil ditambahkan!');
@@ -138,8 +163,11 @@ class KelolaPackageController extends Controller
             'package_name_en'     => 'nullable|string|max:255',
             'package_type_id'     => 'required|exists:package_types,id',
             'category_id'         => 'required|exists:categories,id',
+            'tour_category'       => 'nullable|string|max:255',
             'duration'            => 'required|string|max:100',
+            'duration_en'         => 'nullable|string|max:100',
             'city'                => 'required|string|max:255',
+            'destination'         => 'nullable|string',
             'description'         => 'nullable|string',
             'description_en'      => 'nullable|string',
             'price_1pax'          => 'nullable|integer',
@@ -171,12 +199,39 @@ class KelolaPackageController extends Controller
             'dp_days_before'      => 'nullable|integer',
             'payment'             => 'nullable|string',
             'payment_en'          => 'nullable|string',
+            'image'               => 'nullable|image|mimes:webp|max:150',
             'is_active'           => 'nullable|boolean',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
 
+        if ($request->hasFile('image')) {
+            $disk = env('FILESYSTEM_DISK', 'public');
+            if ($disk === 's3' && !env('AWS_ACCESS_KEY_ID')) {
+                $disk = 'public';
+            }
+
+            try {
+                // Delete old image
+                if ($kelolaPackage->image) {
+                    Storage::disk($disk)->delete($kelolaPackage->image);
+                }
+                $imagePath = $request->file('image')->store('tour_packages', $disk);
+                $validated['image'] = $imagePath;
+            } catch (\Exception $e) {
+                \Log::error('Update Upload Error: ' . $e->getMessage());
+                return back()->withInput()->with('error', 'Gagal memperbarui gambar: ' . $e->getMessage());
+            }
+        } else {
+            // Remove image from validated data so it doesn't overwrite existing path with null
+            unset($validated['image']);
+        }
+
         $kelolaPackage->update($validated);
+
+        if (!empty($kelolaPackage->destination)) {
+            $this->saveDestinationsToTable($kelolaPackage->destination, $kelolaPackage->city);
+        }
 
         return redirect()->route('admin.kelola-paket-wisata.index')
             ->with('success', 'Paket wisata berhasil diperbarui!');
@@ -187,8 +242,66 @@ class KelolaPackageController extends Controller
      */
     public function destroy(TourPackage $kelolaPackage)
     {
+        if ($kelolaPackage->image) {
+            $disk = env('FILESYSTEM_DISK', 'public');
+            Storage::disk($disk)->delete($kelolaPackage->image);
+        }
         $kelolaPackage->delete();
         return redirect()->route('admin.kelola-paket-wisata.index')
             ->with('success', 'Paket wisata berhasil dihapus!');
+    }
+
+    /**
+     * Parse the destination string from CKEditor/text and save unique destinations to destinations table.
+     */
+    private function saveDestinationsToTable($destinationStr, $city)
+    {
+        if (empty($destinationStr)) {
+            return;
+        }
+
+        // Convert HTML linebreaks/list tags into comma separators
+        $cleanStr = str_replace(
+            ['<li>', '</li>', '<p>', '</p>', '<br>', '<br/>', '<br />', '<div>', '</div>'],
+            [',', ',', ',', ',', ',', ',', ',', ',', ','],
+            $destinationStr
+        );
+
+        // Strip remaining HTML tags and decode entities
+        $cleanStr = strip_tags($cleanStr);
+        $cleanStr = html_entity_decode($cleanStr);
+
+        // Split by comma, semicolon, newline, carriage return, tabs
+        $names = preg_split('/[,;\n\r\t]+/', $cleanStr);
+
+        foreach ($names as $name) {
+            $name = trim($name);
+            if (empty($name)) {
+                continue;
+            }
+
+            // Check if there is any overlapping destination (prefix overlap)
+            $existing = \App\Models\Destination::where(function($q) use ($name) {
+                $q->whereRaw('LOWER(destination_name) LIKE ?', [strtolower($name) . '%'])
+                  ->orWhereRaw('? LIKE CONCAT(LOWER(destination_name), \'%\')', [strtolower($name)]);
+            })->first();
+
+            if ($existing) {
+                // If candidate name is longer/more complete, update the existing record to the more complete name!
+                if (strlen($name) > strlen($existing->destination_name)) {
+                    $existing->update([
+                        'destination_name' => $name,
+                        'slug' => \Illuminate\Support\Str::slug($name) . '-' . time(),
+                    ]);
+                }
+            } else {
+                // If no similar prefix exists, save as a new destination
+                \App\Models\Destination::create([
+                    'destination_name' => $name,
+                    'city' => $city,
+                    'is_active' => true,
+                ]);
+            }
+        }
     }
 }

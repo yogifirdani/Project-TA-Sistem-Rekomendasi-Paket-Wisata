@@ -5,14 +5,14 @@
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
                 Statistics
             </h3>
-            <p class="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
+            <p class="mt-1 text-gray-600 text-theme-sm dark:text-gray-300">
                 Target you’ve set for each month
             </p>
         </div>
 
         <div class="flex items-start w-full gap-3 sm:justify-end">
             <div x-data="{ selected: 'overview' }"
-                class="inline-flex w-fit items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900">
+                 class="inline-flex w-fit items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900">
 
                 @php
                     $options = [
@@ -26,7 +26,7 @@
                     <button @click="selected = '{{ $option['value'] }}'"
                         :class="selected === '{{ $option['value'] }}' ?
                             'shadow-theme-xs text-gray-900 dark:text-white bg-white dark:bg-gray-800' :
-                            'text-gray-500 dark:text-gray-400'"
+                            'text-gray-600 dark:text-gray-300'"
                         class="px-3 py-2 font-medium rounded-md text-theme-sm hover:text-gray-900 dark:hover:text-white">
                         {{ $option['label'] }}
                     </button>
@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="max-w-full overflow-x-auto custom-scrollbar">
-        <div id="chartThree" class="-ml-4 min-w-[700px] pl-2 xl:min-w-full"></div>
+        <div id="chartThree" class="-ml-4 min-w-[700px] pl-2 xl:min-w-full" style="min-height: 310px;"></div>
     </div>
 </div>
 

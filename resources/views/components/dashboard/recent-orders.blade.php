@@ -87,16 +87,16 @@
             <thead>
                 <tr class="border-t border-gray-100 dark:border-gray-800">
                     <th class="py-3 text-left">
-                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Products</p>
+                        <p class="font-medium text-gray-600 text-theme-xs dark:text-gray-300">Products</p>
                     </th>
                     <th class="py-3 text-left">
-                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Category</p>
+                        <p class="font-medium text-gray-600 text-theme-xs dark:text-gray-300">Category</p>
                     </th>
                     <th class="py-3 text-left">
-                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Price</p>
+                        <p class="font-medium text-gray-600 text-theme-xs dark:text-gray-300">Price</p>
                     </th>
                     <th class="py-3 text-left">
-                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Status</p>
+                        <p class="font-medium text-gray-600 text-theme-xs dark:text-gray-300">Status</p>
                     </th>
                 </tr>
             </thead>
@@ -106,23 +106,23 @@
                         <td class="py-3 whitespace-nowrap">
                             <div class="flex items-center gap-3">
                                 <div class="h-[50px] w-[50px] overflow-hidden rounded-md">
-                                    <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" />
+                                    <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" width="50" height="50" class="rounded-md object-cover" />
                                 </div>
                                 <div>
                                     <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
                                         {{ $product['name'] }}
                                     </p>
-                                    <span class="text-gray-500 text-theme-xs dark:text-gray-400">
+                                    <span class="text-gray-600 text-theme-xs dark:text-gray-300">
                                         {{ $product['variants'] }} Variants
                                     </span>
                                 </div>
                             </div>
                         </td>
                         <td class="py-3 whitespace-nowrap">
-                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">{{ $product['category'] }}</p>
+                            <p class="text-gray-600 text-theme-sm dark:text-gray-300">{{ $product['category'] }}</p>
                         </td>
                         <td class="py-3 whitespace-nowrap">
-                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">{{ $product['price'] }}</p>
+                            <p class="text-gray-600 text-theme-sm dark:text-gray-300">{{ $product['price'] }}</p>
                         </td>
                         <td class="py-3 whitespace-nowrap">
                             <span class="{{ $getStatusClasses($product['status']) }}">

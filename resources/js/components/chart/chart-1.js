@@ -4,10 +4,20 @@ export const initChartOne = () => {
     const chartElement = document.querySelector('#chartOne');
     if (!chartElement) return;
 
+    // Read dynamic data from data-series attribute if present
+    let chartData = [168, 385, 201, 298, 187, 195, 291, 110, 215, 390, 280, 112];
+    if (chartElement.dataset.series) {
+        try {
+            chartData = JSON.parse(chartElement.dataset.series);
+        } catch (e) {
+            console.error('Error parsing chart data:', e);
+        }
+    }
+
     const chartOneOptions = {
         series: [{
-            name: "Sales",
-            data: [168, 385, 201, 298, 187, 195, 291, 110, 215, 390, 280, 112],
+            name: "Pemesanan",
+            data: chartData,
         },],
         colors: ["#465fff"],
         chart: {

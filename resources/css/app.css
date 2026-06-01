@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap') layer(base);
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap') layer(base); */
 @import 'prismjs/themes/prism.min.css';
 @import 'tailwindcss';
 
@@ -190,6 +190,40 @@
   }
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
+  }
+}
+
+/* =====================================================
+   FIX: Bootstrap Navbar vs Tailwind CSS v4 Conflict
+   Tailwind v4 sets `.collapse { visibility: collapse }`
+   yang membuat Bootstrap navbar tidak terlihat.
+   Override ini memastikan navbar Bootstrap tetap berfungsi.
+   ===================================================== */
+.navbar-collapse {
+  visibility: visible !important;
+}
+
+/* Mobile: sembunyikan saat belum dibuka */
+@media (max-width: 991.98px) {
+  .navbar-collapse:not(.show):not(.collapsing) {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  .navbar-collapse.collapsing {
+    display: block !important;
+    visibility: visible !important;
+  }
+  .navbar-collapse.show {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* Desktop: selalu tampil sebagai flex */
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    visibility: visible !important;
   }
 }
 

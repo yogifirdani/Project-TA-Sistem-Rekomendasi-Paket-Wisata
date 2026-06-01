@@ -38,7 +38,7 @@ class ProfileController extends Controller
             'phone' => $request->phone,
         ]);
 
-        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('profile', ['locale' => app()->getLocale()])->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function updatePassword(Request $request)
@@ -54,6 +54,6 @@ class ProfileController extends Controller
             'password' => $request->password, // Note: the model cast 'hashed' will automatically hash it
         ]);
 
-        return redirect()->route('profile')->with('success', 'Password berhasil diubah.');
+        return redirect()->route('profile', ['locale' => app()->getLocale()])->with('success', 'Password berhasil diubah.');
     }
 }

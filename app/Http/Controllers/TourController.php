@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\TourPackage;
+use App\Models\Category;
 use App\Models\PackageType;
+use App\Models\Article;
 use Illuminate\Http\Request;
+
 class TourController extends Controller
 {
     //home bagian top tour
@@ -17,7 +20,13 @@ class TourController extends Controller
             ->take(4)
             ->get();
 
-        return view('home', compact('topPackages'));
+        $latestArticles = Article::where('status', 'active')
+            ->with('author')
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('home', compact('topPackages', 'latestArticles'));
     }
 
     public function index(Request $request)
@@ -25,6 +34,8 @@ class TourController extends Controller
         $query = TourPackage::where('is_active', true)->with(['category', 'packageType']);
 
         $selectedType = null;
+        $selectedCategory = null;
+
         if ($request->has('tipe')) {
             $slug = $request->query('tipe');
             $selectedType = PackageType::where('slug', $slug)->first();
@@ -34,10 +45,19 @@ class TourController extends Controller
             }
         }
 
+        if ($request->has('kategori')) {
+            $catSlug = $request->query('kategori');
+            $selectedCategory = Category::where('slug', $catSlug)->first();
+            
+            if ($selectedCategory) {
+                $query->where('category_id', $selectedCategory->id);
+            }
+        }
+
         $packages = $query->latest()->paginate(9);
         $packageTypes = PackageType::all();
 
-        return view('paket.index', compact('packages', 'packageTypes', 'selectedType'));
+        return view('paket.index', compact('packages', 'packageTypes', 'selectedType', 'selectedCategory'));
     }
 
     public function show($slug)

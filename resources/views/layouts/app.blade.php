@@ -7,6 +7,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? 'Dashboard' }} | Kutamasya.id</title>
+    <meta name="description" content="Dashboard Kutamasya.id - Sistem Informasi Rekomendasi Paket Wisata Terbaik.">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Fonts preconnect and non-render-blocking loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" />
+    </noscript>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -83,18 +94,22 @@
             const theme = savedTheme || systemTheme;
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.body.classList.add('dark', 'bg-gray-900');
+                if (document.body) {
+                    document.body.classList.add('dark', 'bg-gray-900');
+                }
             } else {
                 document.documentElement.classList.remove('dark');
-                document.body.classList.remove('dark', 'bg-gray-900');
+                if (document.body) {
+                    document.body.classList.remove('dark', 'bg-gray-900');
+                }
             }
         })();
     </script>
-    
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 
 <body
-    x-data="{ 'loaded': true}"
+    x-data="{ loaded: true }"
     x-init="$store.sidebar.isExpanded = window.innerWidth >= 1280;
     const checkMobile = () => {
         if (window.innerWidth < 1280) {
@@ -136,18 +151,20 @@
             <!-- app header start -->
             @include('layouts.app-header')
             <!-- app header end -->
-            <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+            <main class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+                <h1 class="sr-only">Dashboard Admin Kutamasya</h1>
                 @yield('content')
-            </div>
+            </main>
         </div>
 
     </div>
+
+
 
 </body>
 
 @stack('scripts')
 
-<!-- instant.page to make everything feel faster -->
-<script src="//instant.page/5.2.0" type="module" integrity="sha384-JnE3Wv9Q9G8PPdaJpInS96p58S8B53O4a2zI5bWfRz+4hHnC65vE4S1XvVlD6QZ3" crossorigin="anonymous"></script>
+
 
 </html>

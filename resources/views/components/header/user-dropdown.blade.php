@@ -13,8 +13,12 @@
         @click.prevent="toggleDropdown()"
         type="button"
     >
-        <span class="mr-3 overflow-hidden rounded-full h-11 w-11">
-            <img src="/images/user/owner.png" alt="User" />
+        <span class="mr-3 flex items-center justify-center rounded-full h-10 w-10 bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-xs border border-indigo-200 dark:border-indigo-800">
+            <!-- Modern Lucide User Outline Icon -->
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
         </span>
 
        <span class="block mr-1 font-medium text-theme-sm">{{ Auth::user()->name }}</span>
@@ -108,7 +112,7 @@
         </ul> -->
 
         <!-- Sign Out -->
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ lroute('logout') }}">
             @csrf
             <button type="submit"
                 class="flex items-center w-full gap-3 px-3 py-2 mt-3 font-medium text-red-600 rounded-lg group text-theme-sm hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-500/10 dark:hover:text-red-400"

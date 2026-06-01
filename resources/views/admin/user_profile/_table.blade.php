@@ -67,18 +67,14 @@
                             </svg>
                         </a>
 
-                        {{-- Hapus --}}
-                        <form action="{{ route('admin.user-profile.destroy', $user) }}" method="POST"
-                            onsubmit="return confirm('Yakin ingin menghapus pengguna {{ addslashes($user->name) }}?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" title="Hapus"
+                        <button type="button" 
+                                @click="deleteActionUrl = '{{ route('admin.user-profile.destroy', $user) }}'; deleteItemName = 'pengguna {{ addslashes($user->name) }}'; deleteModalOpen = true"
+                                title="Hapus"
                                 class="flex h-8 w-8 items-center justify-center rounded-lg border border-error-200 bg-error-50 text-error-600 hover:bg-error-100 dark:border-error-700 dark:bg-error-500/15 dark:text-error-400 dark:hover:bg-error-500/25 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                            </button>
-                        </form>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
                     </div>
                 </td>
             </tr>

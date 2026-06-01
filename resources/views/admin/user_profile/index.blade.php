@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="{ deleteModalOpen: false, deleteActionUrl: '', deleteItemName: '', isDeleting: false }" x-init="$watch('deleteModalOpen', value => { if (!value) isDeleting = false })">
 
     <!-- Page Header -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -54,6 +54,66 @@
         @include('admin.user_profile._table')
     </div>
 
+    <!-- Delete Confirmation Modal Local -->
+    <div x-show="deleteModalOpen" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+         x-cloak>
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-gray-900/40 transition-opacity"
+             x-show="deleteModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="deleteModalOpen = false"></div>
+
+        <!-- Modal Card -->
+        <div class="relative w-full max-w-md p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 z-50 transform"
+             x-show="deleteModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-2">
+            
+            <div class="flex items-start gap-4">
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-error-50 dark:bg-error-500/10 text-error-600">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+
+                <div class="flex-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Konfirmasi Hapus</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Apakah Anda yakin ingin menghapus <span class="font-semibold text-error-600 dark:text-error-400 break-all" x-text="deleteItemName"></span>? Tindakan ini tidak dapat dibatalkan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-2.5">
+                <button type="button" 
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors focus:outline-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                        @click="deleteModalOpen = false"
+                        :disabled="isDeleting">
+                    Batal
+                </button>
+                <form :action="deleteActionUrl" method="POST" @submit.prevent="deleteModalOpen = false; isDeleting = true; submitDeleteForm($el)" class="inline-block">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" 
+                            class="px-4 py-2 text-sm font-medium text-white bg-error-600 hover:bg-error-700 rounded-lg transition-colors focus:outline-hidden disabled:opacity-75 disabled:cursor-not-allowed min-w-[96px]"
+                            :disabled="isDeleting">
+                        Ya, Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -62,6 +122,25 @@
         const searchInput = document.querySelector('input[name="search"]');
         const searchForm = searchInput.closest('form');
         let searchTimeout;
+
+        // Intercept and handle delete via AJAX
+        window.submitDeleteForm = async function(form) {
+            try {
+                await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: new FormData(form)
+                });
+                
+                await updateTable(window.location.href);
+            } catch (error) {
+                console.error('Error deleting:', error);
+            }
+        };
 
         // Function to fetch and update table
         async function updateTable(url) {
@@ -84,10 +163,12 @@
                 // Update Reset button visibility after search
                 const resetBtn = document.querySelector('.reset-search');
                 const searchVal = new URL(url).searchParams.get('search');
-                if (searchVal && searchVal.trim() !== '') {
-                    resetBtn.classList.remove('hidden');
-                } else {
-                    resetBtn.classList.add('hidden');
+                if (resetBtn) {
+                    if (searchVal && searchVal.trim() !== '') {
+                        resetBtn.classList.remove('hidden');
+                    } else {
+                        resetBtn.classList.add('hidden');
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching table:', error);

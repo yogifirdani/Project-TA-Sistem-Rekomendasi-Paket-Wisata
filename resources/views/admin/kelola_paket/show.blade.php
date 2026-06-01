@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-y-6 pb-12">
+<div class="space-y-6 pb-12" x-data="{ activeTab: 'id', deleteModalOpen: false, deleteActionUrl: '', deleteItemName: '', isDeleting: false }" x-init="$watch('deleteModalOpen', value => { if (!value) isDeleting = false })">
     <!-- Breadcrumbs -->
     <nav class="flex text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -17,11 +17,32 @@
         </ol>
     </nav>
 
+    <!-- Language Switcher Tabs -->
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-xl w-fit">
+            <button type="button" @click="activeTab = 'id'" 
+                :class="activeTab === 'id' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600 dark:text-brand-400' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                class="px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                🇮🇩 Bahasa Indonesia
+            </button>
+            <button type="button" @click="activeTab = 'en'" 
+                :class="activeTab === 'en' ? 'bg-white dark:bg-gray-700 shadow-sm text-brand-600 dark:text-brand-400' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                class="px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                🇬🇧 English
+            </button>
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400 italic">
+            <span x-show="activeTab === 'id'">Menampilkan konten dalam Bahasa Indonesia</span>
+            <span x-show="activeTab === 'en'" x-cloak>Displaying content in English</span>
+        </div>
+    </div>
+
     <!-- Page Header & Actions -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex flex-col gap-1">
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white/90 sm:text-3xl">
-                {{ $kelolaPackage->package_name }}
+                <span x-show="activeTab === 'id'">{{ $kelolaPackage->package_name }}</span>
+                <span x-show="activeTab === 'en'" x-cloak>{{ $kelolaPackage->package_name_en ?: $kelolaPackage->package_name }}</span>
             </h1>
             <div class="flex flex-wrap items-center gap-3 text-sm">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium {{ $kelolaPackage->is_active ? 'bg-success-50 text-success-700 dark:bg-success-500/15 dark:text-success-400' : 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' }}">
@@ -54,23 +75,35 @@
         <div class="lg:col-span-2 space-y-6">
             
             <!-- Quick Glance Card -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
                 <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
                     <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Durasi</p>
                     <div class="flex items-center gap-2">
                         <div class="p-2 bg-blue-50 dark:bg-blue-500/10 rounded-lg text-blue-600 dark:text-blue-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->duration }}</span>
+                        <span class="font-bold text-gray-800 dark:text-white/90">
+                            <span x-show="activeTab === 'id'">{{ $kelolaPackage->duration }}</span>
+                            <span x-show="activeTab === 'en'" x-cloak>{{ $kelolaPackage->duration_en ?: $kelolaPackage->duration }}</span>
+                        </span>
                     </div>
                 </div>
                 <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori</p>
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Paket</p>
                     <div class="flex items-center gap-2">
                         <div class="p-2 bg-purple-50 dark:bg-purple-500/10 rounded-lg text-purple-600 dark:text-purple-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M13 7h.01M13 11h.01M13 15h.01M17 7h.01M17 11h.01M17 15h.01"/></svg>
                         </div>
                         <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->category->category_name ?? '-' }}</span>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Wisata</p>
+                    <div class="flex items-center gap-2">
+                        <div class="p-2 bg-teal-50 dark:bg-teal-500/10 rounded-lg text-teal-600 dark:text-teal-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2a2.5 2.5 0 002.5-2.5V8a2 2 0 00-2-2h-1.5a2 2 0 01-2-2V2.5A2.5 2.5 0 0012 0h-1.5M12 21h-2a2 2 0 01-2-2v-1a2 2 0 00-2-2H3.055"/></svg>
+                        </div>
+                        <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->tour_category ?? '-' }}</span>
                     </div>
                 </div>
                 <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
@@ -100,8 +133,11 @@
                     <h3 class="font-bold text-gray-800 dark:text-white/90">Deskripsi Paket</h3>
                 </div>
                 <div class="p-6">
-                    <div class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {!! $kelolaPackage->description !!}
+                    <div x-show="activeTab === 'id'" class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {!! $kelolaPackage->description ?: '-' !!}
+                    </div>
+                    <div x-show="activeTab === 'en'" x-cloak class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {!! $kelolaPackage->description_en ?: '-' !!}
                     </div>
                 </div>
             </div>
@@ -152,7 +188,12 @@
                         <h3 class="font-bold text-gray-800 dark:text-white/90">Meeting Point</h3>
                     </div>
                     <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{{ $kelolaPackage->meeting_point ?: 'Belum ditentukan' }}</p>
+                        <div x-show="activeTab === 'id'" class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            {!! $kelolaPackage->meeting_point ?: 'Belum ditentukan' !!}
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            {!! $kelolaPackage->meeting_point_en ?: 'Not specified' !!}
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white dark:bg-white/[0.03] rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
@@ -161,8 +202,11 @@
                         <h3 class="font-bold text-gray-800 dark:text-white/90">Jadwal Harian</h3>
                     </div>
                     <div class="p-6">
-                        <div class="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-white/90 leading-relaxed italic">
-                            {!! $kelolaPackage->daily_schedule !!}
+                        <div x-show="activeTab === 'id'" class="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-white/90 leading-relaxed italic">
+                            {!! $kelolaPackage->daily_schedule ?: '-' !!}
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak class="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-white/90 leading-relaxed italic">
+                            {!! $kelolaPackage->daily_schedule_en ?: '-' !!}
                         </div>
                     </div>
                 </div>
@@ -176,8 +220,11 @@
                 </div>
                 <div class="p-6">
                     <div class="bg-gray-50 dark:bg-white/[0.01] p-5 rounded-2xl border border-gray-100 dark:border-gray-800/50">
-                        <div class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-loose font-medium">
-                            {!! $kelolaPackage->itinerary !!}
+                        <div x-show="activeTab === 'id'" class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-loose font-medium">
+                            {!! $kelolaPackage->itinerary ?: '-' !!}
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-loose font-medium">
+                            {!! $kelolaPackage->itinerary_en ?: '-' !!}
                         </div>
                     </div>
                 </div>
@@ -202,7 +249,8 @@
                             Termasuk
                         </p>
                         <div class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 bg-success-50/30 dark:bg-success-500/5 p-4 rounded-2xl border border-success-100/50 dark:border-success-500/10">
-                            {!! $kelolaPackage->facilities_included !!}
+                            <div x-show="activeTab === 'id'">{!! $kelolaPackage->facilities_included ?: '-' !!}</div>
+                            <div x-show="activeTab === 'en'" x-cloak>{!! $kelolaPackage->facilities_included_en ?: '-' !!}</div>
                         </div>
                     </div>
                     <!-- Excluded -->
@@ -212,7 +260,8 @@
                             Tidak Termasuk
                         </p>
                         <div class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 bg-error-50/30 dark:bg-error-500/5 p-4 rounded-2xl border border-error-100/50 dark:border-error-500/10">
-                            {!! $kelolaPackage->facilities_excluded !!}
+                            <div x-show="activeTab === 'id'">{!! $kelolaPackage->facilities_excluded ?: '-' !!}</div>
+                            <div x-show="activeTab === 'en'" x-cloak>{!! $kelolaPackage->facilities_excluded_en ?: '-' !!}</div>
                         </div>
                     </div>
                     <!-- Requirements -->
@@ -222,7 +271,8 @@
                             Persyaratan
                         </p>
                         <div class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 italic">
-                            {!! $kelolaPackage->persyaratan !!}
+                            <div x-show="activeTab === 'id'">{!! $kelolaPackage->persyaratan ?: '-' !!}</div>
+                            <div x-show="activeTab === 'en'" x-cloak>{!! $kelolaPackage->persyaratan_en ?: '-' !!}</div>
                         </div>
                     </div>
                 </div>
@@ -265,18 +315,75 @@
             </div>
             
             <!-- Quick Actions -->
-            <div class="bg-white dark:bg-white/[0.03] rounded-3xl border border-gray-200 dark:border-gray-800 p-4 shadow-sm">
-                <form action="{{ route('admin.kelola-paket-wisata.destroy', $kelolaPackage) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus paket ini? Tindakan ini tidak dapat dibatalkan.')">
+                <button type="button"
+                    @click="deleteActionUrl = '{{ route('admin.kelola-paket-wisata.destroy', $kelolaPackage) }}'; deleteItemName = 'paket wisata {{ addslashes($kelolaPackage->package_name) }}'; deleteModalOpen = true"
+                    class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-error-50 text-error-600 hover:bg-error-100 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20 transition-all font-bold text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Hapus Paket Wisata
+                </button>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal Local -->
+    <div x-show="deleteModalOpen" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+         x-cloak>
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-gray-900/40 transition-opacity"
+             x-show="deleteModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="deleteModalOpen = false"></div>
+
+        <!-- Modal Card -->
+        <div class="relative w-full max-w-md p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 z-50 transform"
+             x-show="deleteModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-2">
+            
+            <div class="flex items-start gap-4">
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-error-50 dark:bg-error-500/10 text-error-600">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+
+                <div class="flex-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Konfirmasi Hapus</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Apakah Anda yakin ingin menghapus <span class="font-semibold text-error-600 dark:text-error-400 break-all" x-text="deleteItemName"></span>? Tindakan ini tidak dapat dibatalkan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-2.5">
+                <button type="button" 
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors focus:outline-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                        @click="deleteModalOpen = false"
+                        :disabled="isDeleting">
+                    Batal
+                </button>
+                <form :action="deleteActionUrl" method="POST" @submit="deleteModalOpen = false; isDeleting = true" class="inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-error-50 text-error-600 hover:bg-error-100 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20 transition-all font-bold text-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        Hapus Paket Wisata
+                    <button type="submit" 
+                            class="px-4 py-2 text-sm font-medium text-white bg-error-600 hover:bg-error-700 rounded-lg transition-colors focus:outline-hidden disabled:opacity-75 disabled:cursor-not-allowed min-w-[96px]"
+                            :disabled="isDeleting">
+                        Ya, Hapus
                     </button>
                 </form>
             </div>
         </div>
     </div>
+
 </div>
 <style>
     /* Fallback styling untuk konten dari CKEditor */

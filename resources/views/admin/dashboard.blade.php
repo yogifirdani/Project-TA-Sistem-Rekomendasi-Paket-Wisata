@@ -2,23 +2,37 @@
 
 @section('content')
   <div class="grid grid-cols-12 gap-4 md:gap-6">
-    <div class="col-span-12 space-y-6 xl:col-span-7">
-      <x-dashboard.ecommerce-metrics :total-users="$totalUsers" />
-      <x-dashboard.monthly-sale />
+    <!-- Metrics & Monthly Sale (Spans full width since Monthly Target is hidden) -->
+    <div class="col-span-12 space-y-6">
+      <x-dashboard.ecommerce-metrics 
+        :total-users="$totalUsers" 
+        :total-packages="$totalPackages" 
+        :total-destinations="$totalDestinations" 
+        :monthly-revenues="$monthlyRevenues"
+        :total-revenue-all-time="$totalRevenueAllTime"
+      />
+      <x-dashboard.monthly-sale 
+        :monthly-bookings="$monthlyBookings" 
+      />
     </div>
-    <div class="col-span-12 xl:col-span-5">
+
+    <!-- Monthly Target is hidden as requested, but preserved in code for future use -->
+    <div class="hidden">
         <x-dashboard.monthly-target />
     </div>
 
-    <div class="col-span-12">
+    <!-- Statistics is hidden as requested, but preserved in code for future use -->
+    <div class="hidden col-span-12">
       <x-dashboard.statistics-chart />
     </div>
 
-    <div class="col-span-12 xl:col-span-5">
+    <!-- Customers Demographic is hidden as requested, but preserved in code for future use -->
+    <div class="hidden col-span-12 xl:col-span-5">
       <x-dashboard.customer-demographic />
     </div>
 
-    <div class="col-span-12 xl:col-span-7">
+    <!-- Recent Orders is hidden as requested, but preserved in code for future use -->
+    <div class="hidden col-span-12 xl:col-span-7">
       <x-dashboard.recent-orders />
     </div>
   </div>

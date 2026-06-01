@@ -1,5 +1,60 @@
 @extends('template')
 @section('content')
+<style>
+    /* Override warna merah template ke biru brand */
+    .testimony-section .quote {
+        background: rgb(87, 201, 209) !important;
+    }
+    .testimony-section .quote i {
+        color: #fff !important;
+        font-size: 14px;
+    }
+    .testimony-section .owl-dots .owl-dot.active span {
+        background: rgb(87, 201, 209) !important;
+    }
+    /* Ganti warna utama tombol dari merah ke warna brand */
+    .btn-primary {
+        background: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #fff !important;
+    }
+    .btn-primary:hover {
+        background: rgb(68, 189, 199) !important;
+        border-color: rgb(68, 189, 199) !important;
+        box-shadow: 0 4px 20px rgba(87, 201, 209, 0.4) !important;
+    }
+    .btn-outline-white:hover {
+        background: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #fff !important;
+    }
+    .btn-outline-primary {
+        border-color: rgb(87, 201, 209) !important;
+        color: rgb(87, 201, 209) !important;
+    }
+    .btn-outline-primary:hover {
+        background-color: rgb(87, 201, 209) !important;
+        border-color: rgb(87, 201, 209) !important;
+        color: #fff !important;
+    }
+    .testimony-section .subheading {
+        color: rgb(87, 201, 209) !important;
+    }
+    /* Perbaikan panah kiri-kanan slider */
+    .owl-nav button {
+        color: rgb(87, 201, 209) !important;
+        outline: none !important;
+    }
+    .owl-nav button span {
+        font-size: 40px !important;
+        line-height: 1;
+    }
+    .owl-nav button:hover {
+        background: transparent !important;
+        color: rgb(68, 189, 199) !important;
+    }
+</style>
+
     <div class="hero-wrap" 
      style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 25%), url('{{ asset('images/background/jungle-island.webp') }}');
      background-size: cover; background-position: center; height: 80vh; min-height: 600px;">
@@ -15,56 +70,56 @@
               {{ __('messages.hero_subtitle') }}
             </p>
             <div data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" class="mt-4">
-              <a href="{{ route('paket-wisata') }}" class="btn btn-primary py-3 px-4 mr-md-2 mb-2 mb-md-0" style="border-radius: 30px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">{{ __('messages.see_packages') }}</a>
-              <a href="/about" class="btn btn-white btn-outline-white py-3 px-4" style="border-radius: 30px; font-weight: 500;">{{ __('messages.know_us') }}</a>
+              <a href="{{ lroute('paket-wisata') }}" class="btn btn-primary py-3 px-4 mr-md-2 mb-2 mb-md-0" style="border-radius: 30px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">{{ __('messages.see_packages') }}</a>
+              <a href="{{ lroute('about') }}" class="btn btn-white btn-outline-white py-3 px-4" style="border-radius: 30px; font-weight: 500;">{{ __('messages.know_us') }}</a>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <section class="ftco-section services-section bg-light">
+    <!-- <section class="ftco-section services-section bg-light">
       <div class="container">
         <div class="row d-flex">
           <div class="col-sm-6 col-md-3 d-flex align-self-stretch ftco-animate mb-4">
             <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-guarantee"></span></div></div>
+              <div class="d-flex justify-content-center"><div class="icon"><span class="fa fa-shield"></span></div></div>
               <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Best Price Guarantee</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
+                <h3 class="heading mb-3">{{ __('messages.best_price_guarantee') }}</h3>
+                <p>{{ __('messages.services_desc') }}</p>
               </div>
             </div>      
           </div>
           <div class="col-sm-6 col-md-3 d-flex align-self-stretch ftco-animate mb-4">
             <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-like"></span></div></div>
+              <div class="d-flex justify-content-center"><div class="icon"><span class="fa fa-thumbs-up"></span></div></div>
               <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Travellers Love Us</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
+                <h3 class="heading mb-3">{{ __('messages.travellers_love_us') }}</h3>
+                <p>{{ __('messages.services_desc') }}</p>
               </div>
             </div>    
           </div>
           <div class="col-sm-6 col-md-3 d-flex align-self-stretch ftco-animate mb-4">
             <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-detective"></span></div></div>
+              <div class="d-flex justify-content-center"><div class="icon"><span class="fa fa-search"></span></div></div>
               <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Best Travel Agent</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
+                <h3 class="heading mb-3">{{ __('messages.best_travel_agent') }}</h3>
+                <p>{{ __('messages.services_desc') }}</p>
               </div>
             </div>      
           </div>
           <div class="col-sm-6 col-md-3 d-flex align-self-stretch ftco-animate mb-4">
             <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-support"></span></div></div>
+              <div class="d-flex justify-content-center"><div class="icon"><span class="fa fa-phone"></span></div></div>
               <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Our Dedicated Support</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
+                <h3 class="heading mb-3">{{ __('messages.dedicated_support') }}</h3>
+                <p>{{ __('messages.services_desc') }}</p>
               </div>
             </div>      
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     
     <!-- <section class="ftco-section ftco-destination">
     	<div class="container">
@@ -189,42 +244,34 @@
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-            <h2 class="mb-4">Some fun facts</h2>
-            <span class="subheading">More than 100,000 websites hosted</span>
+            <h2 class="mb-4">{{ __('messages.fun_facts') }}</h2>
+            <span class="subheading">{{ __('messages.fun_facts_desc') }}</span>
           </div>
         </div>
     		<div class="row justify-content-center">
     			<div class="col-md-10">
 		    		<div class="row">
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18 text-center">
 		              <div class="text">
-		                <strong class="number" data-number="100000">0</strong>
-		                <span>Happy Customers</span>
+		                <strong class="number" data-number="{{ $totalUsers }}">0</strong>
+		                <span>{{ __('messages.registered_users') }}</span>
 		              </div>
 		            </div>
 		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18 text-center">
 		              <div class="text">
-		                <strong class="number" data-number="40000">0</strong>
-		                <span>Destination Places</span>
+		                <strong class="number" data-number="{{ $totalPackages }}">0</strong>
+		                <span>{{ __('messages.all_packages') }}</span>
 		              </div>
 		            </div>
 		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18 text-center">
 		              <div class="text">
-		                <strong class="number" data-number="87000">0</strong>
-		                <span>Hotels</span>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-		              <div class="text">
-		                <strong class="number" data-number="56400">0</strong>
-		                <span>Restaurant</span>
+		                <strong class="number" data-number="{{ $totalDestinations }}">0</strong>
+		                <span>{{ __('messages.all_destinations') }}</span>
 		              </div>
 		            </div>
 		          </div>
@@ -415,74 +462,65 @@
     	</div>
     </section> -->
 
-    <section class="ftco-section testimony-section bg-light">
+    <section class="ftco-section bg-light">
       <div class="container">
-        <div class="row justify-content-start">
-          <div class="col-md-5 heading-section ftco-animate">
-          	<span class="subheading">Best Directory Website</span>
-            <h2 class="mb-4 pb-3"><strong>Why</strong> Choose Us?</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
-            <p><a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">Read more</a></p>
+        <div class="row justify-content-start mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate">
+            <span class="subheading">{{ __('messages.recent_blog') }}</span>
+            <h2><strong>{{ __('messages.tips_articles') }}</strong></h2>
           </div>
-					<div class="col-md-1"></div>
-          <div class="col-md-6 heading-section ftco-animate">
-          	<span class="subheading">Testimony</span>
-            <h2 class="mb-4 pb-3"><strong>Our</strong> Guests Says</h2>
-          	<div class="row ftco-animate">
-		          <div class="col-md-12">
-		            <div class="carousel-testimony owl-carousel">
-		              <div class="item">
-		                <div class="testimony-wrap d-flex">
-		                  <div class="user-img mb-5" style="background-image: url(https://themewagon.github.io/direngine/images/person_1.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-		                  </div>
-		                  <div class="text ml-md-4">
-		                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		                    <p class="name">Dennis Green</p>
-		                    <span class="position">Guest from italy</span>
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="item">
-		                <div class="testimony-wrap d-flex">
-		                  <div class="user-img mb-5" style="background-image: url(https://themewagon.github.io/direngine/images/person_2.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-		                  </div>
-		                  <div class="text ml-md-4">
-		                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		                    <p class="name">Dennis Green</p>
-		                    <span class="position">Guest from London</span>
-		                  </div>
-		                </div>
-		              </div>
-		              <div class="item">
-		                <div class="testimony-wrap d-flex">
-		                  <div class="user-img mb-5" style="background-image: url(https://themewagon.github.io/direngine/images/person_3.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-		                  </div>
-		                  <div class="text ml-md-4">
-		                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		                    <p class="name">Dennis Green</p>
-		                    <span class="position">Guest from Philippines</span>
-		                  </div>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-          </div>
+        </div>
+        <div class="row">
+          @forelse($latestArticles as $article)
+            <div class="col-sm-6 col-md-3 ftco-animate mb-4">
+              <div class="d-flex flex-column h-100" style="border-radius: 12px; overflow: hidden; box-shadow: 0 3px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); background: #fff; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 12px rgba(0,0,0,0.06)';">
+
+                {{-- Gambar --}}
+                <a href="{{ lroute('article.show', $article->slug) }}" style="display: block; overflow: hidden; height: 170px;">
+                  <img src="{{ $article->image_url ?? asset('images/no-image.jpg') }}"
+                       alt="{{ $article->getTranslation('title') }}"
+                       style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;"
+                       onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+                       loading="lazy" width="300" height="170">
+                </a>
+
+                {{-- Konten --}}
+                <div class="p-3 d-flex flex-column flex-grow-1">
+
+                  {{-- Meta --}}
+                  <div class="d-flex align-items-center mb-1" style="font-size: 11px; color: #999;">
+                    <i class="fa fa-calendar mr-1" style="color: rgb(87, 201, 209);"></i>
+                    <span class="mr-2">{{ $article->created_at->format('d M Y') }}</span>
+                    <i class="fa fa-user mr-1" style="color: rgb(87, 201, 209);"></i>
+                    <span>{{ $article->author->name ?? 'Admin' }}</span>
+                  </div>
+
+                  {{-- Judul --}}
+                  <h3 style="font-size: 14px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1;">
+                    <a href="{{ lroute('article.show', $article->slug) }}" style="color: #222; text-decoration: none;">{{ $article->getTranslation('title') }}</a>
+                  </h3>
+
+                  {{-- Tombol --}}
+                  <div class="mt-auto" style="border-top: 1px solid #f0f0f0; padding-top: 8px;">
+                    <a href="{{ lroute('article.show', $article->slug) }}"
+                       style="background: rgb(87, 201, 209); color: #fff; border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(87,201,209,0.3);">
+                      {{ __('messages.read_more') }} <i class="fa fa-arrow-right" style="font-size: 11px;"></i>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          @empty
+            <div class="col-12 text-center py-5">
+              <p class="text-muted">Belum ada artikel terbaru.</p>
+            </div>
+          @endforelse
         </div>
       </div>
     </section>
 
-    <section class="ftco-section">
+    <!-- <section class="ftco-section">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
@@ -597,94 +635,87 @@
     			</div>
     		</div>
     	</div>
-    </section>
+    </section> -->
 
-    <section class="ftco-section bg-light">
+    <section class="ftco-section testimony-section bg-light">
       <div class="container">
-        <div class="row justify-content-start mb-5 pb-3">
-          <div class="col-md-7 heading-section ftco-animate">
-            <span class="subheading">Recent Blog</span>
-            <h2><strong>Tips</strong> &amp; Articles</h2>
+        <div class="row justify-content-start">
+          <div class="col-md-5 heading-section ftco-animate">
+          	<span class="subheading">Best Directory Website</span>
+            <h2 class="mb-4 pb-3"><strong>{{ __('messages.why_choose_us') }}</strong></h2>
+            <p>{{ __('messages.why_choose_us_desc') }}</p>
+            <p><a href="{{ lroute('about') }}" class="btn btn-primary mt-4 px-4 py-3 text-white">{{ __('messages.read_more') }}</a></p>
           </div>
-        </div>
-        <div class="row d-flex">
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('https://themewagon.github.io/direngine/images/image_1.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">8 Best homestay in Philippines that you don't miss out</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('https://themewagon.github.io/direngine/images/image_2.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Culture</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('https://themewagon.github.io/direngine/images/image_3.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('https://themewagon.github.io/direngine/images/image_4.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
+					<div class="col-md-1"></div>
+          <div class="col-md-6 heading-section ftco-animate">
+          	<span class="subheading">Testimony</span>
+            <h2 class="mb-4 pb-3"><strong>{{ __('messages.guests_says') }}</strong></h2>
+          	<div class="row ftco-animate">
+		          <div class="col-md-12">
+		            <div class="carousel-testimony owl-carousel">
+		              <div class="item">
+		                <div class="testimony-wrap d-flex">
+		                  <div class="user-img mb-5" style="background-image: url('{{ asset('images/user/person_1.webp') }}')">
+		                    <span class="quote d-flex align-items-center justify-content-center">
+		                      <i class="fa fa-quote-left"></i>
+		                    </span>
+		                  </div>
+		                  <div class="text ml-md-4">
+		                    <p class="mb-5">{{ __('messages.guests_says_desc') }}</p>
+		                    <p class="name">Dennis Green</p>
+		                    <span class="position">Guest from italy</span>
+		                  </div>
+		                </div>
+		              </div>
+		              <div class="item">
+		                <div class="testimony-wrap d-flex">
+		                  <div class="user-img mb-5" style="background-image: url('{{ asset('images/user/person_2.webp') }}')">
+		                    <span class="quote d-flex align-items-center justify-content-center">
+		                      <i class="fa fa-quote-left"></i>
+		                    </span>
+		                  </div>
+		                  <div class="text ml-md-4">
+		                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+		                    <p class="name">Dennis Green</p>
+		                    <span class="position">Guest from London</span>
+		                  </div>
+		                </div>
+		              </div>
+		              <div class="item">
+		                <div class="testimony-wrap d-flex">
+		                  <div class="user-img mb-5" style="background-image: url('{{ asset('images/user/person_3.webp') }}')">
+		                    <span class="quote d-flex align-items-center justify-content-center">
+		                      <i class="fa fa-quote-left"></i>
+		                    </span>
+		                  </div>
+		                  <div class="text ml-md-4">
+		                    <p class="mb-5">{{ __('messages.guests_says_desc') }}</p>
+		                    <p class="name">Dennis Green</p>
+		                    <span class="position">Guest from Philippines</span>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
           </div>
         </div>
       </div>
     </section>
 		
-		<section class="ftco-section-parallax">
+		<!-- <section class="ftco-section-parallax">
       <div class="parallax-img d-flex align-items-center">
         <div class="container">
           <div class="row d-flex justify-content-center">
             <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-              <h2>Subcribe to our Newsletter</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+              <h2>{{ __('messages.subscribe_newsletter') }}</h2>
+              <p>{{ __('messages.subscribe_desc') }}</p>
               <div class="row d-flex justify-content-center mt-5">
                 <div class="col-md-8">
                   <form action="#" class="subscribe-form">
                     <div class="form-group d-flex">
-                      <input type="text" class="form-control" placeholder="Enter email address">
-                      <input type="submit" value="Subscribe" class="submit px-3">
+                      <input type="text" class="form-control" placeholder="{{ __('messages.enter_email') }}">
+                      <input type="submit" value="{{ __('messages.subscribe') }}" class="submit px-3">
                     </div>
                   </form>
                 </div>
@@ -693,7 +724,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
 
 @endsection

@@ -10,7 +10,15 @@
       <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
         <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="{{ url('/') }}">{{ __('messages.home') }}</a></span> <span>{{ __('messages.tour_packages') }}</span></p>
         <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color: #fff; font-weight: 700;">
-            {{ $selectedType ? $selectedType->getTranslation('type_name') : __('messages.all_packages') }}
+            @if($selectedCategory && $selectedType)
+                {{ $selectedCategory->category_name }} - {{ $selectedType->type_name }}
+            @elseif($selectedCategory)
+                {{ $selectedCategory->category_name }}
+            @elseif($selectedType)
+                {{ $selectedType->type_name }}
+            @else
+                {{ __('messages.all_packages') }}
+            @endif
         </h1>
       </div>
     </div>
@@ -21,7 +29,7 @@
 <section class="ftco-section bg-light">
   <div class="container">
     
-    <!-- Filter Dropdown
+    {{-- Filter Dropdown
     <div class="row justify-content-center mb-5 pb-3" style="position: relative; z-index: 99;">
       <div class="col-md-7 heading-section text-center ftco-animate">
         <h2 class="mb-4">{{ __('messages.filter_tour') }}</h2>
@@ -30,19 +38,19 @@
             {{ $selectedType ? $selectedType->getTranslation('type_name') : __('messages.choose_type') }}
           </button>
           <div class="dropdown-menu shadow-lg border-0" aria-labelledby="filterDropdown" style="z-index: 9999; border-radius: 15px; margin-top: 10px; min-width: 250px; left: 50%; transform: translateX(-50%);">
-            <a class="dropdown-item py-3 {{ !$selectedType ? 'active' : '' }}" href="{{ route('paket-wisata') }}" style="font-weight: 600;">{{ __('messages.all_packages') }}</a>
+            <a class="dropdown-item py-3 {{ !$selectedType ? 'active' : '' }}" href="{{ lroute('paket-wisata') }}" style="font-weight: 600;">{{ __('messages.all_packages') }}</a>
             @foreach($packageTypes as $type)
-              <a class="dropdown-item py-3 {{ ($selectedType && $selectedType->id == $type->id) ? 'active' : '' }}" href="{{ route('paket-wisata', ['tipe' => $type->slug]) }}" style="font-weight: 500;">{{ $type->getTranslation('type_name') }}</a>
+              <a class="dropdown-item py-3 {{ ($selectedType && $selectedType->id == $type->id) ? 'active' : '' }}" href="{{ lroute('paket-wisata', ['tipe' => $type->slug]) }}" style="font-weight: 500;">{{ $type->getTranslation('type_name') }}</a>
             @endforeach
           </div>
         </div>
       </div>
-    </div> -->
+    </div> --}}
 
     <!-- Package Grid -->
     <div class="row">
       @forelse($packages as $package)
-        <div class="col-md-4 ftco-animate mb-4">
+        <div class="col-sm-6 col-md-3 ftco-animate mb-4">
           @include('paket.card', ['package' => $package])
         </div>
       @empty
