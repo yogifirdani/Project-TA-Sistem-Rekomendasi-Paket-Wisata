@@ -188,7 +188,7 @@
                                 @if($booking->booking_status == 'pending' && $booking->snap_token)
                                 <div class="flex items-center gap-2">
                                     <a href="javascript:void(0)" 
-                                       onclick="if(confirm('{{ __('messages.cancel_booking_confirm') }}')) { document.getElementById('cancel-form-{{ $booking->id }}').submit(); }"
+                                       onclick="showCancelBookingModal('{{ $booking->id }}')"
                                        class="text-[10px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 shadow-sm hover:shadow-md" 
                                        style="display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; background-color: rgb(239, 68, 68) !important; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); border: 1px solid transparent !important; border-radius: 30px !important; height: 32px !important; padding: 0 16px !important; text-decoration: none !important; line-height: 1 !important; margin: 0 !important;">
                                         <i class="fa fa-ban text-[10px]"></i>
@@ -292,6 +292,8 @@
     </div>
 </div>
 
+@include('profile.cancel-modal')
+
 <script>
     function showLogoutModal() {
         const modal = document.getElementById('logout-modal');
@@ -318,6 +320,39 @@
 
     function submitLogout() {
         document.getElementById('profile-logout-form').submit();
+    }
+
+    let cancelFormIdToSubmit = null;
+
+    function showCancelBookingModal(bookingId) {
+        cancelFormIdToSubmit = 'cancel-form-' + bookingId;
+        const modal = document.getElementById('cancel-booking-modal');
+        const content = document.getElementById('cancel-booking-modal-content');
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            content.classList.remove('scale-95', 'opacity-0');
+            content.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
+
+    function hideCancelBookingModal() {
+        const modal = document.getElementById('cancel-booking-modal');
+        const content = document.getElementById('cancel-booking-modal-content');
+        
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            cancelFormIdToSubmit = null;
+        }, 300);
+    }
+
+    function submitCancelBooking() {
+        if (cancelFormIdToSubmit) {
+            document.getElementById(cancelFormIdToSubmit).submit();
+        }
     }
     document.addEventListener('DOMContentLoaded', function() {
         // Auto-hide success alert after 5 seconds
