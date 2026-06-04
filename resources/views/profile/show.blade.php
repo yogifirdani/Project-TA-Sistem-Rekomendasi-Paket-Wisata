@@ -187,15 +187,16 @@
                                 
                                 @if($booking->booking_status == 'pending' && $booking->snap_token)
                                 <div class="flex items-center gap-2">
-                                    <form action="{{ route('booking.cancel', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" method="POST" onsubmit="return confirm('{{ __('messages.cancel_booking_confirm') }}')" class="inline-block m-0">
+                                    <a href="javascript:void(0)" 
+                                       onclick="if(confirm('{{ __('messages.cancel_booking_confirm') }}')) { document.getElementById('cancel-form-{{ $booking->id }}').submit(); }"
+                                       class="text-[10px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 shadow-sm hover:shadow-md" 
+                                       style="display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; background-color: rgb(239, 68, 68) !important; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); border: 1px solid transparent !important; border-radius: 30px !important; height: 32px !important; padding: 0 16px !important; text-decoration: none !important; line-height: 1 !important; margin: 0 !important;">
+                                        <i class="fa fa-ban text-[10px]"></i>
+                                        {{ __('messages.cancel_booking_btn') }}
+                                    </a>
+                                    <form id="cancel-form-{{ $booking->id }}" action="{{ route('booking.cancel', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                                class="text-[10px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 cursor-pointer shadow-sm hover:shadow-md" 
-                                                style="display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; background-color: rgb(239, 68, 68) !important; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); border: 1px solid transparent !important; border-radius: 30px !important; height: 32px !important; padding: 0 16px !important; outline: none !important; margin: 0 !important; line-height: 1 !important;">
-                                            <i class="fa fa-ban text-[10px]"></i>
-                                            {{ __('messages.cancel_booking_btn') }}
-                                        </button>
                                     </form>
                                     <a href="{{ route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" 
                                        class="text-[10px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 shadow-sm hover:shadow-md" 
