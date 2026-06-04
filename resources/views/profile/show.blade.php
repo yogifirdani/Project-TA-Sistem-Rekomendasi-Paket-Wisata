@@ -187,14 +187,16 @@
                                 
                                 @if($booking->booking_status == 'pending' && $booking->snap_token)
                                 <div class="flex items-center gap-2">
-                                    <form action="{{ route('booking.cancel', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" method="POST" onsubmit="return confirm('{{ __('messages.cancel_booking_confirm') }}')" class="inline-block">
+                                    <form action="{{ route('booking.cancel', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" method="POST" onsubmit="return confirm('{{ __('messages.cancel_booking_confirm') }}')" class="inline-block m-0">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-[10px] font-bold text-red-500 hover:text-white hover:bg-red-500 border border-red-500 px-3 py-1.5 rounded-lg transition-all shadow-sm">
+                                        <button type="submit" class="text-[10px] font-bold text-red-500 hover:text-white hover:bg-red-500 bg-red-50/60 border border-red-200/80 px-3.5 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                                            <i class="fa fa-ban text-[11px]"></i>
                                             {{ __('messages.cancel_booking_btn') }}
                                         </button>
                                     </form>
-                                    <a href="{{ route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" class="text-[10px] font-bold text-white px-3 py-1.5 rounded-lg transition-all shadow-sm inline-block" style="background-color: rgb(87, 201, 209) !important; box-shadow: 0 4px 10px rgba(87, 201, 209, 0.2);">
+                                    <a href="{{ route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" class="text-[10px] font-bold text-white px-3.5 py-1.5 rounded-lg transition-all duration-300 shadow-sm flex items-center gap-1.5 hover:shadow-md hover:-translate-y-0.5 inline-block" style="background-color: rgb(87, 201, 209) !important; box-shadow: 0 4px 10px rgba(87, 201, 209, 0.2);">
+                                        <i class="fa fa-credit-card text-[10px]"></i>
                                         {{ __('messages.pay_now_btn') }}
                                     </a>
                                 </div>
