@@ -237,7 +237,7 @@ return [
     'your_order_code' => 'Your Order Code:',
     'trip_date_label' => 'Trip Date',
     'num_participants_pax' => 'Number of Pax',
-    'pax_count' => ':count Person(s)',
+    'pax_count' => '{1} :count Person|[2,*] :count People',
     'total_bill_label' => 'Total Bill',
     'dp_payment_note' => 'DP Payment',
     'complete_payment_instruction' => 'Please complete your payment to confirm this order.',

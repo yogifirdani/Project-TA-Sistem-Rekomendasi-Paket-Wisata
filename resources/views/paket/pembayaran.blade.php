@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-6">
                                 <span style="color: #777; font-size: 14px;">{{ __('messages.num_participants_pax') }}</span><br>
-                                <strong>{{ __('messages.pax_count', ['count' => $booking->num_participants]) }}</strong>
+                                <strong>{{ trans_choice('messages.pax_count', $booking->num_participants, ['count' => $booking->num_participants]) }}</strong>
                             </div>
                             <div class="col-6">
                                 <span style="color: #777; font-size: 14px;">{{ __('messages.total_bill_label') }}</span><br>

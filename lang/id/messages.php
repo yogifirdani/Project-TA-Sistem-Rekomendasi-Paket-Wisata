@@ -237,7 +237,7 @@ return [
     'your_order_code' => 'Kode Pesanan Anda:',
     'trip_date_label' => 'Tanggal Trip',
     'num_participants_pax' => 'Jumlah Pax',
-    'pax_count' => ':count Orang',
+    'pax_count' => '{1} :count Orang|[2,*] :count Orang',
     'total_bill_label' => 'Total Tagihan',
     'dp_payment_note' => 'Pembayaran DP',
     'complete_payment_instruction' => 'Silakan selesaikan pembayaran Anda untuk mengonfirmasi pesanan ini.',

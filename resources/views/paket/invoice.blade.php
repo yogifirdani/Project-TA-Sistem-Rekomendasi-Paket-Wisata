@@ -672,7 +672,7 @@
                         </div>
                     </td>
                     <td style="text-align: center; font-weight: 600;">
-                        {{ __('messages.pax_count', ['count' => $booking->num_participants]) }} (Pax)
+                        {{ trans_choice('messages.pax_count', $booking->num_participants, ['count' => $booking->num_participants]) }} (Pax)
                     </td>
                     <td style="text-align: right;">
                         Rp {{ number_format($booking->total_price / $booking->num_participants, 0, ',', '.') }}

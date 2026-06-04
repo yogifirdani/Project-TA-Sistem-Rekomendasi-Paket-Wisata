@@ -216,7 +216,7 @@
                                              @if($booking->tourPackage && $booking->tourPackage->packageType)
                                              <p><span class="font-medium text-gray-500">{{ __('messages.trip_type_label') }}</span> <strong class="text-gray-700 font-semibold">{{ $booking->tourPackage->packageType->getTranslation('type_name') }}</strong></p>
                                              @endif
-                                             <p><span class="font-medium text-gray-500">{{ __('messages.num_participants_label') }}:</span> <strong class="text-gray-800">{{ $booking->num_participants }} Pax ({{ __('messages.pax_count', ['count' => $booking->num_participants]) }})</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.num_participants_label') }}:</span> <strong class="text-gray-800">{{ $booking->num_participants }} Pax ({{ trans_choice('messages.pax_count', $booking->num_participants, ['count' => $booking->num_participants]) }})</strong></p>
                                              <p><span class="font-medium text-gray-500">{{ __('messages.trip_date_label') }}:</span> <strong class="text-gray-800">{{ $booking->trip_date->translatedFormat('d M Y') }}</strong></p>
                                          </div>
                                      </div>
