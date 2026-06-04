@@ -316,4 +316,14 @@ return [
     'cancel_booking_confirm' => 'Apakah Anda yakin ingin membatalkan pesanan ini? Pesanan akan dihapus secara permanen.',
     'booking_cancelled_success' => 'Pesanan berhasil dibatalkan dan dihapus.',
     'cannot_cancel_confirmed_booking' => 'Hanya pesanan pending yang dapat dibatalkan.',
+    
+    // Clean translations for invoice
+    'notes' => 'Catatan:',
+    'package_details' => 'Paket Wisata & Rincian Trip',
+    'unit_price' => 'Harga Satuan',
+    'trip_date' => 'Tanggal Keberangkatan',
+    'transaction_details' => 'Detail Transaksi',
+    'order_date' => 'Tanggal Pemesanan:',
+    'billing_status' => 'Status Tagihan:',
+    'transaction_id' => 'ID Transaksi:',
 ];

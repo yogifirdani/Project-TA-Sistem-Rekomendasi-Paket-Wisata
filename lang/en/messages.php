@@ -316,4 +316,14 @@ return [
     'cancel_booking_confirm' => 'Are you sure you want to cancel this booking? This action will permanently delete it.',
     'booking_cancelled_success' => 'Booking successfully cancelled and deleted.',
     'cannot_cancel_confirmed_booking' => 'Only pending bookings can be cancelled.',
+    
+    // Clean translations for invoice
+    'notes' => 'Notes:',
+    'package_details' => 'Tour Package & Trip Details',
+    'unit_price' => 'Unit Price',
+    'trip_date' => 'Trip Date',
+    'transaction_details' => 'Transaction Details',
+    'order_date' => 'Order Date:',
+    'billing_status' => 'Billing Status:',
+    'transaction_id' => 'Transaction ID:',
 ];

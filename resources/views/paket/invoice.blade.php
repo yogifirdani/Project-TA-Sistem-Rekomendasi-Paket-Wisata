@@ -633,7 +633,7 @@
                 @if($booking->notes)
                 <div class="billing-detail" style="align-items: flex-start;">
                     <i class="fa fa-pencil" style="margin-top: 3px;"></i> 
-                    <span>{{ __('messages.notes_label') }} "{{ $booking->notes }}"</span>
+                    <span>{{ __('messages.notes') }} "{{ $booking->notes }}"</span>
                 </div>
                 @endif
             </div>
@@ -643,9 +643,9 @@
         <table class="item-table">
             <thead>
                 <tr>
-                    <th>{{ __('messages.package_details_header') }}</th>
+                    <th>{{ __('messages.package_details') }}</th>
                     <th style="text-align: center;">{{ __('messages.num_participants') }}</th>
-                    <th style="text-align: right;">{{ __('messages.unit_price_label') }}</th>
+                    <th style="text-align: right;">{{ __('messages.unit_price') }}</th>
                     <th style="text-align: right;">{{ __('messages.total_price') }}</th>
                 </tr>
             </thead>
@@ -668,7 +668,7 @@
                                     @endif
                                 </div>
                             @endif
-                            <i class="fa fa-calendar"></i> {{ __('messages.trip_date_label') }}: {{ $booking->trip_date->translatedFormat('d F Y') }}
+                            <i class="fa fa-calendar"></i> {{ __('messages.trip_date') }}: {{ $booking->trip_date->translatedFormat('d F Y') }}
                         </div>
                     </td>
                     <td style="text-align: center; font-weight: 600;">
@@ -688,13 +688,13 @@
         <div class="totals-section">
             <!-- Payment Info -->
             <div class="payment-info-box">
-                <h4>{{ __('messages.transaction_details_title') }}</h4>
+                <h4>{{ __('messages.transaction_details') }}</h4>
                 <div class="info-row">
-                    <span>{{ __('messages.order_date_label') }}</span>
+                    <span>{{ __('messages.order_date') }}</span>
                     <strong>{{ ($booking->booking_date ?? $booking->created_at)->translatedFormat('d F Y') }}</strong>
                 </div>
                 <div class="info-row">
-                    <span>{{ __('messages.billing_status_label') }}</span>
+                    <span>{{ __('messages.billing_status') }}</span>
                     <strong>
                         @if($booking->booking_status === 'pending')
                             <span style="color: #f59e0b; font-weight: 700;">{{ __('messages.awaiting_payment_status') }}</span>
@@ -706,15 +706,15 @@
                     </strong>
                 </div>
                 <div class="info-row">
-                    <span>{{ __('messages.payment_method_label') }}</span>
+                    <span>{{ __('messages.payment_method') }}</span>
                     <strong>Midtrans Snap Sandbox</strong>
                 </div>
                 <div class="info-row">
-                    <span>{{ __('messages.pay_type_label') }}</span>
+                    <span>{{ __('messages.payment_type') }}</span>
                     <strong>{{ $booking->dp_amount > 0 ? __('messages.down_payment_30') : __('messages.full_payment_paid') }}</strong>
                 </div>
                 <div class="info-row">
-                    <span>{{ __('messages.transaction_id_label') }}</span>
+                    <span>{{ __('messages.transaction_id') }}</span>
                     <strong style="font-family: monospace; font-size: 11px;">{{ strtoupper($booking->booking_code) }}</strong>
                 </div>
             </div>
