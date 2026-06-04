@@ -115,7 +115,7 @@
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <span class="text-[10px] font-bold text-[#57c9d1] uppercase tracking-tighter bg-[#57c9d1]/10 px-2 py-0.5 rounded-md">#{{ $booking->booking_code }}</span>
-                                        <span class="text-gray-400 text-[10px]">&bull; {{ $booking->booking_date->format('d M Y') }}</span>
+                                        <span class="text-gray-400 text-[10px]">&bull; {{ $booking->booking_date->translatedFormat('d M Y') }}</span>
                                     </div>
                                     <h4 class="text-gray-800 font-bold text-sm">{{ $booking->tourPackage->package_name ?? 'Paket Wisata' }}</h4>
                                     @if($booking->tourPackage && ($booking->tourPackage->category || $booking->tourPackage->packageType))
@@ -133,7 +133,7 @@
                                     </div>
                                     @endif
                                     <p class="text-gray-500 text-[10px] mt-2 flex items-center gap-1">
-                                        <i class="fa fa-calendar"></i> {{ __('messages.profile_schedule') }}: {{ $booking->trip_date->format('d M Y') }}
+                                        <i class="fa fa-calendar"></i> {{ __('messages.profile_schedule') }}: {{ $booking->trip_date->translatedFormat('d M Y') }}
                                     </p>
                                 </div>
                                 <div class="flex flex-col md:items-end gap-2 text-right w-full md:w-auto mt-4 md:mt-0">
@@ -143,32 +143,32 @@
                                     
                                     <div class="mt-2 bg-white border border-gray-150 rounded-lg p-3 text-xs w-full min-w-[260px] text-left md:text-right">
                                         <div class="flex justify-between gap-4 mb-1">
-                                            <span class="text-gray-500">Total Harga:</span>
+                                            <span class="text-gray-500">{{ __('messages.total_price') }}:</span>
                                             <span class="text-gray-800 font-semibold whitespace-nowrap">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</span>
                                         </div>
                                         
                                         @if($booking->booking_status === 'pending' || $booking->payment_status === 'pending')
                                         <div class="flex justify-between gap-4 mb-1">
-                                            <span class="text-gray-400">Telah Dibayar:</span>
+                                            <span class="text-gray-400">{{ __('messages.amount_paid_profile') }}</span>
                                             <span class="text-gray-400 font-bold whitespace-nowrap">Rp 0</span>
                                         </div>
                                         <div class="flex justify-between gap-4 pt-1 mt-1 border-t border-gray-100">
-                                            <span class="text-red-500 font-bold">Harus Dibayar:</span>
+                                            <span class="text-red-500 font-bold">{{ __('messages.must_be_paid_label') }}</span>
                                             <span class="text-red-500 font-bold whitespace-nowrap">Rp {{ number_format($booking->dp_amount > 0 ? $booking->dp_amount : $booking->total_price, 0, ',', '.') }}</span>
                                         </div>
                                         @else
                                             @if($booking->dp_amount > 0)
                                             <div class="flex justify-between gap-4 mb-1">
-                                                <span class="text-[#57c9d1]">Telah Dibayar (DP 30%):</span>
+                                                <span class="text-[#57c9d1]">{{ __('messages.amount_paid_dp_profile') }}</span>
                                                 <span class="text-[#57c9d1] font-bold whitespace-nowrap">Rp {{ number_format($booking->dp_amount, 0, ',', '.') }}</span>
                                             </div>
                                             <div class="flex justify-between gap-4 pt-1 mt-1 border-t border-gray-100">
-                                                <span class="text-gray-500">Sisa Tagihan:</span>
+                                                <span class="text-gray-500">{{ __('messages.remaining_balance_label') }}</span>
                                                 <span class="text-red-500 font-bold whitespace-nowrap">Rp {{ number_format($booking->remaining_amount, 0, ',', '.') }}</span>
                                             </div>
                                             @else
                                             <div class="flex justify-between gap-4 pt-1 mt-1 border-t border-gray-100">
-                                                <span class="text-[#57c9d1]">Telah Dibayar (Lunas):</span>
+                                                <span class="text-[#57c9d1]">{{ __('messages.amount_paid_full_profile') }}</span>
                                                 <span class="text-[#57c9d1] font-bold whitespace-nowrap">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</span>
                                             </div>
                                             @endif
@@ -181,17 +181,17 @@
                             <div class="mt-4 pt-3 border-t border-gray-200/60 flex justify-between items-center flex-wrap gap-2">
                                 <button onclick="toggleBookingDetail('detail-{{ $booking->id }}')" class="text-[11px] font-bold text-gray-500 hover:text-[#57c9d1] transition-all flex items-center gap-1.5 focus:outline-none">
                                     <i class="fa fa-info-circle"></i>
-                                    Detail Pemesanan
+                                    {{ __('messages.booking_detail_btn') }}
                                     <i class="fa fa-chevron-down text-[8px] transition-transform duration-300" id="icon-detail-{{ $booking->id }}"></i>
                                 </button>
                                 
                                 @if($booking->booking_status == 'pending' && $booking->snap_token)
                                 <a href="{{ route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" class="text-[10px] font-bold text-white px-3 py-1.5 rounded-lg transition-all shadow-sm inline-block" style="background-color: rgb(87, 201, 209) !important; box-shadow: 0 4px 10px rgba(87, 201, 209, 0.2);">
-                                    Bayar Sekarang
+                                    {{ __('messages.pay_now_btn') }}
                                 </a>
                                 @elseif($booking->booking_status == 'confirmed' || $booking->payment_status == 'paid' || $booking->payment_status == 'success')
                                 <a href="{{ route('checkout.invoice', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" class="text-[10px] font-bold px-3 py-1.5 rounded-lg transition-all shadow-sm flex items-center gap-1.5 inline-block" style="color: rgb(87, 201, 209) !important; border: 1px solid rgba(87, 201, 209, 0.4) !important;">
-                                    <i class="fa fa-file-text-o"></i> Cetak Invoice
+                                    <i class="fa fa-file-text-o"></i> {{ __('messages.print_invoice_btn') }}
                                 </a>
                                 @endif
                             </div>
@@ -200,30 +200,30 @@
                              <div id="detail-{{ $booking->id }}" class="hidden mt-3 p-5 bg-white border border-gray-150 rounded-xl space-y-4 text-xs md:text-sm text-gray-700 shadow-inner animate-fadeIn">
                                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                      <div>
-                                         <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-2">Pemesan & Kontak</p>
+                                         <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-2">{{ __('messages.booker_contact_header') }}</p>
                                          <div class="space-y-1.5">
-                                             <p><span class="font-medium text-gray-500">Nama:</span> <strong class="text-gray-800">{{ $booking->customer_name }}</strong></p>
-                                             <p><span class="font-medium text-gray-500">Email:</span> <strong class="text-gray-800">{{ $booking->customer_email }}</strong></p>
-                                             <p><span class="font-medium text-gray-500">Telepon:</span> <strong class="text-gray-800">{{ $booking->customer_phone }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.name_label') }}:</span> <strong class="text-gray-800">{{ $booking->customer_name }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.email_label') }}:</span> <strong class="text-gray-800">{{ $booking->customer_email }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.phone_label') }}:</span> <strong class="text-gray-800">{{ $booking->customer_phone }}</strong></p>
                                          </div>
                                      </div>
                                      <div>
-                                         <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-2">Detail Wisata</p>
+                                         <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-2">{{ __('messages.tour_details_header') }}</p>
                                          <div class="space-y-1.5">
                                              @if($booking->tourPackage && $booking->tourPackage->category)
-                                             <p><span class="font-medium text-gray-500">Kategori Paket:</span> <strong class="text-[#57c9d1]">{{ $booking->tourPackage->category->getTranslation('category_name') }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.package_category_label') }}</span> <strong class="text-[#57c9d1]">{{ $booking->tourPackage->category->getTranslation('category_name') }}</strong></p>
                                              @endif
                                              @if($booking->tourPackage && $booking->tourPackage->packageType)
-                                             <p><span class="font-medium text-gray-500">Tipe Trip:</span> <strong class="text-gray-700 font-semibold">{{ $booking->tourPackage->packageType->getTranslation('type_name') }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.trip_type_label') }}</span> <strong class="text-gray-700 font-semibold">{{ $booking->tourPackage->packageType->getTranslation('type_name') }}</strong></p>
                                              @endif
-                                             <p><span class="font-medium text-gray-500">Jumlah Peserta:</span> <strong class="text-gray-800">{{ $booking->num_participants }} Pax ({{ $booking->num_participants }} Orang)</strong></p>
-                                             <p><span class="font-medium text-gray-500">Tanggal Trip:</span> <strong class="text-gray-800">{{ $booking->trip_date->format('d M Y') }}</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.num_participants_label') }}:</span> <strong class="text-gray-800">{{ $booking->num_participants }} Pax ({{ __('messages.pax_count', ['count' => $booking->num_participants]) }})</strong></p>
+                                             <p><span class="font-medium text-gray-500">{{ __('messages.trip_date_label') }}:</span> <strong class="text-gray-800">{{ $booking->trip_date->translatedFormat('d M Y') }}</strong></p>
                                          </div>
                                      </div>
                                  </div>
                                  @if($booking->notes)
                                  <div class="border-t border-gray-100 pt-3">
-                                     <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-1.5">Catatan Pemesanan (Checkout)</p>
+                                     <p class="text-[10px] md:text-xs uppercase font-bold text-gray-400 tracking-wider mb-1.5">{{ __('messages.booking_notes_header') }}</p>
                                      <p class="text-gray-700 whitespace-pre-line leading-relaxed bg-gray-50 p-3 rounded-lg border border-gray-100 font-medium">{{ $booking->notes }}</p>
                                  </div>
                                  @endif
@@ -261,16 +261,16 @@
         </div>
         
         <!-- Text -->
-        <h3 class="text-sm font-bold text-gray-800 mb-1">Keluar Akun</h3>
-        <p class="text-[11px] text-gray-400 leading-normal mb-5">Apakah Anda yakin ingin keluar?</p>
+        <h3 class="text-sm font-bold text-gray-800 mb-1">{{ __('messages.logout_modal_title') }}</h3>
+        <p class="text-[11px] text-gray-400 leading-normal mb-5">{{ __('messages.logout_modal_message') }}</p>
         
         <!-- Buttons -->
         <div class="flex gap-3">
             <button onclick="hideLogoutModal()" class="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-500 text-[10px] font-bold transition-all duration-300 focus:outline-none" style="border: 1px solid #e5e7eb !important; border-radius: 30px !important; padding: 6px 16px !important;">
-                Batal
+                {{ __('messages.cancel_btn') }}
             </button>
             <button onclick="submitLogout()" class="flex-1 text-white text-[10px] font-bold transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none" style="background-color: rgb(87, 201, 209); box-shadow: 0 3px 10px rgba(87, 201, 209, 0.2); border-radius: 30px !important; border: none !important; padding: 6px 16px !important;">
-                Ya, Keluar
+                {{ __('messages.yes_logout_btn') }}
             </button>
         </div>
     </div>

@@ -76,7 +76,7 @@
 
                         <div class="group">
                             <label class="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1.5 block ml-1">{{ __('messages.profile_phone_label') }}</label>
-                            <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" placeholder="Contoh: 08123456789"
+                            <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" placeholder="{{ __('messages.phone_placeholder') }}"
                                 class="w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm font-medium focus:outline-none focus:border-[#57c9d1]/60 focus:bg-white/10 transition-all shadow-inner placeholder-white/20">
                         </div>
                     </div>
@@ -107,20 +107,20 @@
 
                     <div class="group">
                         <label class="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1.5 block ml-1">{{ __('messages.profile_current_password') }}</label>
-                        <input type="password" name="current_password" required placeholder="Masukkan password lama"
+                        <input type="password" name="current_password" required placeholder="{{ __('messages.current_password_placeholder') }}"
                             class="w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm font-medium focus:outline-none focus:border-yellow-400/60 focus:bg-white/10 transition-all shadow-inner placeholder-white/20">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="group">
                             <label class="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1.5 block ml-1">{{ __('messages.profile_new_password') }}</label>
-                            <input type="password" name="password" required placeholder="Minimal 8 karakter"
+                            <input type="password" name="password" required placeholder="{{ __('messages.new_password_placeholder') }}"
                                 class="w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm font-medium focus:outline-none focus:border-yellow-400/60 focus:bg-white/10 transition-all shadow-inner placeholder-white/20">
                         </div>
 
                         <div class="group">
                             <label class="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1.5 block ml-1">{{ __('messages.profile_confirm_password') }}</label>
-                            <input type="password" name="password_confirmation" required placeholder="Ulangi password baru"
+                            <input type="password" name="password_confirmation" required placeholder="{{ __('messages.confirm_password_placeholder') }}"
                                 class="w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm font-medium focus:outline-none focus:border-yellow-400/60 focus:bg-white/10 transition-all shadow-inner placeholder-white/20">
                         </div>
                     </div>

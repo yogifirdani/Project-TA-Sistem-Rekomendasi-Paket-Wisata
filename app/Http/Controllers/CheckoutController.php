@@ -61,7 +61,7 @@ class CheckoutController extends Controller
 
         // Validasi jika jumlah pax tidak didukung (harganya kosong)
         if (!$pricePerPax) {
-            return back()->withErrors(['message' => 'Harga untuk jumlah peserta ini (' . $pax . ' Pax) tidak tersedia. Silakan hubungi admin.']);
+            return back()->withErrors(['message' => __('messages.error_price_not_found', ['count' => $pax])]);
         }
 
         $totalPrice = $pricePerPax * $pax;
@@ -136,7 +136,7 @@ class CheckoutController extends Controller
             return redirect()->route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['message' => 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage()]);
+            return back()->withErrors(['message' => __('messages.error_payment_processing', ['error' => $e->getMessage()])]);
         }
     }
 
@@ -171,7 +171,7 @@ class CheckoutController extends Controller
         }
 
         return redirect()->route('profile', ['locale' => app()->getLocale(), 'tab' => 'pesanan'])
-                         ->with('success', 'Pembayaran berhasil dikonfirmasi! Selamat menikmati perjalanan Anda.');
+                         ->with('success', __('messages.payment_success_flash'));
     }
 
     public function invoice($bookingCode)
@@ -180,7 +180,7 @@ class CheckoutController extends Controller
 
         // Allow only the booking owner OR an administrator to view the invoice
         if (Auth::user()->email !== $booking->customer_email && Auth::user()->role !== 'admin') {
-            abort(403, 'Akses tidak sah ke rincian invoice.');
+            abort(403, __('messages.error_unauthorized_invoice'));
         }
 
         return view('paket.invoice', compact('booking'));

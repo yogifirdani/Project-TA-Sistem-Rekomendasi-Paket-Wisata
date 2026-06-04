@@ -559,14 +559,14 @@
     <!-- Action Bar (Screen Only) -->
     <div class="action-bar no-print">
         <a href="{{ route('profile', ['locale' => app()->getLocale(), 'tab' => 'pesanan']) }}" class="btn-action btn-back">
-            <i class="fa fa-arrow-left"></i> Kembali ke Profil
+            <i class="fa fa-arrow-left"></i> {{ __('messages.profile_back_to_profile') }}
         </a>
         <div style="display: flex; gap: 10px;">
             <button onclick="window.print()" class="btn-action btn-back" style="border: 1px solid rgba(87, 201, 209, 0.4); color: rgb(87, 201, 209);">
-                <i class="fa fa-print"></i> Cetak Halaman
+                <i class="fa fa-print"></i> {{ __('messages.print_page_btn') }}
             </button>
             <button onclick="downloadInvoicePDF()" class="btn-action btn-print">
-                <i class="fa fa-download"></i> Simpan / Download PDF
+                <i class="fa fa-download"></i> {{ __('messages.download_pdf_btn') }}
             </button>
         </div>
     </div>
@@ -578,11 +578,11 @@
         <!-- Watermark stamp -->
         <div class="stamp-container">
             @if($booking->booking_status === 'pending')
-                <div class="invoice-stamp stamp-unpaid">MENUNGGU BAYAR</div>
+                <div class="invoice-stamp stamp-unpaid">{{ __('messages.waiting_payment_stamp') }}</div>
             @elseif($booking->dp_amount > 0 && $booking->remaining_amount > 0)
-                <div class="invoice-stamp stamp-dp">DP 30% DIBAYAR</div>
+                <div class="invoice-stamp stamp-dp">{{ __('messages.dp_paid_stamp') }}</div>
             @else
-                <div class="invoice-stamp stamp-paid">LUNAS / CONFIRMED</div>
+                <div class="invoice-stamp stamp-paid">{{ __('messages.paid_confirmed_stamp') }}</div>
             @endif
         </div>
 
@@ -590,13 +590,13 @@
         <div class="letterhead">
             <div class="logo-area">
                 <h1 class="logo-text">Kutamasya<span>.id</span></h1>
-                <div class="logo-subtitle">Temukan Petualangan Terbaikmu di Banyuwangi</div>
+                <div class="logo-subtitle">{{ app()->getLocale() == 'id' ? 'Temukan Petualangan Terbaikmu di Banyuwangi' : 'Find Your Best Adventure in Banyuwangi' }}</div>
             </div>
             <div class="metadata-area">
-                <h2 class="invoice-title">INVOICE</h2>
-                <div class="metadata-row">No. Pesanan: <strong>#{{ $booking->booking_code }}</strong></div>
-                <div class="metadata-row">Tgl Dipesan: <strong>{{ ($booking->booking_date ?? $booking->created_at)->format('d M Y') }}</strong></div>
-                <div class="metadata-row">Metode: <strong>Transfer Otomatis Midtrans</strong></div>
+                <h2 class="invoice-title">{{ __('messages.invoice_title') }}</h2>
+                <div class="metadata-row">{{ __('messages.order_no_label') }} <strong>#{{ $booking->booking_code }}</strong></div>
+                <div class="metadata-row">{{ __('messages.ordered_date_label') }} <strong>{{ ($booking->booking_date ?? $booking->created_at)->translatedFormat('d M Y') }}</strong></div>
+                <div class="metadata-row">{{ __('messages.payment_method_label') }} <strong>{{ __('messages.midtrans_automatic_transfer') }}</strong></div>
             </div>
         </div>
 
@@ -604,7 +604,7 @@
         <div class="billing-section">
             <!-- Operator Kutamasya.id -->
             <div class="billing-card">
-                <h3>Diterbitkan Oleh</h3>
+                <h3>{{ __('messages.issued_by') }}</h3>
                 <h4 class="billing-name">Kutamasya Tour & Travel</h4>
                 <div class="billing-detail">
                     <i class="fa fa-globe"></i> kutamasya.id
@@ -622,7 +622,7 @@
 
             <!-- Customer Details -->
             <div class="billing-card">
-                <h3>Diterima Oleh</h3>
+                <h3>{{ __('messages.received_by') }}</h3>
                 <h4 class="billing-name">{{ $booking->customer_name }}</h4>
                 <div class="billing-detail">
                     <i class="fa fa-envelope"></i> {{ $booking->customer_email }}
@@ -633,7 +633,7 @@
                 @if($booking->notes)
                 <div class="billing-detail" style="align-items: flex-start;">
                     <i class="fa fa-pencil" style="margin-top: 3px;"></i> 
-                    <span>Catatan: "{{ $booking->notes }}"</span>
+                    <span>{{ __('messages.notes_label') }} "{{ $booking->notes }}"</span>
                 </div>
                 @endif
             </div>
@@ -643,10 +643,10 @@
         <table class="item-table">
             <thead>
                 <tr>
-                    <th>Paket Wisata & Rincian Trip</th>
-                    <th style="text-align: center;">Jumlah Peserta</th>
-                    <th style="text-align: right;">Harga Satuan</th>
-                    <th style="text-align: right;">Total Harga</th>
+                    <th>{{ __('messages.package_details_header') }}</th>
+                    <th style="text-align: center;">{{ __('messages.num_participants') }}</th>
+                    <th style="text-align: right;">{{ __('messages.unit_price_label') }}</th>
+                    <th style="text-align: right;">{{ __('messages.total_price') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -668,11 +668,11 @@
                                     @endif
                                 </div>
                             @endif
-                            <i class="fa fa-calendar"></i> Tanggal Trip: {{ $booking->trip_date->format('d F Y') }}
+                            <i class="fa fa-calendar"></i> {{ __('messages.trip_date_label') }}: {{ $booking->trip_date->translatedFormat('d F Y') }}
                         </div>
                     </td>
                     <td style="text-align: center; font-weight: 600;">
-                        {{ $booking->num_participants }} Orang (Pax)
+                        {{ __('messages.pax_count', ['count' => $booking->num_participants]) }} (Pax)
                     </td>
                     <td style="text-align: right;">
                         Rp {{ number_format($booking->total_price / $booking->num_participants, 0, ',', '.') }}
@@ -688,33 +688,33 @@
         <div class="totals-section">
             <!-- Payment Info -->
             <div class="payment-info-box">
-                <h4>Detail Transaksi</h4>
+                <h4>{{ __('messages.transaction_details_title') }}</h4>
                 <div class="info-row">
-                    <span>Tanggal Pemesanan:</span>
-                    <strong>{{ ($booking->booking_date ?? $booking->created_at)->format('d F Y') }}</strong>
+                    <span>{{ __('messages.order_date_label') }}</span>
+                    <strong>{{ ($booking->booking_date ?? $booking->created_at)->translatedFormat('d F Y') }}</strong>
                 </div>
                 <div class="info-row">
-                    <span>Status Tagihan:</span>
+                    <span>{{ __('messages.billing_status_label') }}</span>
                     <strong>
                         @if($booking->booking_status === 'pending')
-                            <span style="color: #f59e0b; font-weight: 700;">Menunggu Pembayaran</span>
+                            <span style="color: #f59e0b; font-weight: 700;">{{ __('messages.awaiting_payment_status') }}</span>
                         @elseif($booking->booking_status === 'confirmed' || $booking->payment_status === 'paid')
-                            <span style="color: #10b981; font-weight: 700;">Lunas / Terbayar</span>
+                            <span style="color: #10b981; font-weight: 700;">{{ __('messages.paid_cleared_status') }}</span>
                         @else
-                            <span style="color: rgb(87, 201, 209); font-weight: 700;">Dikonfirmasi</span>
+                            <span style="color: rgb(87, 201, 209); font-weight: 700;">{{ __('messages.confirmed_status') }}</span>
                         @endif
                     </strong>
                 </div>
                 <div class="info-row">
-                    <span>Metode Pembayaran:</span>
+                    <span>{{ __('messages.payment_method_label') }}</span>
                     <strong>Midtrans Snap Sandbox</strong>
                 </div>
                 <div class="info-row">
-                    <span>Tipe Pembayaran:</span>
-                    <strong>{{ $booking->dp_amount > 0 ? 'Down Payment (DP 30%)' : 'Pembayaran Penuh (Lunas)' }}</strong>
+                    <span>{{ __('messages.pay_type_label') }}</span>
+                    <strong>{{ $booking->dp_amount > 0 ? __('messages.down_payment_30') : __('messages.full_payment_paid') }}</strong>
                 </div>
                 <div class="info-row">
-                    <span>ID Transaksi:</span>
+                    <span>{{ __('messages.transaction_id_label') }}</span>
                     <strong style="font-family: monospace; font-size: 11px;">{{ strtoupper($booking->booking_code) }}</strong>
                 </div>
             </div>
@@ -722,43 +722,43 @@
             <!-- Totals -->
             <div class="totals-box">
                 <div class="total-row">
-                    <span>Subtotal Tagihan:</span>
+                    <span>{{ __('messages.subtotal_bill') }}</span>
                     <strong>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</strong>
                 </div>
                 
                 @if($booking->booking_status === 'pending')
                     <div class="total-row paid-amount" style="color: #94a3b8;">
-                        <span>Jumlah Dibayar:</span>
+                        <span>{{ __('messages.amount_paid_label') }}</span>
                         <strong>Rp 0</strong>
                     </div>
                     <div class="total-row balance-due">
-                        <span>Harus Dibayar:</span>
+                        <span>{{ __('messages.must_be_paid_label') }}</span>
                         <strong>Rp {{ number_format($booking->dp_amount > 0 ? $booking->dp_amount : $booking->total_price, 0, ',', '.') }}</strong>
                     </div>
                 @else
                     @if($booking->dp_amount > 0)
                         <div class="total-row paid-amount">
-                            <span>Jumlah Dibayar (DP):</span>
+                            <span>{{ __('messages.amount_paid_dp') }}</span>
                             <strong>Rp {{ number_format($booking->dp_amount, 0, ',', '.') }}</strong>
                         </div>
                         <div class="total-row balance-due">
-                            <span>Sisa Tagihan (Pelunasan):</span>
+                            <span>{{ __('messages.remaining_balance_settlement') }}</span>
                             <strong>Rp {{ number_format($booking->remaining_amount, 0, ',', '.') }}</strong>
                         </div>
                     @else
                         <div class="total-row paid-amount">
-                            <span>Jumlah Dibayar (Lunas):</span>
+                            <span>{{ __('messages.amount_paid_full') }}</span>
                             <strong>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</strong>
                         </div>
                         <div class="total-row" style="color: #10b981; font-weight: 700;">
-                            <span>Sisa Tagihan:</span>
+                            <span>{{ __('messages.remaining_balance_label') }}</span>
                             <strong>Rp 0</strong>
                         </div>
                     @endif
                 @endif
 
                 <div class="total-row grand-total">
-                    <span>Total Tagihan:</span>
+                    <span>{{ __('messages.total_bill_label') }}:</span>
                     <span>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</span>
                 </div>
             </div>
@@ -767,18 +767,18 @@
         @if($booking->booking_status === 'pending')
         <!-- Notes warning for Unpaid bookings -->
         <div class="notes-card">
-            <i class="fa fa-exclamation-triangle"></i> <strong>Pemberitahuan Penting:</strong> Pemesanan ini belum sah sampai Anda menyelesaikan pembayaran melalui metode pembayaran digital Midtrans. Harap selesaikan pembayaran sebelum tanggal keberangkatan Anda.
+            <i class="fa fa-exclamation-triangle"></i> <strong>{{ __('messages.important_notice_title') }}</strong> {{ __('messages.booking_not_valid_yet') }}
         </div>
         @endif
 
         <!-- Footer -->
         <div class="invoice-footer">
-            <h5 class="footer-thanks">Terima Kasih Atas Kepercayaan Anda!</h5>
-            <p style="margin: 0 0 10px 0;">Dokumen ini adalah bukti transaksi resmi yang diterbitkan secara elektronik oleh <strong>kutamasya.id</strong></p>
+            <h5 class="footer-thanks">{{ __('messages.thank_you_for_trust') }}</h5>
+            <p style="margin: 0 0 10px 0;">{{ __('messages.official_receipt_disclaimer') }} <strong>kutamasya.id</strong></p>
             
             <div class="footer-signature-area">
                 <div class="signature-box">
-                    <p style="margin: 0 0 5px 0;">Hormat Kami,</p>
+                    <p style="margin: 0 0 5px 0;">{{ __('messages.sincerely_yours') }}</p>
                     <div class="signature-line"></div>
                     <p style="margin: 0; font-weight: 700; color: #334155;">Kutamasya Operations</p>
                 </div>
@@ -794,7 +794,7 @@
             const rawPackageName = "{{ $booking->tourPackage->package_name ?? $booking->tourPackage->getTranslation('package_name') ?? 'Kutamasya' }}";
             // Clean up special characters from the filename to prevent illegal character blocks
             const packageName = rawPackageName.replace(/[\\/:*?"<>|]/g, '').trim();
-            const bookingDate = "{{ ($booking->booking_date ?? $booking->created_at)->format('d-M-Y') }}";
+            const bookingDate = "{{ ($booking->booking_date ?? $booking->created_at)->translatedFormat('d-M-Y') }}";
             const bookingCode = "{{ $booking->booking_code }}";
             
             const filename = `${bookingDate} - Invoice ${packageName} - ${bookingCode}.pdf`;
@@ -809,7 +809,7 @@
 
             const downloadBtn = document.querySelector('.btn-print');
             const originalText = downloadBtn.innerHTML;
-            downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Mengunduh...';
+            downloadBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> {{ app()->getLocale() == "id" ? "Mengunduh..." : "Downloading..." }}';
             downloadBtn.disabled = true;
 
             html2pdf().set(opt).from(element).save().then(() => {

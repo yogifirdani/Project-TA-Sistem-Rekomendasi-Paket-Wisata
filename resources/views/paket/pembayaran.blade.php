@@ -41,37 +41,37 @@
                         <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 80px; color: rgb(87, 201, 209);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     
-                    <h2 class="mb-3" style="font-weight: 800;">Pesanan Berhasil Dibuat!</h2>
-                    <p style="color: #666; font-size: 16px;">Kode Pesanan Anda: <strong>{{ $booking->booking_code }}</strong></p>
+                    <h2 class="mb-3" style="font-weight: 800;">{{ __('messages.order_created_success') }}</h2>
+                    <p style="color: #666; font-size: 16px;">{{ __('messages.your_order_code') }} <strong>{{ $booking->booking_code }}</strong></p>
                     
                     <div class="bg-light p-4 mt-4 mb-4 text-left" style="border-radius: 12px; border: 1px dashed #ccc;">
                         <div class="row">
                             <div class="col-6 mb-2">
-                                <span style="color: #777; font-size: 14px;">Paket Wisata</span><br>
+                                <span style="color: #777; font-size: 14px;">{{ __('messages.package_name') }}</span><br>
                                 <strong>{{ $booking->tourPackage->getTranslation('package_name') }}</strong>
                             </div>
                             <div class="col-6 mb-2">
-                                <span style="color: #777; font-size: 14px;">Tanggal Trip</span><br>
-                                <strong>{{ \Carbon\Carbon::parse($booking->trip_date)->format('d F Y') }}</strong>
+                                <span style="color: #777; font-size: 14px;">{{ __('messages.trip_date_label') }}</span><br>
+                                <strong>{{ \Carbon\Carbon::parse($booking->trip_date)->translatedFormat('d F Y') }}</strong>
                             </div>
                             <div class="col-6">
-                                <span style="color: #777; font-size: 14px;">Jumlah Pax</span><br>
-                                <strong>{{ $booking->num_participants }} Orang</strong>
+                                <span style="color: #777; font-size: 14px;">{{ __('messages.num_participants_pax') }}</span><br>
+                                <strong>{{ __('messages.pax_count', ['count' => $booking->num_participants]) }}</strong>
                             </div>
                             <div class="col-6">
-                                <span style="color: #777; font-size: 14px;">Total Tagihan</span><br>
+                                <span style="color: #777; font-size: 14px;">{{ __('messages.total_bill_label') }}</span><br>
                                 <strong style="color: rgb(87, 201, 209); font-size: 18px;">Rp {{ number_format($booking->dp_amount > 0 ? $booking->dp_amount : $booking->total_price, 0, ',', '.') }}</strong>
                                 @if($booking->dp_amount > 0)
-                                <br><small class="text-muted">(Pembayaran DP)</small>
+                                <br><small class="text-muted">({{ __('messages.dp_payment_note') }})</small>
                                 @endif
                             </div>
                         </div>
                     </div>
 
-                    <p class="mb-4 text-muted">Silakan selesaikan pembayaran Anda untuk mengonfirmasi pesanan ini.</p>
+                    <p class="mb-4 text-muted">{{ __('messages.complete_payment_instruction') }}</p>
 
                     <button id="pay-button" class="btn btn-primary py-3 px-5" style="border-radius: 30px; font-weight: 700; background-color: rgb(87, 201, 209); border: none; box-shadow: 0 4px 15px rgba(87, 201, 209, 0.4); font-size: 18px;">
-                        Bayar Sekarang
+                        {{ __('messages.pay_now_btn') }}
                     </button>
                 </div>
             </div>
@@ -95,12 +95,12 @@
             // Optional
             onPending: function(result){
                 /* You may add your own js here, this is just example */
-                alert("Menunggu pembayaran Anda!");
+                alert("{{ __('messages.waiting_payment_alert') }}");
             },
             // Optional
             onError: function(result){
                 /* You may add your own js here, this is just example */
-                alert("Pembayaran Gagal!");
+                alert("{{ __('messages.payment_failed_alert') }}");
             }
         });
     };
