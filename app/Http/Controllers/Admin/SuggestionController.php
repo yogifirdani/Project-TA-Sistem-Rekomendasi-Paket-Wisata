@@ -25,7 +25,11 @@ class SuggestionController extends Controller
             });
         }
 
-        $suggestions = $query->latest()->paginate(15)->withQueryString();
+        $perPage = (int) $request->get('per_page', 25);
+        if (!in_array($perPage, [5, 25, 50, 100])) {
+            $perPage = 25;
+        }
+        $suggestions = $query->latest()->paginate($perPage)->withQueryString();
 
         if ($request->ajax()) {
             return view('admin.saran._table', compact('suggestions'))->render();

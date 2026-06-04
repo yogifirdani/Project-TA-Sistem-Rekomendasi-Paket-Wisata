@@ -26,7 +26,11 @@ class ArticleController extends Controller
             });
         }
 
-        $articles = $query->paginate(10)->withQueryString();
+        $perPage = (int) $request->get('per_page', 25);
+        if (!in_array($perPage, [5, 25, 50, 100])) {
+            $perPage = 25;
+        }
+        $articles = $query->paginate($perPage)->withQueryString();
 
         if ($request->ajax()) {
             return view('admin.kelola_artikel._table', compact('articles'))->render();

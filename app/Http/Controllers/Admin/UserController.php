@@ -24,8 +24,12 @@ class UserController extends Controller
             });
         }
 
-        // Ambil data terbaru dengan pagination (15 item per halaman)
-        $users = $query->latest()->paginate(15)->withQueryString();
+        // Ambil data terbaru dengan pagination dinamis (default 25 item per halaman)
+        $perPage = (int) $request->get('per_page', 25);
+        if (!in_array($perPage, [5, 25, 50, 100])) {
+            $perPage = 25;
+        }
+        $users = $query->latest()->paginate($perPage)->withQueryString();
         
         // Handle request AJAX untuk pencarian tanpa reload
         if ($request->ajax()) {

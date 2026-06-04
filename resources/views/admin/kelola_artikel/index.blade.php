@@ -28,7 +28,7 @@
     @endif
 
     <!-- Filters & Search -->
-    <div class="mb-5">
+    <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <form action="{{ route('admin.kelola-artikel.index') }}" method="GET" class="flex flex-wrap items-center gap-2">
             <div class="relative flex-1 min-w-[200px] sm:max-w-sm">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
@@ -49,6 +49,19 @@
                 Reset
             </a>
         </form>
+
+        <!-- Entries per page -->
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+            <span class="text-xs text-gray-500 dark:text-gray-400">Tampilkan</span>
+            <select name="per_page" id="per-page-select"
+                class="shadow-theme-xs h-10 rounded-lg border border-gray-300 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:text-white/90">
+                <option value="5" {{ request('per_page', 25) == 5 ? 'selected' : '' }}>5</option>
+                <option value="25" {{ request('per_page', 25) == 25 ? 'selected' : '' }}>25</option>
+                <option value="50" {{ request('per_page', 25) == 50 ? 'selected' : '' }}>50</option>
+                <option value="100" {{ request('per_page', 25) == 100 ? 'selected' : '' }}>100</option>
+            </select>
+            <span class="text-xs text-gray-500 dark:text-gray-400">entri</span>
+        </div>
     </div>
 
     <!-- Table Card -->
@@ -176,11 +189,26 @@
             }
         }
 
+        const perPageSelect = document.getElementById('per-page-select');
+
+        // Handle per page select change
+        if (perPageSelect) {
+            perPageSelect.addEventListener('change', function() {
+                const url = new URL(window.location.href);
+                url.searchParams.set('per_page', this.value);
+                url.searchParams.set('page', 1);
+                updateTable(url.toString());
+            });
+        }
+
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 const url = new URL(searchForm.action);
                 url.searchParams.set('search', this.value);
+                if (perPageSelect) {
+                    url.searchParams.set('per_page', perPageSelect.value);
+                }
                 updateTable(url.toString());
             }, 500);
         });
@@ -189,6 +217,9 @@
             e.preventDefault();
             const url = new URL(this.action);
             url.searchParams.set('search', searchInput.value);
+            if (perPageSelect) {
+                url.searchParams.set('per_page', perPageSelect.value);
+            }
             updateTable(url.toString());
         });
 

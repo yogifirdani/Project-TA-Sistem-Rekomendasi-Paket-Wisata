@@ -34,8 +34,12 @@ class KelolaPackageController extends Controller
             });
         }
 
-        // Ambil data dengan pagination (10 item per halaman)
-        $packages = $query->paginate(10)->withQueryString();
+        // Ambil data dengan pagination dinamis (default 25 item per halaman)
+        $perPage = (int) $request->get('per_page', 25);
+        if (!in_array($perPage, [5, 25, 50, 100])) {
+            $perPage = 25;
+        }
+        $packages = $query->paginate($perPage)->withQueryString();
 
         // Jika request via AJAX (pencarian/pagination), return partial view tabel saja
         if ($request->ajax()) {
