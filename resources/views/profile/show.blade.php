@@ -191,15 +191,15 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 
-                                                class="text-[10px] font-bold text-red-500 hover:text-white hover:bg-red-500 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer" 
-                                                style="background-color: rgba(254, 242, 242, 0.8) !important; border: 1px solid rgba(239, 68, 68, 0.25) !important; border-radius: 8px !important; padding: 7px 14px !important; outline: none !important;">
+                                                class="text-[10px] font-bold text-white transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer" 
+                                                style="background-color: rgb(239, 68, 68) !important; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); border: 1px solid transparent !important; border-radius: 30px !important; padding: 7px 14px !important; outline: none !important;">
                                             <i class="fa fa-ban text-[10px]"></i>
                                             {{ __('messages.cancel_booking_btn') }}
                                         </button>
                                     </form>
                                     <a href="{{ route('checkout.payment', ['locale' => app()->getLocale(), 'booking' => $booking->booking_code]) }}" 
                                        class="text-[10px] font-bold text-white transition-all duration-300 shadow-sm flex items-center gap-1.5 hover:shadow-md hover:-translate-y-0.5 inline-block" 
-                                       style="background-color: rgb(87, 201, 209) !important; box-shadow: 0 4px 10px rgba(87, 201, 209, 0.2); border: 1px solid transparent !important; border-radius: 8px !important; padding: 7px 14px !important; text-decoration: none !important;">
+                                       style="background-color: rgb(87, 201, 209) !important; box-shadow: 0 4px 10px rgba(87, 201, 209, 0.2); border: 1px solid transparent !important; border-radius: 30px !important; padding: 7px 14px !important; text-decoration: none !important;">
                                         <i class="fa fa-credit-card text-[10px]"></i>
                                         {{ __('messages.pay_now_btn') }}
                                     </a>
