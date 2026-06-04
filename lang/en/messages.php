@@ -291,6 +291,10 @@ return [
     'package_category_label' => 'Package Category:',
     'trip_type_label' => 'Trip Type:',
     'booking_notes_header' => 'Booking Notes (Checkout)',
+    'name_label' => 'Name',
+    'email_label' => 'Email',
+    'phone_label' => 'Phone Number',
+    'num_participants_label' => 'Number of Participants',
     
     // Logout Modal
     'logout_modal_title' => 'Logout',

@@ -291,6 +291,10 @@ return [
     'package_category_label' => 'Kategori Paket:',
     'trip_type_label' => 'Tipe Trip:',
     'booking_notes_header' => 'Catatan Pemesanan (Checkout)',
+    'name_label' => 'Nama',
+    'email_label' => 'Email',
+    'phone_label' => 'No. Telepon',
+    'num_participants_label' => 'Jumlah Peserta',
     
     // Logout Modal
     'logout_modal_title' => 'Keluar Akun',
