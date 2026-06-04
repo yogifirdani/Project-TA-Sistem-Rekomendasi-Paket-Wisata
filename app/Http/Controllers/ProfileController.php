@@ -56,4 +56,23 @@ class ProfileController extends Controller
 
         return redirect()->route('profile', ['locale' => app()->getLocale()])->with('success', 'Password berhasil diubah.');
     }
+
+    public function cancelBooking($bookingCode)
+    {
+        $user = Auth::user();
+        
+        $booking = Booking::where('booking_code', $bookingCode)
+                          ->where('customer_email', $user->email)
+                          ->firstOrFail();
+
+        // Only allow cancelling if booking is still pending
+        if ($booking->booking_status !== 'pending') {
+            return back()->withErrors(['message' => __('messages.cannot_cancel_confirmed_booking')]);
+        }
+
+        $booking->delete();
+
+        return redirect()->route('profile', ['locale' => app()->getLocale(), 'tab' => 'pesanan'])
+                         ->with('success', __('messages.booking_cancelled_success'));
+    }
 }

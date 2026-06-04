@@ -85,6 +85,7 @@ Route::prefix('{locale}')
             Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
             Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+            Route::delete('/booking/{booking}/cancel', [ProfileController::class, 'cancelBooking'])->name('booking.cancel');
 
             // Checkout & Payment Routes
             Route::get('/paket-wisata/{slug}/checkout', [CheckoutController::class, 'index'])->name('checkout.index');

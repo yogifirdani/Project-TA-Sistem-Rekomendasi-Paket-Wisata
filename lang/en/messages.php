@@ -312,4 +312,8 @@ return [
     'error_price_not_found' => 'Price for this number of participants (:count Pax) is not available. Please contact admin.',
     'error_payment_processing' => 'An error occurred while processing the payment: :error',
     'error_unauthorized_invoice' => 'Unauthorized access to invoice details.',
+    'cancel_booking_btn' => 'Cancel Booking',
+    'cancel_booking_confirm' => 'Are you sure you want to cancel this booking? This action will permanently delete it.',
+    'booking_cancelled_success' => 'Booking successfully cancelled and deleted.',
+    'cannot_cancel_confirmed_booking' => 'Only pending bookings can be cancelled.',
 ];

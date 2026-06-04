@@ -312,4 +312,8 @@ return [
     'error_price_not_found' => 'Harga untuk jumlah peserta ini (:count Pax) tidak tersedia. Silakan hubungi admin.',
     'error_payment_processing' => 'Terjadi kesalahan saat memproses pembayaran: :error',
     'error_unauthorized_invoice' => 'Akses tidak sah ke rincian invoice.',
+    'cancel_booking_btn' => 'Batal Pesan',
+    'cancel_booking_confirm' => 'Apakah Anda yakin ingin membatalkan pesanan ini? Pesanan akan dihapus secara permanen.',
+    'booking_cancelled_success' => 'Pesanan berhasil dibatalkan dan dihapus.',
+    'cannot_cancel_confirmed_booking' => 'Hanya pesanan pending yang dapat dibatalkan.',
 ];
