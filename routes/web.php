@@ -12,6 +12,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\RecommendationController;
 
 // Root: redirect ke /id/ secara default
 Route::get('/', function () {
@@ -66,9 +67,8 @@ Route::prefix('{locale}')
         })->name('contact');
         Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
-        Route::get('/recommendation', function () {
-            return view('recommendation');
-        })->name('recommendation');
+        Route::get('/recommendation', [RecommendationController::class, 'index'])->name('recommendation');
+        Route::post('/recommendation', [RecommendationController::class, 'getRecommendations'])->name('recommendation.post');
 
         // Authentication Routes (Guest Only)
         Route::middleware('guest')->group(function () {
