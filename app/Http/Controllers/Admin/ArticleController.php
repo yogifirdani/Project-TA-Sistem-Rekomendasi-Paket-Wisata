@@ -26,9 +26,9 @@ class ArticleController extends Controller
             });
         }
 
-        $perPage = (int) $request->get('per_page', 25);
+        $perPage = (int) $request->get('per_page', 5);
         if (!in_array($perPage, [5, 25, 50, 100])) {
-            $perPage = 25;
+            $perPage = 5;
         }
         $articles = $query->paginate($perPage)->withQueryString();
 

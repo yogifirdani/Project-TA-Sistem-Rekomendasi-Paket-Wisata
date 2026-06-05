@@ -55,10 +55,10 @@
             <span class="text-xs text-gray-500 dark:text-gray-400">Tampilkan</span>
             <select name="per_page" id="per-page-select"
                 class="shadow-theme-xs h-10 rounded-lg border border-gray-300 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:text-white/90">
-                <option value="5" {{ request('per_page', 25) == 5 ? 'selected' : '' }}>5</option>
-                <option value="25" {{ request('per_page', 25) == 25 ? 'selected' : '' }}>25</option>
-                <option value="50" {{ request('per_page', 25) == 50 ? 'selected' : '' }}>50</option>
-                <option value="100" {{ request('per_page', 25) == 100 ? 'selected' : '' }}>100</option>
+                <option value="5" {{ request('per_page', 5) == 5 ? 'selected' : '' }}>5</option>
+                <option value="25" {{ request('per_page', 5) == 25 ? 'selected' : '' }}>25</option>
+                <option value="50" {{ request('per_page', 5) == 50 ? 'selected' : '' }}>50</option>
+                <option value="100" {{ request('per_page', 5) == 100 ? 'selected' : '' }}>100</option>
             </select>
             <span class="text-xs text-gray-500 dark:text-gray-400">entri</span>
         </div>

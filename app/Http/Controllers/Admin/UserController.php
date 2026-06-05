@@ -24,10 +24,10 @@ class UserController extends Controller
             });
         }
 
-        // Ambil data terbaru dengan pagination dinamis (default 25 item per halaman)
-        $perPage = (int) $request->get('per_page', 25);
+        // Ambil data terbaru dengan pagination dinamis (default 5 item per halaman)
+        $perPage = (int) $request->get('per_page', 5);
         if (!in_array($perPage, [5, 25, 50, 100])) {
-            $perPage = 25;
+            $perPage = 5;
         }
         $users = $query->latest()->paginate($perPage)->withQueryString();
         
