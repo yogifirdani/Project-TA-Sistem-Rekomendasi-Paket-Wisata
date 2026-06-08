@@ -66,19 +66,26 @@
 
                         <!-- Kategori Wisata -->
                         <div class="form-group mb-4">
-                            <label for="category_id" style="font-weight: 700; color: #000; font-size: 13px; margin-bottom: 8px; display: block;">
+                            <label for="tour_category" style="font-weight: 700; color: #000; font-size: 13px; margin-bottom: 8px; display: block;">
                               {{ __('messages.rec_label_category') }}
                             </label>
-                            <select id="category_id" name="category_id" class="form-control @error('category_id') is-invalid @enderror" 
+                            <select id="tour_category" name="tour_category" class="form-control @error('tour_category') is-invalid @enderror" 
                                     style="border-radius: 6px; font-size: 14px; height: 50px !important; border: 1px solid #ccc; background: #fff; padding-left: 15px;" required>
-                                <option value="">-- {{ app()->getLocale() == 'en' ? 'Select Category' : 'Pilih Kategori' }} --</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ old('category_id', isset($preference) ? $preference->category_id : '') == $cat->id ? 'selected' : '' }}>
-                                        {{ $cat->getTranslation('category_name') }}
-                                    </option>
-                                @endforeach
+                                <option value="">-- {{ app()->getLocale() == 'en' ? 'Select Tour Category' : 'Pilih Kategori Wisata' }} --</option>
+                                <option value="Culture Trip" {{ old('tour_category', isset($preference) ? $preference->tour_category : '') == 'Culture Trip' ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'en' ? 'Culture Trip (Cultural Tour)' : 'Culture Trip (Wisata Budaya)' }}
+                                </option>
+                                <option value="Nature Trip" {{ old('tour_category', isset($preference) ? $preference->tour_category : '') == 'Nature Trip' ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'en' ? 'Nature Trip (Nature Tour)' : 'Nature Trip (Wisata Alam)' }}
+                                </option>
+                                <option value="Culinary Trip" {{ old('tour_category', isset($preference) ? $preference->tour_category : '') == 'Culinary Trip' ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'en' ? 'Culinary Trip (Culinary Tour)' : 'Culinary Trip (Wisata Kuliner)' }}
+                                </option>
+                                <option value="Adventure Trip" {{ old('tour_category', isset($preference) ? $preference->tour_category : '') == 'Adventure Trip' ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'en' ? 'Adventure Trip (Adventure Tour)' : 'Adventure Trip (Wisata Petualangan)' }}
+                                </option>
                             </select>
-                            @error('category_id')
+                            @error('tour_category')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -98,7 +105,7 @@
                         </div>
 
                         <!-- Durasi Perjalanan -->
-                        <div class="form-group mb-5">
+                        <div class="form-group mb-4">
                             <label for="duration" style="font-weight: 700; color: #000; font-size: 13px; margin-bottom: 8px; display: block;">
                               {{ __('messages.rec_label_duration') }}
                             </label>
@@ -107,6 +114,19 @@
                                    placeholder="{{ __('messages.rec_placeholder_duration') }}"
                                    style="border-radius: 6px; font-size: 14px; height: 50px !important; border: 1px solid #ccc; background: #fff; padding-left: 15px;" required>
                             @error('duration')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Deskripsi Preferensi / Tambahan -->
+                        <div class="form-group mb-5">
+                            <label for="description" style="font-weight: 700; color: #000; font-size: 13px; margin-bottom: 8px; display: block;">
+                              {{ __('messages.rec_label_description') }}
+                            </label>
+                            <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror"
+                                      placeholder="{{ __('messages.rec_placeholder_description') }}"
+                                      style="border-radius: 6px; font-size: 14px; min-height: 100px; border: 1px solid #ccc; background: #fff; padding-left: 15px; padding-top: 12px; resize: vertical;">{{ old('description', isset($preference) ? $preference->description : '') }}</textarea>
+                            @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

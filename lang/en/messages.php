@@ -112,6 +112,8 @@ return [
     'rec_placeholder_facility'=> 'enter desired facilities, e.g: car, entrance ticket, mineral water',
     'rec_label_duration'     => 'Trip Duration',
     'rec_placeholder_duration'=> 'enter trip duration, e.g: One Day, 2D1N, 3D2N etc.',
+    'rec_label_description'  => 'Preference / Additional Description',
+    'rec_placeholder_description'=> 'describe your dream holiday here (e.g. I want to see the sunrise at Bromo, play on the beach, etc.)',
     'rec_btn_search'         => 'Find Tour Package Recommendations',
     'rec_results_heading'    => 'Recommendations That Suit You',
 

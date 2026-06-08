@@ -28,7 +28,8 @@ class RecommendationController extends Controller
     public function getRecommendations(Request $request)
     {
         $request->validate([
-            'category_id'          => 'required|exists:categories,id',
+            'tour_category'        => 'required|string|in:Culture Trip,Nature Trip,Culinary Trip,Adventure Trip',
+            'description'          => 'nullable|string',
             'budget'               => 'required|numeric|min:0',
             'duration'             => 'required|string|max:100',
             'facilities'           => 'required|string',
@@ -39,7 +40,9 @@ class RecommendationController extends Controller
             $preference = UserPreference::updateOrCreate(
                 ['session_id' => session()->getId()],
                 [
-                    'category_id'          => $request->category_id,
+                    'category_id'          => null,
+                    'tour_category'        => $request->tour_category,
+                    'description'          => $request->description,
                     'budget'               => $request->budget,
                     'preferred_duration'   => $request->duration,
                     'preferred_facilities' => $request->facilities,
