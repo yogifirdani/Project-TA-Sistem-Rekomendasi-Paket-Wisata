@@ -62,8 +62,8 @@ class RecommendationController extends Controller
                     foreach ($rekomendasiPaket as $item) {
                         if (is_numeric($item)) {
                             $packageIds[] = (int) $item;
-                        } elseif (is_array($item) && isset($item['id'])) {
-                            $packageIds[] = (int) $item['id'];
+                        } elseif (is_array($item) && isset($item['package_id'])) {
+                            $packageIds[] = (int) $item['package_id'];
                         }
                     }
                 }

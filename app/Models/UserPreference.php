@@ -9,6 +9,8 @@ class UserPreference extends Model
     protected $fillable = [
         'session_id',
         'category_id',
+        'tour_category',
+        'description',
         'budget',
         'preferred_duration',
         'preferred_facilities',

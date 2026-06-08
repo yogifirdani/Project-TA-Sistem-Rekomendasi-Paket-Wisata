@@ -112,6 +112,8 @@ return [
     'rec_placeholder_facility'=> 'masukkan fasilitas yang anda inginkan, contoh: mobil, tiket masuk, air mineral',
     'rec_label_duration'     => 'Durasi Perjalanan',
     'rec_placeholder_duration'=> 'masukkan durasi perjalanan anda, contoh: One Day, 2D1N, 3D2N dll',
+    'rec_label_description'  => 'Deskripsi Preferensi / Tambahan',
+    'rec_placeholder_description'=> 'deskripsikan liburan impian Anda di sini (misal: saya ingin melihat sunrise di bromo, bermain di pantai, dll)',
     'rec_btn_search'         => 'Cari Rekomendasi Paket Wisata',
     'rec_results_heading'    => 'Rekomendasi Yang Sesuai Buat Kamu',
 
