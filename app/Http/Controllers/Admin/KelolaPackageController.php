@@ -294,8 +294,9 @@ class KelolaPackageController extends Controller
         $cleanStr = strip_tags($cleanStr);
         $cleanStr = html_entity_decode($cleanStr);
 
-        // Split by comma, semicolon, newline, carriage return, tabs
-        $names = preg_split('/[,;\n\r\t]+/', $cleanStr);
+        // JANGAN memisahkan berdasarkan koma jika koma digunakan untuk dua versi bahasa (Kawah Ijen, Ijen Crater)
+        // Split hanya berdasarkan baris baru atau titik koma jika memang ingin lebih dari satu.
+        $names = preg_split('/[;\n\r\t]+/', $cleanStr);
 
         foreach ($names as $name) {
             $name = trim($name);
@@ -303,22 +304,11 @@ class KelolaPackageController extends Controller
                 continue;
             }
 
-            // Check if there is any overlapping destination (prefix overlap)
-            $existing = \App\Models\Destination::where(function($q) use ($name) {
-                $q->whereRaw('LOWER(destination_name) LIKE ?', [strtolower($name) . '%'])
-                  ->orWhereRaw('? LIKE CONCAT(LOWER(destination_name), \'%\')', [strtolower($name)]);
-            })->first();
+            // Gunakan pencocokan persis (exact match) agar tidak tumpang tindih
+            $existing = \App\Models\Destination::whereRaw('LOWER(destination_name) = ?', [strtolower($name)])->first();
 
-            if ($existing) {
-                // If candidate name is longer/more complete, update the existing record to the more complete name!
-                if (strlen($name) > strlen($existing->destination_name)) {
-                    $existing->update([
-                        'destination_name' => $name,
-                        'slug' => \Illuminate\Support\Str::slug($name) . '-' . time(),
-                    ]);
-                }
-            } else {
-                // If no similar prefix exists, save as a new destination
+            if (!$existing) {
+                // Save as a new destination
                 \App\Models\Destination::create([
                     'destination_name' => $name,
                     'city' => $city,
