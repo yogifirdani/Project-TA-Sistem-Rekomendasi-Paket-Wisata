@@ -22,6 +22,7 @@ class Booking extends Model
         'customer_email',
         'notes',
         'snap_token',
+        'identity_document_path',
     ];
 
     protected $casts = [

@@ -26,7 +26,7 @@ class CheckoutController extends Controller
             'tourist_type' => 'required|in:local,foreign',
             'payment_type' => 'required|in:full,dp',
             'customer_phone' => 'required|string',
-            'id_card_number' => 'nullable|string', // KTP or Passport
+            'identity_document' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024', // Max 1 MB
         ]);
 
         $package = TourPackage::findOrFail($request->package_id);
@@ -76,6 +76,12 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
+            // Upload KTP/Passport
+            $identityPath = null;
+            if ($request->hasFile('identity_document')) {
+                $identityPath = $request->file('identity_document')->store('bookings/identity', 'public');
+            }
+
             // Buat data pesanan (Booking)
             $booking = Booking::create([
                 'booking_code' => 'TRX-' . strtoupper(uniqid()),
@@ -91,7 +97,8 @@ class CheckoutController extends Controller
                 'customer_name' => Auth::user()->name,
                 'customer_email' => Auth::user()->email,
                 'customer_phone' => $request->customer_phone,
-                'notes' => "Tipe Turis: " . ucfirst($request->tourist_type) . "\nNo Identitas (KTP/Passport): " . $request->id_card_number . "\n\nCatatan Tambahan:\n" . $request->notes,
+                'identity_document_path' => $identityPath,
+                'notes' => "Tipe Turis: " . ucfirst($request->tourist_type) . "\n\nCatatan Tambahan:\n" . $request->notes,
             ]);
 
             // Siapkan parameter Midtrans

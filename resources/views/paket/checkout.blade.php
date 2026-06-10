@@ -44,7 +44,7 @@
             </div>
         @endif
 
-        <form action="{{ route('checkout.process', app()->getLocale()) }}" method="POST" x-data="checkoutForm()">
+        <form action="{{ route('checkout.process', app()->getLocale()) }}" method="POST" enctype="multipart/form-data" x-data="checkoutForm()">
             @csrf
             <input type="hidden" name="package_id" value="{{ $package->id }}">
             <div class="row">
@@ -65,8 +65,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label style="font-weight: 600; color: #555;">{{ __('messages.id_card_number') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="id_card_number" class="form-control" placeholder="{{ __('messages.id_card_placeholder') }}" style="border-radius: 8px; height: 50px;" required>
+                                    <label style="font-weight: 600; color: #555;">Upload KTP / Passport <span class="text-danger">*</span></label>
+                                    <input type="file" name="identity_document" class="form-control" accept="image/jpeg,image/png,image/jpg,application/pdf" style="border-radius: 8px; height: 50px; padding: 10px;" required>
+                                    <small class="text-muted">Max 1 MB (JPG, PNG, PDF)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
