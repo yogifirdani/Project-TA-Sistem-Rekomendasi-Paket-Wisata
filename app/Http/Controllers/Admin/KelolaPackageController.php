@@ -283,10 +283,10 @@ class KelolaPackageController extends Controller
             return;
         }
 
-        // Convert HTML linebreaks/list tags into comma separators
+        // Convert HTML linebreaks/list tags into newlines instead of commas
         $cleanStr = str_replace(
             ['<li>', '</li>', '<p>', '</p>', '<br>', '<br/>', '<br />', '<div>', '</div>'],
-            [',', ',', ',', ',', ',', ',', ',', ',', ','],
+            ["\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n"],
             $destinationStr
         );
 
