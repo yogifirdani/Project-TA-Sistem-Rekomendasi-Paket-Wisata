@@ -62,8 +62,8 @@
                         <p class="text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Dokumen Identitas (KTP/Passport)</p>
                         @if($booking->identity_document_path)
                             @php
-                                // Menggunakan asset('public/storage/...') agar melewati symlink public dan tidak di-block oleh Hostinger
-                                $docUrl = asset('public/storage/' . $booking->identity_document_path);
+                                // Menggunakan Storage::url sesuai standar Laravel
+                                $docUrl = Storage::url($booking->identity_document_path);
                                 $isPdf = Str::endsWith(strtolower($booking->identity_document_path), '.pdf');
                             @endphp
 

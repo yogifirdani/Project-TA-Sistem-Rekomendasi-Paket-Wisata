@@ -72,6 +72,11 @@ class BookingController extends Controller
 
     public function destroy(Booking $booking)
     {
+        // Delete the identity document file if it exists
+        if ($booking->identity_document_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($booking->identity_document_path)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($booking->identity_document_path);
+        }
+
         $booking->delete();
 
         return redirect()->route('admin.kelola-pemesanan.index')
