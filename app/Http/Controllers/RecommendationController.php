@@ -27,12 +27,66 @@ class RecommendationController extends Controller
      */
     public function getRecommendations(Request $request)
     {
+        $notGibberish = function ($attribute, $value, $fail) {
+            if (!$value) return; 
+
+            // 1. Cek minimal 1 huruf vokal
+            if (!preg_match('/[aiueo]/i', $value)) {
+                $fail(app()->getLocale() == 'en' 
+                    ? 'The input seems invalid (contains no vowels).' 
+                    : 'Input sepertinya tidak valid (mengandung karakter acak/ngawur tanpa huruf vokal).');
+                return;
+            }
+            // 2. Cek karakter berulang tidak wajar (misal "aaaaaa")
+            if (preg_match('/(.)\1{4,}/', $value)) {
+                $fail(app()->getLocale() == 'en' 
+                    ? 'The input contains unnatural repeating characters.' 
+                    : 'Input mengandung karakter berulang yang tidak wajar.');
+                return;
+            }
+            
+            // 3. Pengecekan per kata untuk pola yang lebih detail
+            $words = explode(' ', $value);
+            foreach ($words as $word) {
+                // Hapus tanda baca di ujung kata untuk pengecekan yang lebih akurat
+                $cleanWord = trim($word, ".,!?\"'()[]{}");
+
+                $hasLetter = preg_match('/[a-zA-Z]/', $cleanWord);
+                $hasDigit = preg_match('/[0-9]/', $cleanWord);
+                
+                // Tolak kata campuran huruf dan angka jika panjangnya > 5 
+                // (Ini mengizinkan 2D1N, H-1, dsb. tapi menolak adiawj3e23)
+                if ($hasLetter && $hasDigit && strlen($cleanWord) > 5) {
+                    $fail(app()->getLocale() == 'en' 
+                        ? 'The input contains random alphanumeric combinations.' 
+                        : 'Input sepertinya tidak valid (mengandung campuran huruf dan angka acak).');
+                    return;
+                }
+                
+                // Cek konsonan berderet lebih dari 4 dalam satu kata
+                if (preg_match('/[^aiueo\s0-9]{5,}/i', $cleanWord)) {
+                    $fail(app()->getLocale() == 'en' 
+                        ? 'The input contains too many consecutive consonants.' 
+                        : 'Input sepertinya tidak valid (terlalu banyak huruf mati/konsonan berurutan).');
+                    return;
+                }
+                
+                // Cek kata yang terlalu panjang
+                if (strlen($cleanWord) > 20 && !filter_var($cleanWord, FILTER_VALIDATE_URL)) {
+                    $fail(app()->getLocale() == 'en' 
+                        ? 'The input contains abnormally long words.' 
+                        : 'Input mengandung kata yang terlalu panjang dan tidak wajar.');
+                    return;
+                }
+            }
+        };
+
         $request->validate([
             'tour_category'        => 'required|string|in:Culture Trip,Nature Trip,Culinary Trip,Adventure Trip',
-            'description'          => 'nullable|string',
+            'description'          => ['nullable', 'string', 'min:10', $notGibberish],
             'budget'               => 'required|numeric|min:0',
-            'duration'             => 'required|string|max:100',
-            'facilities'           => 'required|string',
+            'duration'             => ['required', 'string', 'max:100', $notGibberish],
+            'facilities'           => ['required', 'string', 'min:5', $notGibberish],
         ]);
 
         try {
@@ -50,7 +104,7 @@ class RecommendationController extends Controller
             );
 
             // 2. Panggil API Python untuk memproses Cosine Similarity
-            $response = Http::timeout(5)->post('http://localhost:5000/recommend', [
+            $response = Http::timeout(15)->post('https://recommendation-engine-production-3089.up.railway.app/recommend', [
                 'preference_id' => $preference->id
             ]);
 

@@ -20,5 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn (\Illuminate\Http\Request $request) => route('login', ['locale' => app()->getLocale() ?: config('app.locale', 'id')]));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            return redirect()->route('login', ['locale' => app()->getLocale() ?: 'id'])
+                ->withErrors(['email' => 'Sesi Anda telah berakhir karena terlalu lama tidak aktif. Silakan login kembali.']);
+        });
     })->create();

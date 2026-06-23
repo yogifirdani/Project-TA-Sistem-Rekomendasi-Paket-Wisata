@@ -31,7 +31,7 @@ return [
     'article' => 'Artikel',
     'admin_panel' => 'Admin Panel',
     'hero_title_1' => 'Jelajahi Keindahan',
-    'hero_title_2' => 'Alam Banyuwangi',
+    'hero_title_2' => 'Alam Indonesia',
     'hero_subtitle' => 'Temukan pesona alam eksotis, budaya yang kaya, dan petualangan tak terlupakan di ujung timur Pulau Jawa',
     'see_packages' => 'Lihat Paket Wisata',
     'know_us' => 'Kenali Kami',
@@ -328,4 +328,33 @@ return [
     'order_date' => 'Tanggal Pemesanan:',
     'billing_status' => 'Status Tagihan:',
     'transaction_id' => 'ID Transaksi:',
+
+    // Modal WA (Pembayaran Sementara)
+    'wa_modal_title'       => 'Pembayaran via WhatsApp',
+    'wa_modal_maintenance' => 'Pembayaran online sedang dalam perbaikan.',
+    'wa_modal_desc'        => 'Hubungi kami via WhatsApp dengan menyertakan <strong>kode pesanan</strong> Anda.',
+    'wa_modal_order_label' => 'Kode Pesanan Anda',
+    'wa_modal_btn'         => 'Hubungi via WhatsApp',
+    'wa_modal_footer'      => 'Tim kami akan memandu proses pembayaran Anda',
+    'wa_msg_greeting'      => 'Halo Admin Kutamasya',
+    'wa_msg_intent'        => 'Saya ingin melakukan *konfirmasi pembayaran* dengan detail berikut:',
+    'wa_msg_header'        => '*DETAIL PESANAN*',
+    'wa_msg_order_code'    => 'Kode Pesanan',
+    'wa_msg_name'          => 'Nama',
+    'wa_msg_package'       => 'Paket',
+    'wa_msg_trip_date'     => 'Tanggal Trip',
+    'wa_msg_pax'           => 'Jumlah Pax',
+    'wa_msg_payment_type'  => 'Tipe Bayar',
+    'wa_msg_total'         => 'Total Tagihan',
+    'wa_msg_closing'       => 'Mohon konfirmasinya. Terima kasih',
+    'wa_msg_dp_type'       => 'DP (Down Payment)',
+    'wa_msg_full_type'     => 'Lunas',
+
+    // Footer
+    'quick_links'    => 'Menu Utama',
+    'our_services'   => 'Layanan Kami',
+    'have_questions' => 'Punya Pertanyaan?',
+
+    'additional_info' => 'Informasi Penting',
 ];
+

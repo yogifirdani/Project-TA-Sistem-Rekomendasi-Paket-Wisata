@@ -27,7 +27,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST" enctype="multipart/form-data" x-data="{ activeTab: 'id' }">
+    <form id="package-form" action="{{ route('admin.kelola-paket-wisata.store') }}" method="POST" enctype="multipart/form-data" x-data="{ activeTab: 'id' }">
         @csrf
 
         <!-- Language Switcher Tabs -->
@@ -353,6 +353,18 @@
                                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
                         </div>
 
+                        <!-- Informasi Tambahan -->
+                        <div x-show="activeTab === 'id'">
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Informasi Tambahan (Opsional)</label>
+                            <textarea id="editor-information" name="information" rows="3" placeholder="Contoh: Bawa jaket tebal karena suhu dingin..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('information') }}</textarea>
+                        </div>
+                        <div x-show="activeTab === 'en'" x-cloak>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Additional Information (English)</label>
+                            <textarea id="editor-information-en" name="information_en" rows="3" placeholder="Example: Bring a thick jacket due to cold weather..."
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('information_en') }}</textarea>
+                        </div>
+
                         <!-- Info Pembayaran -->
                         <div x-show="activeTab === 'id'">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Info Pembayaran</label>
@@ -370,7 +382,7 @@
                 <!-- Tombol Simpan -->
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <div class="flex flex-col gap-3">
-                        <button type="submit"
+                        <button type="button" onclick="submitFormWithEditors()"
                             class="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-3 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -408,19 +420,35 @@
         '#editor-destination',
         '#editor-meeting-point',
         '#editor-meeting-point-en',
+        '#editor-information',
+        '#editor-information-en',
         '#editor-payment',
         '#editor-payment-en'
     ];
 
+    const myEditors = [];
     editors.forEach(selector => {
-        ClassicEditor
-            .create(document.querySelector(selector), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        const el = document.querySelector(selector);
+        if (el) {
+            ClassicEditor
+                .create(el, {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
+                })
+                .then(editor => {
+                    myEditors.push(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     });
+
+    function submitFormWithEditors() {
+        myEditors.forEach(editor => {
+            editor.updateSourceElement();
+        });
+        document.getElementById('package-form').submit();
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         const categorySelect = document.getElementById('category-select');

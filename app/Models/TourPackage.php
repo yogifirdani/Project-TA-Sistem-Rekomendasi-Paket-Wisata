@@ -16,6 +16,7 @@ class TourPackage extends Model
         'meeting_point', 'meeting_point_en', 'daily_schedule', 'daily_schedule_en',
         'itinerary', 'itinerary_en', 'persyaratan', 'persyaratan_en',
         'facilities_included', 'facilities_included_en', 'facilities_excluded', 'facilities_excluded_en',
+        'information', 'information_en',
         'dp_days_before', 'payment', 'payment_en', 'is_active',
     ];
 

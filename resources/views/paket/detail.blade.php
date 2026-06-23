@@ -102,14 +102,17 @@
                 </div>
             </div>
 
-            @if($package->packageType && (Str::contains(strtolower($package->packageType->type_name), 'open') || Str::contains(strtolower($package->packageType->slug), 'open')))
-            <div class="mb-4 p-4 d-flex align-items-start" style="background-color: #e8f9fd; border-left: 4px solid rgb(87, 201, 209); border-radius: 12px; box-shadow: 0 4px 12px rgba(87, 201, 209, 0.05);">
-                <i class="fa fa-info-circle mr-3 mt-1" style="color: rgb(87, 201, 209); font-size: 20px;"></i>
-                <div>
-                    <h5 class="mb-1" style="font-weight: 700; font-size: 14px; color: #17a2b8;">{{ __('messages.open_trip_notice_title') }}</h5>
-                    <p class="mb-0" style="font-size: 13px; color: #444; line-height: 1.6; font-weight: 500;">
-                        {!! __('messages.open_trip_notice_desc') !!}
-                    </p>
+            <!-- Custom Admin Information -->
+            @if($package->getTranslation('information'))
+            <div class="mb-4 p-3 d-flex align-items-start" style="background-color: #e8f9fd; border-left: 4px solid rgb(87, 201, 209); border-radius: 8px; box-shadow: 0 4px 12px rgba(87, 201, 209, 0.05);">
+                <i class="fa fa-info-circle mr-3 mt-1" style="color: rgb(87, 201, 209); font-size: 18px;"></i>
+                <div style="width: 100%;" class="custom-admin-info">
+                    <h5 class="mb-1" style="font-weight: 700; font-size: 14px; color: #17a2b8;">
+                        {{ app()->getLocale() == 'id' ? 'Informasi Penting' : 'Important Information' }}
+                    </h5>
+                    <div style="font-size: 13px; color: #444; line-height: 1.5; font-weight: 500;">
+                        {!! $package->getTranslation('information') !!}
+                    </div>
                 </div>
             </div>
             @endif
@@ -287,11 +290,11 @@
         color: #000 !important;
     }
     
-    .itinerary-box ul, .ftco-section ul {
+    .itinerary-box ul, .ftco-section ul, .custom-admin-info ul {
         margin-bottom: 1.5rem;
     }
     
-    .itinerary-box p, .ftco-section p {
+    .itinerary-box p, .ftco-section p, .custom-admin-info p {
         margin-bottom: 1rem;
     }
 </style>

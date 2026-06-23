@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false">
   <head>
     <title>Kutamasya.id</title>
     <meta charset="utf-8">
@@ -7,17 +7,18 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://themewagon.github.io">
 
     <!-- Preload Critical Largest Contentful Paint (LCP) Hero Image -->
     @if(request()->is(app()->getLocale()) || request()->is(app()->getLocale().'/') || request()->is('/'))
-    <link rel="preload" href="{{ asset('images/background/jungle-island.webp') }}" as="image" type="image/webp">
+    <link rel="preload" href="{{ asset('images/background/jungle-island.webp') }}" as="image" type="image/webp" fetchpriority="high">
     @endif
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome CDN as backup for missing icons -->
+    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Preload Critical CSS -->
@@ -202,16 +203,16 @@
       /* Perbaikan Navbar Hitam di Mobile (di bawah 992px) */
       @media (max-width: 991.98px) {
         
-        /* Perkecil ukuran logo di mobile/tablet */
+        /* Perkecil ukuran logo di mobile/tablet (Disempurnakan agar sedikit lebih besar) */
         .navbar-brand img {
-          height: 38px !important;
+          height: 44px !important;
           padding: 3px !important;
         }
 
         /* Ukuran logo sedikit lebih besar di Tablet */
         @media (min-width: 768px) {
           .navbar-brand img {
-            height: 42px !important;
+            height: 48px !important;
             padding: 4px !important;
           }
         }
@@ -313,7 +314,7 @@
     </style>
     @stack('styles')
   </head>
-  <body>
+  <body data-gramm="false" data-instant-intensity="viewport-all">
     
     @include('partials.navbar')
     
@@ -331,15 +332,15 @@
               </h2>
               <p>{{ __('messages.footer_desc') }}</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#" aria-label="Instagram"><span class="fa fa-instagram"></span></a></li>
-                <li class="ftco-animate"><a href="#" aria-label="TikTok"><span class="fa fa-music"></span></a></li>
+                <li class="ftco-animate"><a href="https://www.instagram.com/kutamasya.id?igsh=MTZ6ZjNjbzhpamZyMA%3D%3D&utm_source=qr" aria-label="Instagram"><span class="fa fa-instagram"></span></a></li>
+                <li class="ftco-animate"><a href="https://www.tiktok.com/@kutamasya.id?_r=1&_d=f2eb15cabjedbm&sec_uid=MS4wLjABAAAAMcuwe0Cs3XEXLIc6VEed7Du5ICflShyExGzWijcy5YsRohJqoHMYsq-C7D6rLA-J&share_author_id=7572947196175942674&sharer_language=id&source=h5_t&u_code=f0d08ae1k22676&item_author_type=1&utm_source=copy&tt_from=copy&enable_checksum=1&utm_medium=ios&share_link_id=6C33D439-6B51-40E2-9644-856C61AFB3B1&user_id=7572947196175942674&sec_user_id=MS4wLjABAAAAMcuwe0Cs3XEXLIc6VEed7Du5ICflShyExGzWijcy5YsRohJqoHMYsq-C7D6rLA-J&social_share_type=4&ug_btm=b0,b0&utm_campaign=client_share&share_app_id=1180" target="_blank" aria-label="TikTok" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 20px; height: 20px; fill: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 162.6 186.29v86.37a76.15 76.15 0 1 0 86.37 75.39V0h86.37a122.61 122.61 0 0 0 112.66 112.66z"/></svg></a></li>
                 <li class="ftco-animate"><a href="#" aria-label="YouTube"><span class="fa fa-youtube-play"></span></a></li>
               </ul>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Layanan Kami</h2>
+              <h2 class="ftco-heading-2">{{ __('messages.our_services') }}</h2>
               <ul class="list-unstyled">
                 <li><a href="{{ lroute('paket-wisata') }}?tipe=open-trip-banyuwangi" class="py-2 d-block">Open Trip Banyuwangi</a></li>
                 <li><a href="{{ lroute('paket-wisata') }}?tipe=one-day-trip-banyuwangi" class="py-2 d-block">One Day Trip</a></li>
@@ -351,23 +352,23 @@
           </div>
           <div class="col-md">
              <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Customer Support</h2>
+              <h2 class="ftco-heading-2">{{ __('messages.quick_links') }}</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">FAQ</a></li>
-                <li><a href="#" class="py-2 d-block">Payment Option</a></li>
-                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
-                <li><a href="#" class="py-2 d-block">How it works</a></li>
-                <li><a href="{{ lroute('contact') }}" class="py-2 d-block">Contact Us</a></li>
+                <li><a href="{{ lroute('home') }}" class="py-2 d-block">{{ __('messages.home') }}</a></li>
+                <li><a href="{{ lroute('paket-wisata') }}" class="py-2 d-block">{{ __('messages.tour_packages') }}</a></li>
+                <li><a href="{{ lroute('recommendation') }}" class="py-2 d-block">{{ __('messages.recommendation') }}</a></li>
+                <li><a href="{{ lroute('article') }}" class="py-2 d-block">{{ __('messages.article') }}</a></li>
+                <li><a href="{{ lroute('contact') }}" class="py-2 d-block">{{ __('messages.contact') }}</a></li>
               </ul>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<h2 class="ftco-heading-2">{{ __('messages.have_questions') }}</h2>
             	<div class="block-23 mb-3">
 	              <ul>
 	                <li><span class="icon fa fa-map-marker"></span><span class="text">Jl.Raya Watukebo Kec. Blimbingsari Kab. Banyuwangi</span></li>
-	                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+62 823 4399 1298</span></a></li>
+	                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+62 823 5789 6912</span></a></li>
 	                <li><a href="#"><span class="icon fa fa-envelope"></span><span class="text">kutamasya@gmail.com</span></a></li>
 	              </ul>
 	            </div>
@@ -431,12 +432,12 @@
   <!-- Floating WhatsApp Widget -->
   <div class="whatsapp-floating-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
       <!-- Chat Pill (Tooltip) -->
-      <a href="https://wa.me/6282343991298?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Tanya kami via WhatsApp" class="whatsapp-chat-pill" style="background: white; border: 1px solid rgba(0,0,0,0.08); padding: 8px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); font-size: 11px; font-weight: 600; color: #333; text-decoration: none; display: flex; align-items: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: right center; animation: pulseGlow 2s infinite;">
+      <a href="https://wa.me/6282357896912?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Tanya kami via WhatsApp" class="whatsapp-chat-pill" style="background: white; border: 1px solid rgba(0,0,0,0.08); padding: 8px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); font-size: 11px; font-weight: 600; color: #333; text-decoration: none; display: flex; align-items: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: right center; animation: pulseGlow 2s infinite;">
           {{ __('messages.whatsapp_chat_pill') }}
       </a>
       
       <!-- WhatsApp Icon Button -->
-      <a href="https://wa.me/6282343991298?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Hubungi kami melalui WhatsApp" class="whatsapp-btn" style="background-color: #25d366; width: 50px; height: 50px; border-radius: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none;">
+      <a href="https://wa.me/6282357896912?text=Halo%20Kaka,%20saya%20ingin%20tanya%20tentang%20paket%20wisata" target="_blank" rel="noopener noreferrer" aria-label="Hubungi kami melalui WhatsApp" class="whatsapp-btn" style="background-color: #25d366; width: 50px; height: 50px; border-radius: 50px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none;">
           <i class="fa fa-whatsapp"></i>
       </a>
   </div>
@@ -489,5 +490,8 @@
 <!-- INI BAGIANAKHIR DARI WHATSAPP -->
 
   @stack('scripts')
+
+  <!-- INSTANT PAGE PRELOADER: Makes page loading instantaneous by prefetching HTML on hover -->
+  <script src="{{ asset('asset/js/instantpage.js') }}" type="module" defer></script>
   </body>
 </html>

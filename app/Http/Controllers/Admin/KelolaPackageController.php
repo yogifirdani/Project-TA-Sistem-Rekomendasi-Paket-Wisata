@@ -102,6 +102,8 @@ class KelolaPackageController extends Controller
             'facilities_included_en' => 'nullable|string',
             'facilities_excluded' => 'nullable|string',
             'facilities_excluded_en' => 'nullable|string',
+            'information'         => 'nullable|string',
+            'information_en'      => 'nullable|string',
             'dp_days_before'      => 'nullable|integer',
             'payment'             => 'nullable|string',
             'payment_en'          => 'nullable|string',
@@ -134,14 +136,17 @@ class KelolaPackageController extends Controller
             $this->saveDestinationsToTable($package->destination, $package->city);
         }
 
-        try {
-            \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
-        } catch (\Exception $e) {
-            \Log::warning('Vectorize request failed: ' . $e->getMessage());
-        }
+        app()->terminating(function () {
+            try {
+                \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
+            } catch (\Throwable $e) {
+                \Log::warning('Vectorize request failed: ' . $e->getMessage());
+            }
+        });
 
-        return redirect()->route('admin.kelola-paket-wisata.index')
-            ->with('success', 'Paket wisata berhasil ditambahkan!');
+        $url = route('admin.kelola-paket-wisata.index');
+        session()->flash('success', 'Paket wisata berhasil ditambahkan!');
+        return response("<script>window.location.href='{$url}';</script>");
     }
 
     /**
@@ -206,6 +211,8 @@ class KelolaPackageController extends Controller
             'facilities_included_en' => 'nullable|string',
             'facilities_excluded' => 'nullable|string',
             'facilities_excluded_en' => 'nullable|string',
+            'information'         => 'nullable|string',
+            'information_en'      => 'nullable|string',
             'dp_days_before'      => 'nullable|integer',
             'payment'             => 'nullable|string',
             'payment_en'          => 'nullable|string',
@@ -243,14 +250,17 @@ class KelolaPackageController extends Controller
             $this->saveDestinationsToTable($kelolaPackage->destination, $kelolaPackage->city);
         }
 
-        try {
-            \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
-        } catch (\Exception $e) {
-            \Log::warning('Vectorize request failed: ' . $e->getMessage());
-        }
+        app()->terminating(function () {
+            try {
+                \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
+            } catch (\Throwable $e) {
+                \Log::warning('Vectorize request failed: ' . $e->getMessage());
+            }
+        });
 
-        return redirect()->route('admin.kelola-paket-wisata.index')
-            ->with('success', 'Paket wisata berhasil diperbarui!');
+        $url = route('admin.kelola-paket-wisata.index');
+        session()->flash('success', 'Paket wisata berhasil diperbarui!');
+        return response("<script>window.location.href='{$url}';</script>");
     }
 
     /**
@@ -264,14 +274,17 @@ class KelolaPackageController extends Controller
         }
         $kelolaPackage->delete();
 
-        try {
-            \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
-        } catch (\Exception $e) {
-            \Log::warning('Vectorize request failed: ' . $e->getMessage());
-        }
+        app()->terminating(function () {
+            try {
+                \Illuminate\Support\Facades\Http::timeout(3)->post('http://localhost:5000/vectorize');
+            } catch (\Throwable $e) {
+                \Log::warning('Vectorize request failed: ' . $e->getMessage());
+            }
+        });
 
-        return redirect()->route('admin.kelola-paket-wisata.index')
-            ->with('success', 'Paket wisata berhasil dihapus!');
+        $url = route('admin.kelola-paket-wisata.index');
+        session()->flash('success', 'Paket wisata berhasil dihapus!');
+        return response("<script>window.location.href='{$url}';</script>");
     }
 
     /**

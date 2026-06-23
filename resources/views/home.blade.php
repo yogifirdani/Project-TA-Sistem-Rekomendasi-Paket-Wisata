@@ -13,14 +13,15 @@
         background: rgb(87, 201, 209) !important;
     }
     /* Ganti warna utama tombol dari merah ke warna brand */
-    .btn-primary {
+    .btn.btn-primary {
         background: rgb(87, 201, 209) !important;
         border-color: rgb(87, 201, 209) !important;
         color: #fff !important;
     }
-    .btn-primary:hover {
+    .btn.btn-primary:hover {
         background: rgb(68, 189, 199) !important;
         border-color: rgb(68, 189, 199) !important;
+        color: #fff !important;
         box-shadow: 0 4px 20px rgba(87, 201, 209, 0.4) !important;
     }
     .btn-outline-white:hover {
@@ -61,7 +62,7 @@
       <div class="overlay"></div>
       <div class="container" style="height: 100%;">
         <div class="row no-gutters slider-text align-items-center justify-content-start" style="height: 100%;" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+          <div class="col-md-9" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-2" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="line-height: 1;">
               <span style="font-family: 'Alex Brush', cursive; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #fff; font-weight: 400; display: block; margin-bottom: -10px;">{{ __('messages.hero_title_1') }}</span>
               <span style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 600;">{{ __('messages.hero_title_2') }}</span>

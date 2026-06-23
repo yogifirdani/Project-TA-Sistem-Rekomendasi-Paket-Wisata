@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             PackageTypeSeeder::class,
+            TourPackageSeeder::class,
+            PackageVectorSeeder::class,
         ]);
 
         User::updateOrCreate(

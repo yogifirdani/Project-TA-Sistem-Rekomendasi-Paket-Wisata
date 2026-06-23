@@ -32,7 +32,7 @@
             <p><span>{{ __('messages.contact_phone_label') }}:</span> <a href="tel://1234567920">+62-823-4399-1298</a></p>
           </div>
           <div class="col-sm-6 col-md-3 mb-4">
-            <p><span>{{ __('messages.contact_email_label') }}:</span> <a href="mailto:info@kutamasya.id">info@kutamasya.id</a></p>
+            <p><span>{{ __('messages.contact_email_label') }}:</span> <a href="mailto:kutamasya@gmail.com">kutamasya@gmail.com</a></p>
           </div>
           <div class="col-sm-6 col-md-3 mb-4">
             <p><span>{{ __('messages.contact_website_label') }}:</span> <a href="#">kutamasya.id</a></p>

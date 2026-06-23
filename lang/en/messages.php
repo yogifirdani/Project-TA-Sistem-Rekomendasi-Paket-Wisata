@@ -31,7 +31,7 @@ return [
     'article' => 'Article',
     'admin_panel' => 'Admin Panel',
     'hero_title_1' => 'Explore the Beauty of',
-    'hero_title_2' => 'Banyuwangi Nature',
+    'hero_title_2' => 'Indonesia Nature',
     'hero_subtitle' => 'Discover exotic natural charms, rich culture, and unforgettable adventures at the eastern tip of Java Island',
     'see_packages' => 'View Tour Packages',
     'know_us' => 'Get to Know Us',
@@ -328,4 +328,31 @@ return [
     'order_date' => 'Order Date:',
     'billing_status' => 'Billing Status:',
     'transaction_id' => 'Transaction ID:',
+
+    // WA Modal (Temporary Payment)
+    'wa_modal_title'       => 'Payment via WhatsApp',
+    'wa_modal_maintenance' => 'Online payment is currently under maintenance.',
+    'wa_modal_desc'        => 'Contact us via WhatsApp and include your <strong>order code</strong>.',
+    'wa_modal_order_label' => 'Your Order Code',
+    'wa_modal_btn'         => 'Contact via WhatsApp',
+    'wa_modal_footer'      => 'Our team will guide you through the payment process',
+    'wa_msg_greeting'      => 'Hello Kutamasya Admin',
+    'wa_msg_intent'        => 'I would like to confirm my *payment* with the following details:',
+    'wa_msg_header'        => '*ORDER DETAILS*',
+    'wa_msg_order_code'    => 'Order Code',
+    'wa_msg_name'          => 'Name',
+    'wa_msg_package'       => 'Package',
+    'wa_msg_trip_date'     => 'Trip Date',
+    'wa_msg_pax'           => 'Number of Pax',
+    'wa_msg_payment_type'  => 'Payment Type',
+    'wa_msg_total'         => 'Total Bill',
+    'wa_msg_closing'       => 'Kindly confirm. Thank you',
+    'wa_msg_dp_type'       => 'Down Payment (DP)',
+    'wa_msg_full_type'     => 'Full Payment',
+
+    // Footer
+    'quick_links'    => 'Quick Links',
+    'our_services'   => 'Our Services',
+    'have_questions' => 'Have a Question?',
 ];
+

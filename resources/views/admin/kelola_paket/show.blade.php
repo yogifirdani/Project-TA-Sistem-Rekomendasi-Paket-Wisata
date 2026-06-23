@@ -75,53 +75,58 @@
         <div class="lg:col-span-2 space-y-6">
             
             <!-- Quick Glance Card -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Durasi</p>
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 bg-blue-50 dark:bg-blue-500/10 rounded-lg text-blue-600 dark:text-blue-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <span class="font-bold text-gray-800 dark:text-white/90">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Durasi -->
+                <div class="bg-white dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow">
+                    <div class="p-2.5 bg-blue-50 dark:bg-blue-500/10 rounded-xl text-blue-600 dark:text-blue-400 w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Durasi</p>
+                        <p class="font-bold text-sm text-gray-800 dark:text-white/90 leading-snug">
                             <span x-show="activeTab === 'id'">{{ $kelolaPackage->duration }}</span>
                             <span x-show="activeTab === 'en'" x-cloak>{{ $kelolaPackage->duration_en ?: $kelolaPackage->duration }}</span>
-                        </span>
+                        </p>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Paket</p>
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 bg-purple-50 dark:bg-purple-500/10 rounded-lg text-purple-600 dark:text-purple-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M13 7h.01M13 11h.01M13 15h.01M17 7h.01M17 11h.01M17 15h.01"/></svg>
-                        </div>
-                        <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->category->category_name ?? '-' }}</span>
+                <!-- Kategori Paket -->
+                <div class="bg-white dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow">
+                    <div class="p-2.5 bg-purple-50 dark:bg-purple-500/10 rounded-xl text-purple-600 dark:text-purple-400 w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M13 7h.01M13 11h.01M13 15h.01M17 7h.01M17 11h.01M17 15h.01"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Paket</p>
+                        <p class="font-bold text-sm text-gray-800 dark:text-white/90 leading-snug">{{ $kelolaPackage->category->category_name ?? '-' }}</p>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Wisata</p>
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 bg-teal-50 dark:bg-teal-500/10 rounded-lg text-teal-600 dark:text-teal-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2a2.5 2.5 0 002.5-2.5V8a2 2 0 00-2-2h-1.5a2 2 0 01-2-2V2.5A2.5 2.5 0 0012 0h-1.5M12 21h-2a2 2 0 01-2-2v-1a2 2 0 00-2-2H3.055"/></svg>
-                        </div>
-                        <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->tour_category ?? '-' }}</span>
+                <!-- Kategori Wisata -->
+                <div class="bg-white dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow">
+                    <div class="p-2.5 bg-teal-50 dark:bg-teal-500/10 rounded-xl text-teal-600 dark:text-teal-400 w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2a2.5 2.5 0 002.5-2.5V8a2 2 0 00-2-2h-1.5a2 2 0 01-2-2V2.5A2.5 2.5 0 0012 0h-1.5M12 21h-2a2 2 0 01-2-2v-1a2 2 0 00-2-2H3.055"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Kategori Wisata</p>
+                        <p class="font-bold text-sm text-gray-800 dark:text-white/90 leading-snug">{{ $kelolaPackage->tour_category ?? '-' }}</p>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Tipe</p>
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 bg-orange-50 dark:bg-orange-500/10 rounded-lg text-orange-600 dark:text-orange-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                        </div>
-                        <span class="font-bold text-gray-800 dark:text-white/90">{{ $kelolaPackage->packageType->type_name ?? '-' }}</span>
+                <!-- Tipe -->
+                <div class="bg-white dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow">
+                    <div class="p-2.5 bg-orange-50 dark:bg-orange-500/10 rounded-xl text-orange-600 dark:text-orange-400 w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Tipe Paket</p>
+                        <p class="font-bold text-sm text-gray-800 dark:text-white/90 leading-snug">{{ $kelolaPackage->packageType->type_name ?? '-' }}</p>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-white/[0.03] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Mulai Harga</p>
-                    <div class="flex items-center gap-2">
-                        <div class="p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg text-emerald-600 dark:text-emerald-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                        </div>
-                        <span class="font-bold text-emerald-600 dark:text-emerald-400 text-lg leading-tight">Rp {{ number_format($kelolaPackage->price_10pax ?? $kelolaPackage->price_1pax, 0, ',', '.') }}</span>
+                <!-- Mulai Harga -->
+                <div class="bg-white dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col gap-3 col-span-2 md:col-span-3 lg:col-span-1 hover:shadow-md transition-shadow">
+                    <div class="p-2.5 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl text-emerald-600 dark:text-emerald-400 w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">Mulai Harga</p>
+                        <p class="font-bold text-emerald-600 dark:text-emerald-400 text-lg leading-snug">Rp {{ number_format($kelolaPackage->price_10pax ?? $kelolaPackage->price_1pax, 0, ',', '.') }}</p>
                     </div>
                 </div>
             </div>
@@ -138,6 +143,22 @@
                     </div>
                     <div x-show="activeTab === 'en'" x-cloak class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed">
                         {!! $kelolaPackage->description_en ?: '-' !!}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="bg-white dark:bg-white/[0.03] rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2 bg-brand-50/50 dark:bg-brand-500/5">
+                    <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <h3 class="font-bold text-brand-800 dark:text-brand-200">Informasi Tambahan</h3>
+                </div>
+                <div class="p-6">
+                    <div x-show="activeTab === 'id'" class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {!! $kelolaPackage->information ?: '-' !!}
+                    </div>
+                    <div x-show="activeTab === 'en'" x-cloak class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {!! $kelolaPackage->information_en ?: '-' !!}
                     </div>
                 </div>
             </div>
@@ -389,7 +410,6 @@
     /* Fallback styling untuk konten dari CKEditor */
     .prose strong, .prose b {
         font-weight: 900 !important;
-        color: #000 !important;
     }
     .prose ul {
         list-style-type: disc !important;
